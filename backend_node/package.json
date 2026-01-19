@@ -1,0 +1,36 @@
+{
+  "name": "esc-config-server",
+  "version": "1.0.0",
+  "description": "Industrial ESC Configuration Server - Pure Node.js HTTP API",
+  "main": "server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "esc",
+    "configuration",
+    "quadcopter",
+    "drone",
+    "stm32"
+  ],
+  "author": "ESC Project",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "@serialport/parser-readline": "^11.0.0",
+    "bcrypt": "^6.0.0",
+    "crypto": "^1.0.1",
+    "dotenv": "^16.6.1",
+    "mysql2": "^3.16.1",
+    "nodemailer": "^7.0.12",
+    "serialport": "^13.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  }
+}

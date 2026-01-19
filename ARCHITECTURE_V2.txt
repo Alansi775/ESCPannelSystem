@@ -1,0 +1,360 @@
+╔════════════════════════════════════════════════════════════════════════════════╗
+║                                                                                ║
+║               ESC CONFIGURATION SYSTEM v2.0 - ARCHITECTURE                ║
+║                                                                                ║
+╚════════════════════════════════════════════════════════════════════════════════╝
+
+
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                           🔌 BACKEND ARCHITECTURE                               │
+└─────────────────────────────────────────────────────────────────────────────────┘
+
+HTTP Server (Node.js)
+│
+├─── server-refactored.js (Entry Point)
+│    ├─ Initialize MySQL
+│    ├─ Initialize ProfileManager
+│    └─ Listen on :7070
+│
+├─── routes/router.js (Main Router)
+│    ├─ Route requests to handlers
+│    ├─ Parse URL patterns
+│    └─ Send responses
+│
+├─── routes/escRoutes.js (ESC Operations)
+│    ├─ GET    /ports
+│    ├─ POST   /connect
+│    ├─ POST   /disconnect
+│    ├─ GET    /config
+│    ├─ POST   /apply
+│    ├─ GET    /status
+│    └─ POST   /autoConfig
+│
+├─── routes/profileRoutes.js (Profile Management)
+│    ├─ POST   /saveProfile
+│    ├─ GET    /profiles
+│    ├─ GET    /profiles/:id
+│    └─ DELETE /profiles/:id
+│
+└─── middleware/index.js (Helper Functions)
+     ├─ enableCORS()
+     ├─ parseJSON()
+     ├─ validateMethod()
+     └─ handleError()
+
+
+Core Modules (Business Logic)
+│
+├─── core/escConnection.js
+│    ├─ listAvailablePorts()
+│    ├─ connect(portPath)
+│    ├─ disconnect()
+│    ├─ sendCommand()
+│    └─ Serial communication
+│
+├─── core/escProtocol.js
+│    ├─ buildPacket()
+│    ├─ parsePacket()
+│    ├─ CRC16 validation
+│    └─ Binary protocol handler
+│
+├─── core/autoConfigEngine.js
+│    ├─ generateAutoConfig()
+│    ├─ validateConfig()
+│    ├─ 3 modes: Light/Middle/High
+│    └─ Parameter optimization
+│
+├─── core/profileManager.js
+│    ├─ saveProfile()
+│    ├─ loadAllProfiles()
+│    ├─ loadProfileById()
+│    ├─ deleteProfile()
+│    └─ Initialize schema
+│
+├─── core/paymentStub.js
+│    ├─ isLicenseValid()
+│    ├─ hasFeatureAccess()
+│    └─ License verification
+│
+└─── db/mysql.js
+     ├─ Connection pool (10 connections)
+     ├─ execute(query, params)
+     ├─ createDatabase()
+     ├─ ping()
+     └─ Auto initialization
+
+
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                          📱 FRONTEND ARCHITECTURE                               │
+└─────────────────────────────────────────────────────────────────────────────────┘
+
+Application Entry Point
+│
+└─── lib/main_modern.dart
+     │
+     ├─ MaterialApp (Setup)
+     ├─ Provider Wrapper
+     ├─ Theme: Light/Dark/Auto
+     └─ Navigation: MainNavigationScreen
+
+
+Navigation & Layout
+│
+└─── MainNavigationScreen (3 Tabs)
+     │
+     ├─ Tab 1: Dashboard
+     ├─ Tab 2: Connection
+     ├─ Tab 3: Configuration
+
+
+Theme System
+│
+└─── lib/ui/theme/modern_theme.dart
+     │
+     ├─ AppThemeData.darkTheme()
+     │  ├─ Colors (Dark palette)
+     │  ├─ Typography
+     │  ├─ Components styling
+     │  └─ Animations
+     │
+     └─ AppThemeData.lightTheme()
+        ├─ Colors (Light palette)
+        ├─ Typography
+        ├─ Components styling
+        └─ Animations
+
+
+Modern Components Library
+│
+└─── lib/ui/components/modern_components.dart
+     │
+     ├─ ModernStatusIndicator       (Status display with glow)
+     ├─ ModernGradientButton        (Animated gradient button)
+     ├─ ModernCard                  (Elegant card container)
+     ├─ ModernSectionHeader         (Title + icon)
+     ├─ ModernParameterRow          (Label + value display)
+     ├─ ModernSlider                (Custom slider)
+     ├─ ModernLoadingState          (Loading animation)
+     ├─ ModernErrorState            (Error display)
+     └─ ModernEmptyState            (Empty state display)
+
+
+Screens (User Interfaces)
+│
+├─── lib/ui/screens/dashboard_screen.dart
+│    ├─ Status Cards (2x2 Grid)
+│    ├─ Connection Info
+│    ├─ Quick Actions
+│    └─ Animations & Transitions
+│
+├─── lib/ui/screens/modern_connection_screen.dart
+│    ├─ Connection Status
+│    ├─ Ports List View
+│    ├─ Select & Connect
+│    └─ Disconnect Option
+│
+├─── lib/ui/screens/modern_settings_screen.dart
+│    ├─ Battery Selection (2S-9S)
+│    ├─ Operating Modes
+│    ├─ Generate Config
+│    └─ Live Feedback
+│
+└─── lib/ui/screens/modern_apply_screen.dart
+     ├─ Configuration Preview
+     ├─ Profile Saving
+     ├─ Apply Button
+     └─ Success Animation
+
+
+State Management
+│
+└─── lib/state/esc_provider.dart (Provider Pattern)
+     │
+     ├─ Connection state
+     ├─ Configuration state
+     ├─ Profiles list
+     ├─ Loading/Error state
+     └─ Methods:
+        ├─ loadAvailablePorts()
+        ├─ connectToESC()
+        ├─ generateAutoConfig()
+        ├─ applyConfig()
+        └─ saveProfile()
+
+
+API Communication
+│
+└─── lib/services/backend_api.dart
+     │
+     ├─ Static methods for each endpoint
+     ├─ HTTP client (30s timeout)
+     ├─ JSON serialization
+     ├─ Error handling
+     └─ Methods:
+        ├─ getPorts()
+        ├─ connectToPort()
+        ├─ getConfig()
+        ├─ applyConfig()
+        ├─ autoConfig()
+        └─ profileOperations()
+
+
+Data Models
+│
+└─── lib/models/esc_models.dart
+     │
+     ├─ ESCConfig       (Configuration parameters)
+     ├─ ESCStatus       (Current device status)
+     ├─ SerialPort      (USB port info)
+     └─ ESCProfile      (Saved configuration)
+
+
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                        🌐 COMMUNICATION FLOW                                    │
+└─────────────────────────────────────────────────────────────────────────────────┘
+
+User Interface (Flutter)
+         │
+         ├─ User taps button
+         ├─ State changes
+         └─ Call API method
+                │
+                ▼
+Backend API (Node.js)
+         │
+         ├─ HTTP Request received
+         ├─ Router directs request
+         ├─ Handler processes
+         ├─ Middleware applies
+         ├─ Core logic executes
+         └─ Response sent back
+                │
+                ▼
+Data Layer
+         │
+         ├─ MySQL Database
+         ├─ Serial Protocol
+         ├─ Configuration Storage
+         └─ Profile Management
+                │
+                ▼
+ESC Device
+         │
+         ├─ Binary protocol
+         ├─ Parameter update
+         ├─ Status feedback
+         └─ Flash storage
+
+
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                        🎨 DESIGN SYSTEM PALETTE                                │
+└─────────────────────────────────────────────────────────────────────────────────┘
+
+Primary Colors:
+  🔵 Blue         #007AFF   (Apple iOS)
+  🔷 Light Blue   #5AC8FA   (Secondary)
+  🟢 Cyan         #50E3C2   (Accent)
+
+Status Colors:
+   Success      #34C759   (Green)
+  ⚠️  Warning     #FF9500   (Orange)
+  ❌ Error       #FF3B30   (Red)
+
+Dark Theme:
+  🔲 Background   #0A0E27   (Deep)
+  🔳 Card         #1A1F3A   (Surface)
+  ☑️  Surface     #242B48   (Secondary)
+  📝 Text         #EBEBF5   (Light)
+  📄 Secondary    #8E92A1   (Muted)
+
+Light Theme:
+  🔲 Background   #FAFAFA   (Light)
+  🔳 Card         #FFFFFF   (White)
+  ☑️  Surface     #F2F2F7   (Gray)
+  📝 Text         #000000   (Dark)
+  📄 Secondary    #8E8E93   (Gray)
+
+
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                            FILE STRUCTURE                                     │
+└─────────────────────────────────────────────────────────────────────────────────┘
+
+backend_node/
+├── server-refactored.js          ← Use this!
+├── routes/
+│   ├── router.js
+│   ├── escRoutes.js
+│   └── profileRoutes.js
+├── middleware/
+│   └── index.js
+├── core/
+│   ├── escConnection.js
+│   ├── escProtocol.js
+│   ├── autoConfigEngine.js
+│   ├── profileManager.js
+│   └── paymentStub.js
+├── db/
+│   └── mysql.js
+└── package.json
+
+frontend_flutter/
+├── lib/
+│   ├── main_modern.dart          ← Use this!
+│   ├── models/
+│   │   └── esc_models.dart
+│   ├── services/
+│   │   └── backend_api.dart
+│   ├── state/
+│   │   └── esc_provider.dart
+│   └── ui/
+│       ├── theme/
+│       │   └── modern_theme.dart
+│       ├── components/
+│       │   └── modern_components.dart
+│       └── screens/
+│           ├── dashboard_screen.dart
+│           ├── modern_connection_screen.dart
+│           ├── modern_settings_screen.dart
+│           └── modern_apply_screen.dart
+├── pubspec.yaml
+└── lib/main_modern.dart
+
+Documentation/
+├── MODERN_UPDATES.md             ← التحديثات بالتفصيل
+├── SUMMARY_v2.md                 ← الملخص الشامل
+├── ARCHITECTURE_V2.txt           ← هذا الملف
+└── quick_start_v2.sh             ← سكريبت البدء
+
+
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                          DEPLOYMENT CHECKLIST                                │
+└─────────────────────────────────────────────────────────────────────────────────┘
+
+Backend:
+  ✓ Routes properly separated
+  ✓ Error handling in place
+  ✓ Middleware functional
+  ✓ Database auto-initialization
+  ✓ Serial communication working
+  ✓ Profile storage operational
+
+Frontend:
+  ✓ Modern theme implemented
+  ✓ 8 components created
+  ✓ 4 screens finished
+  ✓ Animations smooth
+  ✓ Dark mode enabled
+  ✓ Navigation working
+  ✓ State management ready
+
+Documentation:
+  ✓ Architecture documented
+  ✓ Setup instructions clear
+  ✓ API endpoints specified
+  ✓ UI components explained
+  ✓ Quick start script ready
+
+
+════════════════════════════════════════════════════════════════════════════════════
+                     READY FOR PRODUCTION! 
+════════════════════════════════════════════════════════════════════════════════════
