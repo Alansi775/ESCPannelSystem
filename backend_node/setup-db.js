@@ -9,7 +9,7 @@ const mysql = require('mysql2/promise');
 
 async function setupDatabase() {
   try {
-    console.log('🔧 Setting up database...\n');
+    console.log('http://localhost:7070 Setting up database...\n');
 
     // 1. Connect to MySQL (without database)
     console.log('📌 Connecting to MySQL...');

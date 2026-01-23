@@ -1,6 +1,6 @@
 # 🎯 ESC Panel System - Complete Setup Summary
 
-**Status**: ✅ Backend running & tested  
+**Status**: http://localhost:7070 Backend running & tested  
 **Date**: January 23, 2026  
 **Version**: 1.0.0 Prototype
 
@@ -38,29 +38,29 @@
 
 ---
 
-## ✅ What's Working Now
+## http://localhost:7070 What's Working Now
 
 ### Backend Services
-- ✅ HTTP Server (7070)
-- ✅ MySQL Connection
-- ✅ Database Schema (4 tables)
-- ✅ User Registration & Login
-- ✅ Auto-Config Generation
-- ✅ Profile Management
-- ✅ Email Service (Development)
-- ✅ API Error Handling
+- http://localhost:7070 HTTP Server (7070)
+- http://localhost:7070 MySQL Connection
+- http://localhost:7070 Database Schema (4 tables)
+- http://localhost:7070 User Registration & Login
+- http://localhost:7070 Auto-Config Generation
+- http://localhost:7070 Profile Management
+- http://localhost:7070 Email Service (Development)
+- http://localhost:7070 API Error Handling
 
 ### API Endpoints (Tested)
 ```
-✅ GET  /status            → Server health & ESC status
-✅ GET  /ports             → Available serial ports
-✅ POST /signup            → User registration
-✅ POST /login             → User authentication
-✅ POST /autoConfig        → Generate configs (3 modes)
-✅ POST /saveProfile       → Save configuration as profile
-✅ GET  /profiles          → List all profiles
-✅ GET  /profiles/:id      → Get specific profile
-✅ DELETE /profiles/:id    → Delete profile
+http://localhost:7070 GET  /status            → Server health & ESC status
+http://localhost:7070 GET  /ports             → Available serial ports
+http://localhost:7070 POST /signup            → User registration
+http://localhost:7070 POST /login             → User authentication
+http://localhost:7070 POST /autoConfig        → Generate configs (3 modes)
+http://localhost:7070 POST /saveProfile       → Save configuration as profile
+http://localhost:7070 GET  /profiles          → List all profiles
+http://localhost:7070 GET  /profiles/:id      → Get specific profile
+http://localhost:7070 DELETE /profiles/:id    → Delete profile
 
 ⚠️ POST /connect           → Connect to ESC (packet format issue)
 ⚠️ GET  /config            → Read from ESC (packet format issue)
@@ -70,7 +70,7 @@
 
 ### Database Status
 ```
-Database: esc_config ✅
+Database: esc_config http://localhost:7070
 ├── users           (1 record: test@example.com)
 ├── esc_configs     (0 records)
 ├── profiles        (0 records)
@@ -79,7 +79,7 @@ Database: esc_config ✅
 
 ---
 
-## 🔧 How to Connect Everything
+## http://localhost:7070 How to Connect Everything
 
 ### Step 1: Verify Backend Running
 ```bash
@@ -162,22 +162,22 @@ ESCPannelSystem/
 │   ├── core/
 │   │   ├── escConnection.js       ← Serial communication ⚠️
 │   │   ├── escProtocol.js         ← Binary protocol ⚠️
-│   │   ├── autoConfigEngine.js    ← Config generation ✅
-│   │   ├── profileManager.js      ← Profile management ✅
+│   │   ├── autoConfigEngine.js    ← Config generation http://localhost:7070
+│   │   ├── profileManager.js      ← Profile management http://localhost:7070
 │   │   └── paymentStub.js         ← License stub
 │   │
 │   ├── routes/
 │   │   ├── router.js              ← Route handler
 │   │   ├── escRoutes.js           ← ESC endpoints ⚠️
-│   │   ├── profileRoutes.js       ← Profile endpoints ✅
-│   │   └── authRoutes.js          ← Auth endpoints ✅
+│   │   ├── profileRoutes.js       ← Profile endpoints http://localhost:7070
+│   │   └── authRoutes.js          ← Auth endpoints http://localhost:7070
 │   │
 │   ├── services/
-│   │   ├── authService.js         ← Auth logic ✅
-│   │   └── emailService.js        ← Email logic ✅
+│   │   ├── authService.js         ← Auth logic http://localhost:7070
+│   │   └── emailService.js        ← Email logic http://localhost:7070
 │   │
 │   └── middleware/
-│       └── index.js               ← CORS, errors, etc ✅
+│       └── index.js               ← CORS, errors, etc http://localhost:7070
 │
 └── frontend_flutter/
     ├── lib/
@@ -213,9 +213,9 @@ ESCPannelSystem/
 
 ## 🎯 Immediate Tasks (Next 24 Hours)
 
-1. ✅ **Backend Running** - Done! Port 7070
-2. ✅ **Database Connected** - Done! 4 tables
-3. ✅ **API Tested** - Done! 10+ endpoints
+1. http://localhost:7070 **Backend Running** - Done! Port 7070
+2. http://localhost:7070 **Database Connected** - Done! 4 tables
+3. http://localhost:7070 **API Tested** - Done! 10+ endpoints
 4. 📋 **Browse Database** - Connect VS Code Extension
 5. 📋 **Review Fixes** - Read FIXES_NEEDED.md
 6. 📋 **Plan Timeline** - Allocate time for critical fixes
@@ -242,7 +242,7 @@ ESCPannelSystem/
 
 ---
 
-## 💾 Database Backup
+## http://localhost:7070 Database Backup
 
 ```bash
 # Backup current database
@@ -280,13 +280,13 @@ mysql -u root -p'root' -D esc_config -e "SHOW TABLES;"
 
 ## ✨ Success Indicators
 
-- ✅ Server boots without errors
-- ✅ Database connects successfully
-- ✅ API endpoints respond
-- ✅ User registration works
-- ✅ Auto-config generation works
-- ✅ Profiles CRUD works
-- ✅ VS Code Extension shows tables
+- http://localhost:7070 Server boots without errors
+- http://localhost:7070 Database connects successfully
+- http://localhost:7070 API endpoints respond
+- http://localhost:7070 User registration works
+- http://localhost:7070 Auto-config generation works
+- http://localhost:7070 Profiles CRUD works
+- http://localhost:7070 VS Code Extension shows tables
 - ⏳ ESC hardware communication (in progress)
 
 ---

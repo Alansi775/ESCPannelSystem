@@ -1834,7 +1834,7 @@ class _WizardApplyStepState extends State<WizardApplyStep> {
                                     final escType = 'BLDC'; // Default type - can be made configurable
                                     
                                     // Step 1: Save configuration to database
-                                    debugPrint('\n💾 Step 1: Saving configuration to database...');
+                                    debugPrint('\nhttp://localhost:7070 Step 1: Saving configuration to database...');
                                     await BackendAPI.saveConfig(
                                       userId: userId,
                                       configJson: cleanedConfig,
@@ -1844,7 +1844,7 @@ class _WizardApplyStepState extends State<WizardApplyStep> {
                                     debugPrint('✓ Configuration saved to database');
 
                                     // Step 2: Apply configuration to ESC device via Serial
-                                    debugPrint('\n📤 Step 2: Applying configuration to ESC device...');
+                                    debugPrint('\nhttp://localhost:7070 Step 2: Applying configuration to ESC device...');
                                     
                                     // Get connected port from provider
                                     final connectedPort = provider.connectedPort;

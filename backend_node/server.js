@@ -469,7 +469,7 @@ async function requestHandler(req, res) {
 
       try {
         // Log the JSON to terminal
-        console.log('\n📝 [saveConfig] Received configuration:');
+        console.log('\nhttp://localhost:7070 [saveConfig] Received configuration:');
         console.log('  User ID:', userId);
         console.log('  Profile Name:', profileName || 'unnamed');
         console.log('  ESC Type:', escType || 'auto-detect');
@@ -537,7 +537,7 @@ async function requestHandler(req, res) {
       }
 
       try {
-        console.log('\n🔧 [applyConfig] Applying configuration to ESC device');
+        console.log('\nhttp://localhost:7070 [applyConfig] Applying configuration to ESC device');
         console.log(`   Port: ${portPath}`);
         console.log(`   User ID: ${userId}`);
 

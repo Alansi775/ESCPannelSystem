@@ -25,7 +25,7 @@ nohup node server.js > /tmp/esc_server.log 2>&1 &
 
 sleep 2
 echo ""
-echo "✅ Server started!"
+echo "http://localhost:7070 Server started!"
 echo ""
 echo "📍 Server: http://localhost:7070"
 echo "📊 Logs: tail -f /tmp/esc_server.log"

@@ -128,7 +128,7 @@ class ESCConnection {
     try {
       // Convert config to JSON string
       const jsonString = JSON.stringify(configJson);
-      console.log(`\n📤 [Serial TX] Sending configuration (${jsonString.length} bytes)`);
+      console.log(`\nhttp://localhost:7070 [Serial TX] Sending configuration (${jsonString.length} bytes)`);
       console.log(`   Config: ${jsonString}`);
 
       // Create binary packet with protocol format

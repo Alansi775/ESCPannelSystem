@@ -1,4 +1,4 @@
-# 🔧 ESC Panel System - Critical Fixes Priority List
+# http://localhost:7070 ESC Panel System - Critical Fixes Priority List
 
 ## الحالة الحالية (January 23, 2026)
 

@@ -1,25 +1,25 @@
-# ✅ ESC Panel System - Ready to Connect & Test
+# http://localhost:7070 ESC Panel System - Ready to Connect & Test
 
 **Date**: January 23, 2026  
-**Status**: Backend Running on Port 7070 ✅
+**Status**: Backend Running on Port 7070 http://localhost:7070
 
 ---
 
 ## 🟢 Current System Status
 
 ### Backend Server
-- ✅ **Server**: Running on `http://localhost:7070`
-- ✅ **Database**: Connected to MySQL (esc_config)
-- ✅ **API**: All endpoints responding
-- ✅ **Authentication**: Working (Registration, Login)
-- ✅ **Auto-Config**: Generating profiles (3 modes: Light/Middle/High)
+- http://localhost:7070 **Server**: Running on `http://localhost:7070`
+- http://localhost:7070 **Database**: Connected to MySQL (esc_config)
+- http://localhost:7070 **API**: All endpoints responding
+- http://localhost:7070 **Authentication**: Working (Registration, Login)
+- http://localhost:7070 **Auto-Config**: Generating profiles (3 modes: Light/Middle/High)
 
 ### Database (4 Tables)
 ```
-✅ users            - 1 record (test@example.com)
-✅ esc_configs      - Ready
-✅ profiles         - Ready
-✅ esc_profiles     - Ready
+http://localhost:7070 users            - 1 record (test@example.com)
+http://localhost:7070 esc_configs      - Ready
+http://localhost:7070 profiles         - Ready
+http://localhost:7070 esc_profiles     - Ready
 ```
 
 ### Frontend
@@ -57,13 +57,13 @@ ESC Config Local
 
 ## 🧪 API Endpoints - TESTED & WORKING
 
-### 1. Health Check ✅
+### 1. Health Check http://localhost:7070
 ```bash
 curl http://localhost:7070/status
 ```
 **Response**: Server info + ESC connection status + Database health
 
-### 2. List Available Ports ✅
+### 2. List Available Ports http://localhost:7070
 ```bash
 curl http://localhost:7070/ports
 ```
@@ -82,7 +82,7 @@ curl http://localhost:7070/ports
 }
 ```
 
-### 3. Register User ✅
+### 3. Register User http://localhost:7070
 ```bash
 curl -X POST http://localhost:7070/signup \
   -H "Content-Type: application/json" \
@@ -102,7 +102,7 @@ curl -X POST http://localhost:7070/signup \
 }
 ```
 
-### 4. Generate Auto-Config ✅
+### 4. Generate Auto-Config http://localhost:7070
 ```bash
 curl -X POST http://localhost:7070/autoConfig \
   -H "Content-Type: application/json" \
@@ -180,7 +180,7 @@ curl -X POST http://localhost:7070/apply \
 
 ---
 
-## 📝 Database Queries You Can Run
+## http://localhost:7070 Database Queries You Can Run
 
 Via VS Code Extension or Terminal:
 
@@ -213,9 +213,9 @@ WHERE table_schema = 'esc_config';
 ## 🚀 Next Steps
 
 ### Now:
-1. ✅ Connect VS Code Extension to database
-2. ✅ Browse the tables
-3. ✅ Test API endpoints with curl/Postman
+1. http://localhost:7070 Connect VS Code Extension to database
+2. http://localhost:7070 Browse the tables
+3. http://localhost:7070 Test API endpoints with curl/Postman
 
 ### This Week:
 1. Fix packet building in routes (1 day)
@@ -230,7 +230,7 @@ WHERE table_schema = 'esc_config';
 
 ---
 
-## 🔧 Troubleshooting
+## http://localhost:7070 Troubleshooting
 
 ### Server Won't Start
 ```bash
@@ -269,12 +269,12 @@ cd backend_node && node server.js
 
 | Component | Status | Port | Health |
 |---|---|---|---|
-| Backend Server | ✅ Running | 7070 | 200 OK |
-| MySQL Database | ✅ Connected | 3306 | 4 tables |
-| Authentication | ✅ Working | - | Users table |
-| Auto-Config | ✅ Working | - | 3 presets |
+| Backend Server | http://localhost:7070 Running | 7070 | 200 OK |
+| MySQL Database | http://localhost:7070 Connected | 3306 | 4 tables |
+| Authentication | http://localhost:7070 Working | - | Users table |
+| Auto-Config | http://localhost:7070 Working | - | 3 presets |
 | ESC Connection | ⚠️ Needs Fix | - | Packet issue |
-| Serial Ports | ✅ Detected | - | 3 ports found |
+| Serial Ports | http://localhost:7070 Detected | - | 3 ports found |
 
 ---
 

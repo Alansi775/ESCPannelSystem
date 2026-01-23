@@ -264,14 +264,14 @@ Dark Theme:
   🔲 Background   #0A0E27   (Deep)
   🔳 Card         #1A1F3A   (Surface)
   ☑️  Surface     #242B48   (Secondary)
-  📝 Text         #EBEBF5   (Light)
+  http://localhost:7070 Text         #EBEBF5   (Light)
   📄 Secondary    #8E92A1   (Muted)
 
 Light Theme:
   🔲 Background   #FAFAFA   (Light)
   🔳 Card         #FFFFFF   (White)
   ☑️  Surface     #F2F2F7   (Gray)
-  📝 Text         #000000   (Dark)
+  http://localhost:7070 Text         #000000   (Dark)
   📄 Secondary    #8E8E93   (Gray)
 
 

@@ -1,6 +1,6 @@
 # ESC Panel System - Complete Data Flow
 
-**Status:** ✅ FULLY OPERATIONAL  
+**Status:** http://localhost:7070 FULLY OPERATIONAL  
 **Date:** January 23, 2026
 
 ---
@@ -34,7 +34,7 @@
     ┌──────────────────┐  ┌──────────────────┐  ┌─────────────────┐
     │  Database Save   │  │  Serial TX       │  │  User Feedback  │
     │  (MySQL)         │  │  (UART/Serial)   │  │  (UI Message)   │
-    │  HTTP POST       │  │  HTTP POST       │  │  ✅ Success!    │
+    │  HTTP POST       │  │  HTTP POST       │  │  http://localhost:7070 Success!    │
     │  /saveConfig     │  │  /applyConfig    │  │                 │
     └─────────┬────────┘  └────────┬─────────┘  └─────────────────┘
               │                    │
@@ -214,7 +214,7 @@ INSERT INTO esc_configs (
 }
 ```
 
-**Result:** ✅ Configuration permanently stored in database
+**Result:** http://localhost:7070 Configuration permanently stored in database
 
 ---
 
@@ -286,7 +286,7 @@ INSERT INTO esc_configs (
    }
    ```
 
-**Result:** ✅ Configuration transmitted to ESC device
+**Result:** http://localhost:7070 Configuration transmitted to ESC device
 
 ---
 
@@ -366,9 +366,9 @@ T+80ms   HTTP POST /applyConfig sent to backend
          - Response returned
 
 T+150ms  Total end-to-end time
-         ✅ Database saved
-         ✅ Serial transmitted
-         ✅ User sees success message
+         http://localhost:7070 Database saved
+         http://localhost:7070 Serial transmitted
+         http://localhost:7070 User sees success message
 ```
 
 ---
@@ -389,7 +389,7 @@ id | user_id | profile_name         | esc_type | config_json                    
 ---+---------+----------------------+----------+----------------------------------+------------+------------
 2  | 14      | config-1769184600984 | BLDC     | {"timestamp":"2026-01-...}       | 2026-01... | 2026-01...
 
-✅ Only ONE row (old one deleted, new one inserted)
+http://localhost:7070 Only ONE row (old one deleted, new one inserted)
 ```
 
 ---
@@ -530,25 +530,25 @@ void main() {
 
 ### In Flutter (Debug Console):
 ```
-💾 Step 1: Saving configuration to database...
+http://localhost:7070 Step 1: Saving configuration to database...
 ✓ Configuration saved to database
 
-📤 Step 2: Applying configuration to ESC device...
+http://localhost:7070 Step 2: Applying configuration to ESC device...
 ✓ Configuration applied to device
 ```
 
 ### In Backend (Node.js Console):
 ```
-📝 [saveConfig] Received configuration:
+http://localhost:7070 [saveConfig] Received configuration:
   User ID: 14
   Configuration JSON: {...}
 ✓ New configuration saved to database (ID: 2)
 
-🔧 [applyConfig] Applying configuration to ESC device
+http://localhost:7070 [applyConfig] Applying configuration to ESC device
    Port: /dev/tty.URT1
    → Connecting to device...
    ✓ Connected
-📤 [Serial TX] Sending configuration (297 bytes)
+http://localhost:7070 [Serial TX] Sending configuration (297 bytes)
 ✓ Configuration packet sent successfully (303 bytes total)
 ```
 
