@@ -5,6 +5,8 @@ import '../../state/esc_provider.dart';
 import '../components/modern_components.dart';
 import '../../screens/profile_screen.dart';
 import '../../localization/translations.dart';
+import '../../services/backend_api.dart';
+import '../../services/session_manager.dart';
 
 class WizardMainScreen extends StatefulWidget {
   final Map<String, dynamic>? userData;
@@ -26,6 +28,20 @@ class _WizardMainScreenState extends State<WizardMainScreen> {
     WizardStep(title: 'Review', icon: Icons.checklist),
     WizardStep(title: 'Apply', icon: Icons.flash_on),
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    _checkSession();
+  }
+
+  Future<void> _checkSession() async {
+    final session = await SessionManager.getUserSession();
+    final userId = await SessionManager.getUserId();
+    debugPrint('✓ WizardMainScreen initialized');
+    debugPrint('  Session: $session');
+    debugPrint('  UserId: $userId');
+  }
 
   void _goToStep(int step) {
     if (step < _currentStep) {
@@ -109,19 +125,23 @@ class _WizardMainScreenState extends State<WizardMainScreen> {
                           ),
                           const SizedBox(width: 12),
                           GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ProfileScreen(
-                                    user: widget.userData ?? {
-                                      'id': 1,
-                                      'name': 'User',
-                                      'email': 'user@example.com',
-                                    },
+                            onTap: () async {
+                              // Get user data from session
+                              final userSession = await SessionManager.getUserSession();
+                              final userData = userSession ?? {
+                                'id': 1,
+                                'name': 'User',
+                                'email': 'user@example.com',
+                              };
+                              
+                              if (mounted) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ProfileScreen(user: userData),
                                   ),
-                                ),
-                              );
+                                );
+                              }
                             },
                             child: Container(
                               width: 40,
@@ -1028,11 +1048,21 @@ class WizardSensorStep extends StatefulWidget {
 
 class _WizardSensorStepState extends State<WizardSensorStep> {
   late String _sensorMode;
+  late int _maxRPM;
+  final _rpmController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     _sensorMode = context.read<ESCProvider>().wizardSensorMode;
+    _maxRPM = context.read<ESCProvider>().wizardMaxRPM;
+    _rpmController.text = _maxRPM.toString();
+  }
+
+  @override
+  void dispose() {
+    _rpmController.dispose();
+    super.dispose();
   }
 
   @override
@@ -1111,6 +1141,53 @@ class _WizardSensorStepState extends State<WizardSensorStep> {
                         ),
                       ),
                     ),
+                    // Max RPM Input for Encoder and Resolver
+                    if (_sensorMode == 'Encoder' || _sensorMode == 'Resolver') ...[
+                      const SizedBox(height: 24),
+                      GlassyCard(
+                        child: Padding(
+                          padding: const EdgeInsets.all(24),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Maximum RPM',
+                                style: TextStyle(color: AppColors.tungsten, fontSize: 16, fontWeight: FontWeight.w600),
+                              ),
+                              const SizedBox(height: 12),
+                              TextField(
+                                controller: _rpmController,
+                                keyboardType: TextInputType.number,
+                                style: const TextStyle(color: AppColors.tungsten),
+                                decoration: InputDecoration(
+                                  hintText: '5000',
+                                  hintStyle: TextStyle(color: AppColors.steel.withOpacity(0.5)),
+                                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                    borderSide: BorderSide(color: AppColors.steel.withOpacity(0.3)),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                    borderSide: const BorderSide(color: AppColors.neonCyan),
+                                  ),
+                                ),
+                                onChanged: (value) {
+                                  final rpm = int.tryParse(value) ?? 5000;
+                                  setState(() => _maxRPM = rpm);
+                                  context.read<ESCProvider>().setWizardMaxRPM(rpm);
+                                },
+                              ),
+                              const SizedBox(height: 8),
+                              Text(
+                                'Encoder and Resolver sensors require a maximum RPM value',
+                                style: TextStyle(color: AppColors.steel, fontSize: 12),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
                   ],
                 ),
               ),
@@ -1456,6 +1533,182 @@ class _WizardApplyStepState extends State<WizardApplyStep> {
   bool _isApplying = false;
   bool _isComplete = false;
 
+  /// Recursively convert all Maps to Map<String, dynamic> to ensure JSON serializability
+  Map<String, dynamic> _cleanMap(dynamic value) {
+    if (value is Map) {
+      return Map<String, dynamic>.from(
+        value.map((k, v) => MapEntry(k.toString(), _cleanValue(v)))
+      );
+    }
+    return {};
+  }
+
+  dynamic _cleanValue(dynamic value) {
+    if (value is Map) {
+      return _cleanMap(value);
+    } else if (value is List) {
+      return value.map((item) => _cleanValue(item)).toList();
+    } else if (value is String || value is int || value is double || value is bool) {
+      return value;
+    } else if (value == null) {
+      return null;
+    }
+    return value.toString();
+  }
+
+  /// Build dynamic JSON configuration based on user selections
+  /// Build dynamic JSON configuration based on wizard selections from Provider
+  Map<String, dynamic> _buildConfigurationJSON(ESCProvider provider) {
+    try {
+      final wizardConfig = provider.wizardConfig;
+      
+      debugPrint('\n🔍 DEBUG: wizardConfig contents:');
+      wizardConfig.forEach((key, value) {
+        debugPrint('  $key: $value (type: ${value.runtimeType})');
+      });
+      
+      final config = <String, dynamic>{
+        'timestamp': DateTime.now().toIso8601String(),
+      };
+
+      // Helper function to safely convert to int
+      int _toInt(dynamic value) {
+        try {
+          if (value is int) return value;
+          if (value is double) return value.toInt();
+          if (value is String) return int.tryParse(value) ?? 0;
+          return 0;
+        } catch (e) {
+          debugPrint('❌ Error converting to int: $value -> $e');
+          return 0;
+        }
+      }
+
+      // Battery - safely handle all conversions
+      try {
+        final batteryCells = _toInt(wizardConfig['batteryCells']);
+        debugPrint('  batteryCells: $batteryCells');
+        if (batteryCells > 0) {
+          config['battery'] = <String, dynamic>{
+            'cells': batteryCells,
+            'voltage': double.parse((batteryCells * 3.7).toStringAsFixed(1)),
+            'nominal': 3.7 * batteryCells,
+          };
+        }
+      } catch (e) {
+        debugPrint('❌ Error in battery: $e');
+      }
+
+      // Sensor
+      try {
+        final sensorMode = wizardConfig['sensorMode'];
+        debugPrint('  sensorMode: $sensorMode (type: ${sensorMode.runtimeType})');
+        
+        if (sensorMode != null && sensorMode.toString().isNotEmpty) {
+          config['sensor'] = <String, dynamic>{
+            'type': sensorMode.toString().toLowerCase(),
+          };
+          
+          // Only include RPM for encoder/resolver
+          final maxRPMInt = _toInt(wizardConfig['maxRPM']);
+          debugPrint('  maxRPM: $maxRPMInt');
+          if (sensorMode == 'Encoder' || sensorMode == 'Resolver') {
+            // Always include maxRPM for encoder/resolver, default to 5000 if 0
+            config['sensor']['maxRPM'] = maxRPMInt > 0 ? maxRPMInt : 5000;
+            debugPrint('  ✓ Added maxRPM: ${config['sensor']['maxRPM']}');
+          }
+        }
+      } catch (e) {
+        debugPrint('❌ Error in sensor: $e');
+      }
+
+      // Motor
+      try {
+        final motorType = wizardConfig['motorType'];
+        final kvInt = _toInt(wizardConfig['kvRating']);
+        final polesInt = _toInt(wizardConfig['polePairs']);
+        debugPrint('  motorType: $motorType, kvRating: $kvInt, polePairs: $polesInt');
+        
+        if (motorType != null || kvInt > 0 || polesInt > 0) {
+          config['motor'] = <String, dynamic>{};
+          if (motorType != null && motorType.toString().isNotEmpty) {
+            config['motor']['type'] = motorType.toString();
+          }
+          if (kvInt > 0) {
+            config['motor']['kv'] = kvInt;
+          }
+          if (polesInt > 0) {
+            config['motor']['poles'] = polesInt;
+          }
+        }
+      } catch (e) {
+        debugPrint('❌ Error in motor: $e');
+      }
+
+      // Control
+      try {
+        final controlMode = wizardConfig['controlMode'];
+        final currentInt = _toInt(wizardConfig['maxCurrent']);
+        final pwmInt = _toInt(wizardConfig['pwmFrequency']);
+        debugPrint('  controlMode: $controlMode, maxCurrent: $currentInt, pwmFrequency: $pwmInt');
+        
+        if (controlMode != null || currentInt > 0 || pwmInt > 0) {
+          config['control'] = <String, dynamic>{};
+          if (controlMode != null && controlMode.toString().isNotEmpty) {
+            config['control']['mode'] = controlMode.toString();
+          }
+          if (currentInt > 0) {
+            config['control']['currentLimit'] = currentInt;
+          }
+          if (pwmInt > 0) {
+            config['control']['pwmFrequency'] = pwmInt;
+          }
+        }
+      } catch (e) {
+        debugPrint('❌ Error in control: $e');
+      }
+
+      // Temperature & Safety
+      try {
+        final maxTempInt = _toInt(wizardConfig['maxTemp']);
+        final overcurrentInt = _toInt(wizardConfig['overcurrentLimit']);
+        debugPrint('  maxTemp: $maxTempInt, overcurrentLimit: $overcurrentInt');
+        
+        if (maxTempInt > 0 || overcurrentInt > 0) {
+          config['safety'] = {};
+          if (maxTempInt > 0) {
+            config['safety']['maxTemperature'] = maxTempInt;
+          }
+          if (overcurrentInt > 0) {
+            config['safety']['overcurrentLimit'] = overcurrentInt;
+          }
+        }
+      } catch (e) {
+        debugPrint('❌ Error in safety: $e');
+      }
+
+      // Braking
+      try {
+        final brakeEnabled = wizardConfig['brakeEnabled'];
+        if (brakeEnabled == true) {
+          config['features'] = {
+            'brakeEnabled': true,
+          };
+        }
+      } catch (e) {
+        debugPrint('❌ Error in features: $e');
+      }
+
+      debugPrint('\n✓ Final config:');
+      debugPrint(config.toString());
+      
+      return config;
+    } catch (e) {
+      debugPrint('❌ CRITICAL Error in _buildConfigurationJSON: $e');
+      rethrow;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<ESCProvider>(
@@ -1538,11 +1791,88 @@ class _WizardApplyStepState extends State<WizardApplyStep> {
                               ? () {}
                               : () async {
                                   setState(() => _isApplying = true);
-                                  await Future.delayed(const Duration(seconds: 2));
-                                  setState(() {
-                                    _isApplying = false;
-                                    _isComplete = true;
-                                  });
+                                  try {
+                                    // Get userId from session
+                                    final userSession = await SessionManager.getUserSession();
+                                    final userId = userSession?['id'] as int?;
+                                    
+                                    if (userId == null) {
+                                      throw Exception('User not logged in');
+                                    }
+                                    
+                                    // Build dynamic JSON based on user selections
+                                    late Map<String, dynamic> configJson;
+                                    try {
+                                      configJson = _buildConfigurationJSON(provider);
+                                    } catch (e) {
+                                      debugPrint('❌ Error building config JSON: $e');
+                                      rethrow;
+                                    }
+                                    
+                                    // Print JSON locally with detailed type information
+                                    debugPrint('\n📋 [Flutter] Configuration JSON being sent:');
+                                    debugPrint('UserId: $userId');
+                                    debugPrint('Full config: $configJson');
+                                    
+                                    // Debug: Check types of all values
+                                    configJson.forEach((key, value) {
+                                      if (value is Map) {
+                                        debugPrint('$key: Map with ${(value as Map).length} items');
+                                        (value as Map).forEach((k, v) {
+                                          debugPrint('  $k: $v (type: ${v.runtimeType})');
+                                        });
+                                      } else {
+                                        debugPrint('$key: $value (type: ${value.runtimeType})');
+                                      }
+                                    });
+                                    
+                                    // Clean all Maps to ensure proper typing before sending
+                                    final cleanedConfig = _cleanMap(configJson);
+                                    
+                                    // Send JSON to backend with correct profile name and type
+                                    final profileName = 'config-${DateTime.now().millisecondsSinceEpoch}'; // Auto-generate profile name
+                                    final escType = 'BLDC'; // Default type - can be made configurable
+                                    
+                                    // Step 1: Save configuration to database
+                                    debugPrint('\n💾 Step 1: Saving configuration to database...');
+                                    await BackendAPI.saveConfig(
+                                      userId: userId,
+                                      configJson: cleanedConfig,
+                                      profileName: profileName,
+                                      escType: escType,
+                                    );
+                                    debugPrint('✓ Configuration saved to database');
+
+                                    // Step 2: Apply configuration to ESC device via Serial
+                                    debugPrint('\n📤 Step 2: Applying configuration to ESC device...');
+                                    
+                                    // Get connected port from provider
+                                    final connectedPort = provider.connectedPort;
+                                    if (connectedPort == null || connectedPort.isEmpty) {
+                                      throw Exception('No device connected. Please connect to ESC first.');
+                                    }
+
+                                    final applyResult = await BackendAPI.applyConfig(
+                                      userId: userId,
+                                      configJson: cleanedConfig,
+                                      portPath: connectedPort,
+                                    );
+                                    debugPrint('✓ Configuration applied to device');
+                                    debugPrint('Transmission details: $applyResult\n');
+
+                                    setState(() {
+                                      _isApplying = false;
+                                      _isComplete = true;
+                                    });
+                                  } catch (e) {
+                                    debugPrint('❌ Error applying config: $e');
+                                    setState(() => _isApplying = false);
+                                    if (mounted) {
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(content: Text('Error: $e')),
+                                      );
+                                    }
+                                  }
                                 },
                         ),
                       ),

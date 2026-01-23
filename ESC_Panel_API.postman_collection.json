@@ -1,0 +1,332 @@
+{
+  "info": {
+    "_postman_id": "esc-panel-system-2026",
+    "name": "ESC Panel System API",
+    "description": "Complete API collection for ESC Panel System",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health & Status",
+      "item": [
+        {
+          "name": "Server Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:7070/status",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "7070",
+              "path": ["status"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "List Available Ports",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:7070/ports",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "7070",
+              "path": ["ports"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Sign Up",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"user@example.com\",\n  \"password\": \"Password123\",\n  \"name\": \"Mohammed Saleh\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:7070/signup",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "7070",
+              "path": ["signup"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"user@example.com\",\n  \"password\": \"Password123\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:7070/login",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "7070",
+              "path": ["login"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Configuration",
+      "item": [
+        {
+          "name": "Generate Auto-Config (Light)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cells\": 4,\n  \"mode\": \"light\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:7070/autoConfig",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "7070",
+              "path": ["autoConfig"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Generate Auto-Config (Middle)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cells\": 4,\n  \"mode\": \"middle\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:7070/autoConfig",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "7070",
+              "path": ["autoConfig"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Generate Auto-Config (High)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cells\": 6,\n  \"mode\": \"high\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:7070/autoConfig",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "7070",
+              "path": ["autoConfig"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "ESC Communication",
+      "item": [
+        {
+          "name": "Connect to ESC",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"portPath\": \"/dev/tty.URT1\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:7070/connect",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "7070",
+              "path": ["connect"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Current Config",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:7070/config",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "7070",
+              "path": ["config"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Apply Config to ESC",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"maxRPM\": 43200,\n  \"currentLimit\": 200,\n  \"pwmFreq\": 16000,\n  \"tempLimit\": 95,\n  \"voltageCutoff\": 1200\n}"
+            },
+            "url": {
+              "raw": "http://localhost:7070/apply",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "7070",
+              "path": ["apply"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Disconnect from ESC",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:7070/disconnect",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "7070",
+              "path": ["disconnect"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Profiles",
+      "item": [
+        {
+          "name": "Save Profile",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"My Racing Config\",\n  \"config\": {\n    \"maxRPM\": 50000,\n    \"currentLimit\": 300,\n    \"pwmFreq\": 24000,\n    \"tempLimit\": 100,\n    \"voltageCutoff\": 1000\n  }\n}"
+            },
+            "url": {
+              "raw": "http://localhost:7070/saveProfile",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "7070",
+              "path": ["saveProfile"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Profiles",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:7070/profiles",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "7070",
+              "path": ["profiles"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Profile by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:7070/profiles/1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "7070",
+              "path": ["profiles", "1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Profile",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:7070/profiles/1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "7070",
+              "path": ["profiles", "1"]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}

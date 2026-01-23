@@ -7,7 +7,7 @@ import '../models/esc_models.dart';
 import 'session_manager.dart';
 
 class AuthenticationService {
-  static const String baseUrl = 'http://192.168.3.241:7070';
+  static const String baseUrl = 'http://localhost:7070';
   static const Duration timeout = Duration(seconds: 30);
 
   /// Sign up new user
@@ -71,11 +71,14 @@ class AuthenticationService {
 
       if (response.statusCode == 200) {
         // Save user session
-        final userData = data['user'] ?? {
-          'id': data['userId'],
-          'email': data['email'],
-          'name': data['name'] ?? '',
+        // Backend returns user object with id, email, name
+        final userData = {
+          'id': data['user']?['id'] ?? data['userId'],
+          'email': data['user']?['email'] ?? data['email'],
+          'name': data['user']?['name'] ?? data['name'] ?? '',
         };
+        
+        print('✓ Login response user data: $userData');
         await SessionManager.saveUserSession(userData);
 
         return {

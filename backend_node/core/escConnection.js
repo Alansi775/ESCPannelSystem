@@ -117,6 +117,64 @@ class ESCConnection {
   }
 
   /**
+   * Send configuration JSON to ESC device
+   * Format: [HEADER(2)] [LENGTH(2)] [CHECKSUM(1)] [JSON_DATA(n)] [TERMINATOR(1)]
+   */
+  async sendConfiguration(configJson) {
+    if (!this.isConnected || !this.port) {
+      throw new Error('Not connected to ESC');
+    }
+
+    try {
+      // Convert config to JSON string
+      const jsonString = JSON.stringify(configJson);
+      console.log(`\n📤 [Serial TX] Sending configuration (${jsonString.length} bytes)`);
+      console.log(`   Config: ${jsonString}`);
+
+      // Create binary packet with protocol format
+      const HEADER = Buffer.from([0xAE, 0x53]); // "AESC" header in hex (0xAE=A, 0x53=E, 0x53=S, 0x43=C)
+      const jsonBuffer = Buffer.from(jsonString, 'utf8');
+      const length = Buffer.alloc(2);
+      length.writeUInt16BE(jsonBuffer.length, 0); // Big-endian length
+      
+      // Calculate simple checksum
+      let checksum = 0;
+      for (let i = 0; i < jsonBuffer.length; i++) {
+        checksum ^= jsonBuffer[i]; // XOR checksum
+      }
+      const checksumBuffer = Buffer.from([checksum]);
+      
+      // Assemble complete packet
+      const packet = Buffer.concat([HEADER, length, checksumBuffer, jsonBuffer, Buffer.from([0x0A])]);
+
+      return new Promise((resolve, reject) => {
+        this.port.write(packet, (error) => {
+          if (error) {
+            console.error('❌ Serial write error:', error.message);
+            reject(error);
+          } else {
+            console.log(`✓ Configuration packet sent successfully (${packet.length} bytes total)\n`);
+            resolve({
+              success: true,
+              bytesSent: packet.length,
+              packetStructure: {
+                header: HEADER.toString('hex'),
+                length: length.toString('hex'),
+                checksum: checksumBuffer.toString('hex'),
+                dataLength: jsonBuffer.length,
+                terminator: '0A',
+              },
+            });
+          }
+        });
+      });
+    } catch (error) {
+      console.error('❌ Error sending configuration:', error.message);
+      throw error;
+    }
+  }
+
+  /**
    * Disconnect from ESC
    */
   async disconnect() {

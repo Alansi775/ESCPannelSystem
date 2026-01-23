@@ -46,6 +46,17 @@ class ESCProvider extends ChangeNotifier {
   // Battery configuration cache
   int _selectedBatteryCells = 4;
   bool _isBatteryValid = true;
+  
+  // Additional configuration properties for saveConfig
+  String? _selectedProfile;
+  String? _escType;
+  int _cellCount = 4;
+  String? _sensorType;
+  int _maxRPM = 0;
+  int _motorKV = 0;
+  int _motorPoles = 0;
+  int _currentLimit = 0;
+  int _pwmFrequency = 0;
 
   // Getters
   bool get isConnected => _isConnected;
@@ -62,6 +73,17 @@ class ESCProvider extends ChangeNotifier {
   bool get isBatteryValid => _isBatteryValid;
   bool get isIndustrialBattery => _selectedBatteryCells >= (standardCellsThreshold + 1);
   double get estimatedVoltage => _selectedBatteryCells * nominalVoltagePerCell;
+  
+  // Configuration properties for saveConfig
+  String? get selectedProfile => _selectedProfile;
+  String? get escType => _escType;
+  int get cellCount => _cellCount;
+  String? get sensorType => _sensorType;
+  int get maxRPM => _maxRPM;
+  int get motorKV => _motorKV;
+  int get motorPoles => _motorPoles;
+  int get currentLimit => _currentLimit;
+  int get pwmFrequency => _pwmFrequency;
 
   // Wizard config getters
   int get wizardBatteryCells => _wizardBatteryCells;
@@ -288,12 +310,12 @@ class ESCProvider extends ChangeNotifier {
     }
   }
 
-  // Apply config to ESC
-  Future<void> applyConfig(ESCConfig config) async {
+  // Apply config to ESC (legacy)
+  Future<void> applyConfigLegacy(ESCConfig config) async {
     try {
       _setLoading(true);
       _clearError();
-      await BackendAPI.applyConfig(config);
+      await BackendAPI.applyConfigLegacy(config);
       _currentConfig = config;
       _pendingConfig = null;
       notifyListeners();
@@ -353,6 +375,52 @@ class ESCProvider extends ChangeNotifier {
   // Update pending config
   void updatePendingConfig(ESCConfig config) {
     _pendingConfig = config;
+    notifyListeners();
+  }
+  
+  // Configuration property setters
+  void setSelectedProfile(String? profile) {
+    _selectedProfile = profile;
+    notifyListeners();
+  }
+  
+  void setEscType(String? type) {
+    _escType = type;
+    notifyListeners();
+  }
+  
+  void setCellCount(int count) {
+    _cellCount = count;
+    notifyListeners();
+  }
+  
+  void setSensorType(String? type) {
+    _sensorType = type;
+    notifyListeners();
+  }
+  
+  void setMaxRPM(int rpm) {
+    _maxRPM = rpm;
+    notifyListeners();
+  }
+  
+  void setMotorKV(int kv) {
+    _motorKV = kv;
+    notifyListeners();
+  }
+  
+  void setMotorPoles(int poles) {
+    _motorPoles = poles;
+    notifyListeners();
+  }
+  
+  void setCurrentLimit(int limit) {
+    _currentLimit = limit;
+    notifyListeners();
+  }
+  
+  void setPWMFrequency(int freq) {
+    _pwmFrequency = freq;
     notifyListeners();
   }
 

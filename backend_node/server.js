@@ -23,7 +23,7 @@ const PORT = process.env.PORT || 7070;
 const SERVER_IP = process.env.SERVER_IP || 'localhost:7070';
 
 // Global instances
-let escConnection = null;
+let escConnection = null;  // Will be initialized as ESCConnection instance
 let profileManager = null;
 let dbConnection = null;
 let authRoutes = null;
@@ -391,6 +391,220 @@ async function requestHandler(req, res) {
       return;
     }
 
+    // GET /getConfig/:userId - Get current configuration for a user
+    else if (pathname.startsWith('/getConfig/') && method === 'GET') {
+      const userId = parseInt(pathname.split('/').pop());
+      
+      if (!userId) {
+        sendResponse(res, 400, { error: 'User ID is required' });
+        return;
+      }
+
+      try {
+        const query = `
+          SELECT id, user_id, profile_name, esc_type, config_json, created_at, updated_at
+          FROM esc_configs
+          WHERE user_id = ?
+          LIMIT 1
+        `;
+
+        const result = await dbConnection.execute(query, [userId]);
+        const rows = result[0];
+
+        if (rows.length === 0) {
+          sendResponse(res, 404, {
+            error: 'No configuration found for this user',
+            userId,
+          });
+          return;
+        }
+
+        const config = rows[0];
+        console.log(`✓ Retrieved configuration for user ${userId}:`);
+        console.log(`  Config ID: ${config.id}`);
+        console.log(`  Profile: ${config.profile_name || 'unnamed'}`);
+
+        sendResponse(res, 200, {
+          success: true,
+          config: {
+            id: config.id,
+            userId: config.user_id,
+            profileName: config.profile_name,
+            escType: config.esc_type,
+            configJson: typeof config.config_json === 'string' ? JSON.parse(config.config_json) : config.config_json,
+            createdAt: config.created_at,
+            updatedAt: config.updated_at,
+          },
+        });
+      } catch (error) {
+        console.error('✗ Error retrieving configuration:', error.message);
+        sendResponse(res, 500, {
+          error: 'Failed to retrieve configuration',
+          details: error.message,
+        });
+      }
+    }
+
+    // POST /saveConfig - Save configuration to database
+    else if (pathname === '/saveConfig' && method === 'POST') {
+      const body = await parseRequestBody(req);
+      const { userId, profileName, configJson, escType } = body;
+
+      // Validate input
+      if (!userId || !configJson) {
+        sendResponse(res, 400, {
+          error: 'userId and configJson are required',
+        });
+        return;
+      }
+
+      // Validate JSON size (< 2MB)
+      const jsonString = JSON.stringify(configJson);
+      if (jsonString.length > 2 * 1024 * 1024) {
+        sendResponse(res, 413, {
+          error: 'Configuration JSON too large (max 2MB)',
+        });
+        return;
+      }
+
+      try {
+        // Log the JSON to terminal
+        console.log('\n📝 [saveConfig] Received configuration:');
+        console.log('  User ID:', userId);
+        console.log('  Profile Name:', profileName || 'unnamed');
+        console.log('  ESC Type:', escType || 'auto-detect');
+        console.log('  Configuration JSON:');
+        console.log(JSON.stringify(configJson, null, 2));
+
+        // Delete any previous configs for this user (keep only latest)
+        console.log('  → Checking for previous configurations...');
+        const deleteQuery = `DELETE FROM esc_configs WHERE user_id = ?`;
+        const deleteResult = await dbConnection.execute(deleteQuery, [userId]);
+        if (deleteResult[0]?.affectedRows > 0) {
+          console.log(`  ✓ Deleted ${deleteResult[0].affectedRows} previous configuration(s)`);
+        }
+
+        // Save new configuration to database
+        const query = `
+          INSERT INTO esc_configs (user_id, profile_name, esc_type, config_json, created_at, updated_at)
+          VALUES (?, ?, ?, ?, NOW(), NOW())
+        `;
+
+        const result = await dbConnection.execute(query, [
+          userId,
+          profileName || null,
+          escType || null,
+          jsonString,
+        ]);
+
+        // mysql2 returns [rows, fields] - rows[0] contains info
+        const configId = result[0]?.insertId;
+        console.log('✓ New configuration saved to database (ID:', configId, ')\n');
+
+        sendResponse(res, 201, {
+          success: true,
+          message: 'Configuration saved (previous configuration replaced)',
+          configId,
+          userId,
+          profileName,
+        });
+      } catch (error) {
+        console.error('✗ Error saving configuration:', error.message);
+        sendResponse(res, 500, {
+          error: 'Failed to save configuration',
+          details: error.message,
+        });
+      }
+    }
+
+    // POST /applyConfig - Send configuration to connected ESC device via Serial
+    else if (pathname === '/applyConfig' && method === 'POST') {
+      const body = await parseRequestBody(req);
+      const { userId, configJson, portPath } = body;
+
+      if (!configJson) {
+        sendResponse(res, 400, {
+          error: 'configJson is required',
+        });
+        return;
+      }
+
+      if (!portPath) {
+        sendResponse(res, 400, {
+          error: 'portPath is required - device must be connected first',
+        });
+        return;
+      }
+
+      try {
+        console.log('\n🔧 [applyConfig] Applying configuration to ESC device');
+        console.log(`   Port: ${portPath}`);
+        console.log(`   User ID: ${userId}`);
+
+        // Check if already connected to this port
+        const currentStatus = escConnection.getStatus();
+        let needsConnect = !currentStatus.isConnected || currentStatus.portPath !== portPath;
+
+        // Connect if needed
+        if (needsConnect) {
+          console.log('   → Connecting to device...');
+          try {
+            await escConnection.connect(portPath);
+            console.log('   ✓ Connected');
+          } catch (error) {
+            throw new Error(`Failed to connect to port: ${error.message}`);
+          }
+        }
+
+        // Send configuration via Serial
+        const txResult = await escConnection.sendConfiguration(configJson);
+
+        sendResponse(res, 200, {
+          success: true,
+          message: 'Configuration applied to ESC device',
+          userId,
+          portPath,
+          transmission: txResult,
+        });
+      } catch (error) {
+        console.error('✗ Error applying configuration:', error.message);
+        sendResponse(res, 500, {
+          error: 'Failed to apply configuration to device',
+          details: error.message,
+        });
+      }
+    }
+
+    // DELETE /deleteConfig/:userId - Delete configuration for a user
+    else if (pathname.startsWith('/deleteConfig/') && method === 'DELETE') {
+      const userId = parseInt(pathname.split('/').pop());
+      
+      if (!userId) {
+        sendResponse(res, 400, { error: 'User ID is required' });
+        return;
+      }
+
+      try {
+        const query = `DELETE FROM esc_configs WHERE user_id = ?`;
+        const result = await dbConnection.execute(query, [userId]);
+
+        const affectedRows = result[0]?.affectedRows || 0;
+        console.log(`✓ Deleted configuration(s) for user ${userId} (${affectedRows} rows)`);
+
+        sendResponse(res, 200, {
+          success: true,
+          message: `Configuration deleted (${affectedRows} rows affected)`,
+          userId,
+        });
+      } catch (error) {
+        console.error('✗ Error deleting configuration:', error.message);
+        sendResponse(res, 500, {
+          error: 'Failed to delete configuration',
+          details: error.message,
+        });
+      }
+    }
+
     // 404 - Not found
     else {
       sendResponse(res, 404, {
@@ -404,6 +618,9 @@ async function requestHandler(req, res) {
           'GET /profiles',
           'GET /profiles/:id',
           'POST /autoConfig',
+          'POST /saveConfig',
+          'GET /getConfig/:userId',
+          'DELETE /deleteConfig/:userId',
           'GET /ports',
           'GET /disconnect',
           'POST /signup',
@@ -427,7 +644,13 @@ async function initializeServer() {
     console.log(' Initializing ESC Configuration Server...');
 
     // Initialize database
-    dbConnection = new MySQLConnection();
+    dbConnection = new MySQLConnection({
+      host: process.env.DB_HOST || 'localhost',
+      user: process.env.DB_USER || 'root',
+      password: process.env.DB_PASSWORD || 'root',
+      database: process.env.DB_NAME || 'esc_config',
+      socketPath: process.env.DB_SOCKET || '/tmp/mysql.sock',
+    });
     await dbConnection.createDatabase();
     await dbConnection.initialize();
 
@@ -446,6 +669,10 @@ async function initializeServer() {
     profileManager = new ProfileManager(dbConnection);
     await profileManager.initializeSchema();
 
+    //  CRITICAL FIX: Initialize ESC Connection instance
+    escConnection = new ESCConnection();
+    console.log(' ESC Connection instance created');
+
     // Create HTTP server
     const server = http.createServer(requestHandler);
 
@@ -455,21 +682,21 @@ async function initializeServer() {
 
     server.listen(PORT, '0.0.0.0', () => {
       console.log(` Server listening on http://localhost:${PORT}`);
-      console.log(`📡 Database: ${dbConnection.config.database}`);
-      console.log(`📧 Email Service: Initialized`);
-      console.log(`🔐 Authentication: Enabled`);
-      console.log(`🔌 ESC Connection: Ready for connection`);
-      console.log(`📋 Available endpoints: See GET /status for info`);
+      console.log(` Database: ${dbConnection.config.database}`);
+      console.log(` Email Service: Initialized`);
+      console.log(` Authentication: Enabled`);
+      console.log(` ESC Connection: Ready for connection`);
+      console.log(` Available endpoints: See GET /status for info`);
     });
   } catch (error) {
-    console.error('❌ Failed to initialize server:', error.message);
+    console.error(' Failed to initialize server:', error.message);
     process.exit(1);
   }
 }
 
 // Graceful shutdown
 process.on('SIGINT', async () => {
-  console.log('\n🛑 Shutting down...');
+  console.log('\n Shutting down...');
   try {
     if (escConnection?.isConnected) {
       await escConnection.disconnect();

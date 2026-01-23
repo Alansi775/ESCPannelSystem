@@ -6,7 +6,7 @@
 
 
 ┌─────────────────────────────────────────────────────────────────────────────────┐
-│                           🔌 BACKEND ARCHITECTURE                               │
+│                            BACKEND ARCHITECTURE                               │
 └─────────────────────────────────────────────────────────────────────────────────┘
 
 HTTP Server (Node.js)
@@ -258,7 +258,7 @@ Primary Colors:
 Status Colors:
    Success      #34C759   (Green)
   ⚠️  Warning     #FF9500   (Orange)
-  ❌ Error       #FF3B30   (Red)
+   Error       #FF3B30   (Red)
 
 Dark Theme:
   🔲 Background   #0A0E27   (Deep)

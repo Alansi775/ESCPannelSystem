@@ -68,18 +68,20 @@ class DatabaseSchema {
    * Create configs table
    */
   async createConfigsTable() {
+    try {
+      // Drop existing table if it exists
+      await this.db.execute('DROP TABLE IF EXISTS esc_configs');
+    } catch (error) {
+      // Ignore if table doesn't exist
+    }
+
     const query = `
-      CREATE TABLE IF NOT EXISTS esc_configs (
+      CREATE TABLE esc_configs (
         id INT AUTO_INCREMENT PRIMARY KEY,
         user_id INT NOT NULL,
-        name VARCHAR(255),
         profile_name VARCHAR(255),
-        mode VARCHAR(50),
-        cells INT,
-        battery_voltage FLOAT,
-        throttle_min INT,
-        throttle_max INT,
-        config_data JSON,
+        esc_type VARCHAR(100),
+        config_json JSON,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
         FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,

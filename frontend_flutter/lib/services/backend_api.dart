@@ -98,8 +98,8 @@ class BackendAPI {
     }
   }
 
-  /// Apply config to ESC
-  static Future<bool> applyConfig(ESCConfig config) async {
+  /// Apply config to ESC (legacy - kept for compatibility)
+  static Future<bool> applyConfigLegacy(ESCConfig config) async {
     try {
       final response = await http.post(
         Uri.parse('$baseUrl/apply'),
@@ -201,4 +201,93 @@ class BackendAPI {
       throw Exception('Error getting profile: $e');
     }
   }
+
+  /// Save configuration to database
+  static Future<int> saveConfig({
+    required int userId,
+    required Map<String, dynamic> configJson,
+    String? profileName,
+    String? escType,
+  }) async {
+    try {
+      // Ensure all values are JSON-serializable
+      final cleanConfigJson = _ensureJsonSerializable(configJson);
+      
+      final response = await http.post(
+        Uri.parse('$baseUrl/saveConfig'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'userId': userId,
+          'profileName': profileName,
+          'configJson': cleanConfigJson,
+          'escType': escType,
+        }),
+      ).timeout(timeout);
+
+      if (response.statusCode == 201) {
+        final data = jsonDecode(response.body) as Map<String, dynamic>;
+        return data['configId'] as int;
+      } else {
+        final data = jsonDecode(response.body);
+        throw Exception(data['error'] ?? 'Failed to save config');
+      }
+    } catch (e) {
+      throw Exception('Error saving config: $e');
+    }
+  }
+
+  /// Ensure all JSON values are serializable (no custom objects)
+  static Map<String, dynamic> _ensureJsonSerializable(Map<String, dynamic> data) {
+    final cleaned = <String, dynamic>{};
+    
+    data.forEach((key, value) {
+      if (value == null) {
+        cleaned[key] = null;
+      } else if (value is Map) {
+        cleaned[key] = _ensureJsonSerializable(value as Map<String, dynamic>);
+      } else if (value is List) {
+        cleaned[key] = (value as List).map((item) {
+          if (item is Map) return _ensureJsonSerializable(item as Map<String, dynamic>);
+          return item;
+        }).toList();
+      } else {
+        // Keep primitives as-is (int, double, String, bool)
+        cleaned[key] = value;
+      }
+    });
+    
+    return cleaned;
+  }
+
+  /// Apply configuration to connected ESC device via Serial
+  static Future<Map<String, dynamic>> applyConfig({
+    required int userId,
+    required Map<String, dynamic> configJson,
+    required String portPath,
+  }) async {
+    try {
+      final cleanConfigJson = _ensureJsonSerializable(configJson);
+      
+      final response = await http.post(
+        Uri.parse('$baseUrl/applyConfig'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'userId': userId,
+          'configJson': cleanConfigJson,
+          'portPath': portPath,
+        }),
+      ).timeout(timeout);
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body) as Map<String, dynamic>;
+        return data;
+      } else {
+        final data = jsonDecode(response.body);
+        throw Exception(data['error'] ?? 'Failed to apply config');
+      }
+    } catch (e) {
+      throw Exception('Error applying config: $e');
+    }
+  }
 }
+

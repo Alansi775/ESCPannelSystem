@@ -15,6 +15,7 @@ class MySQLConnection {
       waitForConnections: true,
       connectionLimit: config.connectionLimit || 10,
       queueLimit: 0,
+      socketPath: config.socketPath || '/tmp/mysql.sock',
     };
 
     this.pool = null;
