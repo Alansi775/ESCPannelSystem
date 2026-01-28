@@ -98,6 +98,38 @@ ESC Panel System is a cutting-edge configuration platform for Electronic Speed C
 
 ## Project Structure
 
+## NEW UPDATE
+
+This is what the `stm32f401ret6` showed after we click the `Apply` button in the application. To inspect the data the MCU received without the app holding the serial port open, follow these steps:
+
+1. Make sure the backend and the Flutter app are disconnected from the STM32 serial port (stop the backend with Ctrl+C and refresh/close the app's connection).
+2. Open a serial monitor on macOS (replace with your device path):
+
+```bash
+screen -L /dev/cu.usbserial-A50285BI 115200
+```
+
+3. Press the BOOT/KEY button on the STM32 board — the board will print the stored JSON payload and an acknowledgement line.
+
+Example output captured from the STM32F401RET6:
+
+![STM32F401RET6 LOGS AFTER RECEIVING DATA FROM APP](screenshots/stm32.png)
+
+Corresponding backend logs when `Apply` is clicked (the backend saves the JSON to the database and sends the same JSON over serial):
+
+![ESCCONFIGURATION BACKEND LOGS AFTER CLICKING APPLY BUTTON ON THE APP](screenshots/backend.png)
+
+This confirms the STM32 successfully received the exact JSON data the backend sent (it appears identical in the MCU output and the backend logs).
+
+If you want to reproduce this flow:
+- Start backend and app and use the app `Apply` button to send configuration.
+- Stop the backend (Ctrl+C) and make sure the app is disconnected.
+- Open the serial monitor with the `screen` command above and press the STM32 BOOT button to view the stored payload.
+
+Notes:
+- Use the `/dev/cu.*` device on macOS for serial monitors (not `/dev/tty.*`).
+- If you prefer to clear stored data on the STM32, press the board's `NRST` (reset) button — the firmware clears stored payload on an external pin reset.
+
 ```
 ESCProject/
 ├── frontend_flutter/                    # Flutter Web Application
@@ -130,6 +162,10 @@ ESCProject/
 │   └── package.json                    # Node dependencies
 │
 ├── screenshots/                        # Application screenshots
+├── stm32_firmware/                     # STM32F401RET6 firmware (PlatformIO)
+│   ├── platformio.ini                  # PlatformIO config
+│   └── src/
+│       └── main.cpp                    # Firmware packet parser + debug helpers
 ├── README.md                           # This file
 └── .gitignore                         # Git ignore rules
 ```
@@ -181,6 +217,33 @@ npm start
 ```
 
 ### Database Setup
+### Firmware (STM32)
+
+This repository includes the `stm32_firmware` PlatformIO project for the STM32F401RET6 used in testing. It contains example firmware that:
+
+- Parses a simple binary packet: header `0xAE 0x53`, 2‑byte big‑endian length, 1‑byte XOR checksum, JSON payload, terminator `0x0A`.
+- Stores the last-received payload and lights the on‑board LED when a valid packet arrives.
+- Prints a stored payload when the BOOT/USER button is pressed and clears stored data on NRST (external reset).
+
+Build and upload (using PlatformIO):
+
+```bash
+# from repo root
+cd stm32_firmware
+# build and upload using the `stm32f401` env
+pio run -e stm32f401 -t upload -v
+```
+
+Open the serial monitor to view logs (macOS example):
+
+```bash
+screen /dev/cu.usbserial-A50285BI 115200
+```
+
+Notes:
+- Ensure the ST-Link programmer is connected for `pio` upload (or change `upload_protocol` in `platformio.ini`).
+- Wiring for TTL serial testing: TTL TX → PA3 (MCU RX), TTL RX → PA2 (MCU TX), GND → GND. Do not connect VCC unless you know the voltage.
+
 
 ```bash
 # Login to MySQL

@@ -1,0 +1,4 @@
+hey i am connected now
+{"timestamp":"2026-01-28T16:20:26.629","battery":{"cells":4,"voltage":14.8,"nominal":14.8},"sensor":{"type":"sensorless"},"motor":{"type":"BLDC","kv":1000,"poles":4},"control":{"mode":"Throttle","currentLimit":50,"pwmFrequency":16},"safety":{"maxTemperature":60,"overcurrentLimit":100}}
+hey i am connected now
+{"timestamp":"2026-01-28T16:26:06.666","battery":{"cells":6,"voltage":22.2,"nominal":22.200000000000003},"sensor":{"type":"sensorless"},"motor":{"type":"BLDC","kv":1000,"poles":4},"control":{"mode":"Throttle","currentLimit":51,"pwmFrequency":16},"safety":{"maxTemperature":60,"overcurrentLimit":100}}

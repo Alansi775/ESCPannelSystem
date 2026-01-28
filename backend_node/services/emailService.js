@@ -285,7 +285,7 @@ ESC Configurator Team
     const template = templates[lang] || templates.en;
 
     try {
-      await this.transporter.sendMail({
+      const info = await this.transporter.sendMail({
         from: process.env.EMAIL_FROM || 'noreply@escconfigrator.app',
         to: email,
         subject: template.subject,
@@ -293,6 +293,16 @@ ESC Configurator Team
       });
 
       console.log(`✓ Password reset email sent to ${email}`);
+      // For development/testing (Ethereal)
+      if (process.env.NODE_ENV !== 'production') {
+        try {
+          const preview = require('nodemailer').getTestMessageUrl(info);
+          if (preview) console.log(`Preview URL: ${preview}`);
+        } catch (e) {
+          // ignore preview errors
+        }
+      }
+
       return true;
     } catch (error) {
       console.error(`✗ Failed to send password reset email to ${email}:`, error.message);

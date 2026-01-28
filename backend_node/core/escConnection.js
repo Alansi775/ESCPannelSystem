@@ -41,6 +41,17 @@ class ESCConnection {
   async connect(portPath) {
     return new Promise((resolve, reject) => {
       try {
+        const fs = require('fs');
+        // On macOS the usable device node is usually /dev/cu.* rather than /dev/tty.*
+        // If the provided portPath doesn't exist, try swapping /dev/tty. -> /dev/cu.
+        if (!fs.existsSync(portPath) && process.platform === 'darwin') {
+          const alt = portPath.replace('/dev/tty.', '/dev/cu.');
+          if (alt !== portPath && fs.existsSync(alt)) {
+            console.log(`Port ${portPath} not found; using ${alt} instead`);
+            portPath = alt;
+          }
+        }
+
         this.port = new SerialPort({
           path: portPath,
           baudRate: this.baudRate,
