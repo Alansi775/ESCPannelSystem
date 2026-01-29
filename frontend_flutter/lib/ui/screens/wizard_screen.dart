@@ -1609,11 +1609,11 @@ class _WizardApplyStepState extends State<WizardApplyStep> {
             'type': sensorMode.toString().toLowerCase(),
           };
           
-          // Only include RPM for encoder/resolver
+          // Include RPM for any sensor mode that is not Sensorless (Hall, Encoder, Resolver, etc.)
           final maxRPMInt = _toInt(wizardConfig['maxRPM']);
           debugPrint('  maxRPM: $maxRPMInt');
-          if (sensorMode == 'Encoder' || sensorMode == 'Resolver') {
-            // Always include maxRPM for encoder/resolver, default to 5000 if 0
+          if (sensorMode.toString().toLowerCase() != 'sensorless') {
+            // Always include maxRPM for non-sensorless modes, default to 5000 if 0
             config['sensor']['maxRPM'] = maxRPMInt > 0 ? maxRPMInt : 5000;
             debugPrint('  ✓ Added maxRPM: ${config['sensor']['maxRPM']}');
           }
