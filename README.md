@@ -130,6 +130,27 @@ Notes:
 - Use the `/dev/cu.*` device on macOS for serial monitors (not `/dev/tty.*`).
 - If you prefer to clear stored data on the STM32, press the board's `NRST` (reset) button — the firmware clears stored payload on an external pin reset.
 
+### Firmware: Protocol Gateway (STM32F401) — Recent Changes
+
+- Added a deterministic `AppConfig` struct (packed, fixed-size) to unify configuration fields.
+- Implemented a lightweight manual JSON parser that fills `AppConfig` from stored JSON (defaults preserved for missing fields).
+- Implemented two frame builders:
+  - V1: `0xAB 0xCD` header + payload + CRC16-CCITT (used for internal transport).
+  - V2: `0xAA 0x55` header + payload + 1-byte XOR checksum (ESC-facing frame). V2 is printed as a hex dump for verification.
+- Added `build_and_print_frame_v2()` to print the exact bytes (hex) that will be sent to the ESC, for example:
+
+  `AA 55 01 06 56 B8 56 B8 00 00 00 03 E8 04 00 00 33 00 10 00 3C 00 64 00 00 00 93`
+
+- On firmware events (startup, stored JSON parse, BOOT button) the firmware now prints the parsed `AppConfig` and the exact frame hex.
+- Added safe CAN/I2C send stubs (no linkage errors if peripherals not present). USART2 transmit is used for broadcasting the frame.
+
+To reproduce the full flow (apply → save → verify frame):
+1. Use the app `Apply` button to send configuration to the board.
+2. Stop the backend so serial port is free.
+3. Open serial monitor with `screen /dev/cu.usbserial-... 115200`.
+4. Press BOOT (short) — raw JSON + parsed `AppConfig` + `AA 55 ...` hex dump are shown.
+
+
 ```
 ESCProject/
 ├── frontend_flutter/                    # Flutter Web Application
