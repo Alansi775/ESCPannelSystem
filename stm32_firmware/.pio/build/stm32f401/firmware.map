@@ -1,9 +1,9 @@
 Archive member included to satisfy reference by file (symbol)
 
 .pio/build/stm32f401/libFrameworkArduino.a(HardwareSerial.cpp.o)
-                              .pio/build/stm32f401/src/main.cpp.o (HardwareSerial::available())
+                              .pio/build/stm32f401/src/board_a/main.cpp.o (HardwareSerial::available())
 .pio/build/stm32f401/libFrameworkArduino.a(Print.cpp.o)
-                              .pio/build/stm32f401/src/main.cpp.o (Print::print(char const*))
+                              .pio/build/stm32f401/src/board_a/main.cpp.o (Print::print(char const*))
 .pio/build/stm32f401/libFrameworkArduino.a(Stream.cpp.o)
                               .pio/build/stm32f401/libFrameworkArduino.a(HardwareSerial.cpp.o) (Stream::readBytes(char*, unsigned int))
 .pio/build/stm32f401/libFrameworkArduino.a(WString.cpp.o)
@@ -17,7 +17,7 @@ Archive member included to satisfy reference by file (symbol)
 .pio/build/stm32f401/libFrameworkArduino.a(startup_stm32yyxx.S.o)
                               (Reset_Handler)
 .pio/build/stm32f401/libFrameworkArduino.a(wiring_digital.c.o)
-                              .pio/build/stm32f401/src/main.cpp.o (pinMode)
+                              .pio/build/stm32f401/src/board_a/main.cpp.o (pinMode)
 .pio/build/stm32f401/libFrameworkArduino.a(wiring_time.c.o)
                               .pio/build/stm32f401/libFrameworkArduino.a(Stream.cpp.o) (millis)
 .pio/build/stm32f401/libFrameworkArduino.a(WSerial.cpp.o)
@@ -41,11 +41,11 @@ Archive member included to satisfy reference by file (symbol)
 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7e-m+fp/hard/libgcc.a(_arm_unorddf2.o)
                               .pio/build/stm32f401/libFrameworkArduino.a(Print.cpp.o) (__aeabi_dcmpun)
 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7e-m+fp/hard/libgcc.a(_arm_fixdfsi.o)
-                              .pio/build/stm32f401/src/json_parser.cpp.o (__aeabi_d2iz)
+                              .pio/build/stm32f401/src/board_a/json_parser.cpp.o (__aeabi_d2iz)
 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7e-m+fp/hard/libgcc.a(_arm_fixunsdfsi.o)
                               .pio/build/stm32f401/SrcWrapper/src/HardwareTimer.cpp.o (__aeabi_d2uiz)
 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7e-m+fp/hard/libgcc.a(_arm_truncdfsf2.o)
-                              .pio/build/stm32f401/src/json_parser.cpp.o (__aeabi_d2f)
+                              .pio/build/stm32f401/src/board_a/json_parser.cpp.o (__aeabi_d2f)
 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7e-m+fp/hard/libgcc.a(_aeabi_ldivmod.o)
                               .pio/build/stm32f401/SrcWrapper/src/HAL/stm32yyxx_hal_rcc.c.o (__aeabi_ldivmod)
 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7e-m+fp/hard/libgcc.a(_aeabi_uldivmod.o)
@@ -55,11 +55,11 @@ Archive member included to satisfy reference by file (symbol)
 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7e-m+fp/hard/libgcc.a(_dvmd_tls.o)
                               /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7e-m+fp/hard/libgcc.a(_aeabi_ldivmod.o) (__aeabi_ldiv0)
 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libstdc++_nano.a(functexcept.o)
-                              .pio/build/stm32f401/src/main.cpp.o (std::__throw_bad_alloc())
+                              .pio/build/stm32f401/src/board_a/main.cpp.o (std::__throw_bad_alloc())
 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libstdc++_nano.a(functional.o)
                               .pio/build/stm32f401/SrcWrapper/src/HardwareTimer.cpp.o (std::__throw_bad_function_call())
 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libstdc++_nano.a(string-inst.o)
-                              .pio/build/stm32f401/src/json_parser.cpp.o (std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_is_local() const)
+                              .pio/build/stm32f401/src/board_a/json_parser.cpp.o (std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_is_local() const)
 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libstdc++_nano.a(eh_exception.o)
                               /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libstdc++_nano.a(functional.o) (std::exception::~exception())
 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libstdc++_nano.a(si_class_type_info.o)
@@ -69,7 +69,7 @@ Archive member included to satisfy reference by file (symbol)
 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libstdc++_nano.a(class_type_info.o)
                               /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libstdc++_nano.a(si_class_type_info.o) (__cxxabiv1::__class_type_info::__do_upcast(__cxxabiv1::__class_type_info const*, void**) const)
 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libm.a(libm_a-sf_round.o)
-                              .pio/build/stm32f401/src/protocol.cpp.o (roundf)
+                              .pio/build/stm32f401/src/board_a/protocol.cpp.o (roundf)
 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-abort.o)
                               /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libstdc++_nano.a(functexcept.o) (abort)
 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-isspace.o)
@@ -103,7 +103,7 @@ Archive member included to satisfy reference by file (symbol)
 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-reallocr.o)
                               /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-realloc.o) (_realloc_r)
 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-strtod.o)
-                              .pio/build/stm32f401/src/json_parser.cpp.o (strtod)
+                              .pio/build/stm32f401/src/board_a/json_parser.cpp.o (strtod)
 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-strtol.o)
                               /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-atol.o) (_strtol_r)
 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-fwalk.o)
@@ -125,7 +125,7 @@ Archive member included to satisfy reference by file (symbol)
 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-memcmp.o)
                               /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libstdc++_nano.a(string-inst.o) (memcmp)
 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-memmove.o)
-                              .pio/build/stm32f401/src/main.cpp.o (memmove)
+                              .pio/build/stm32f401/src/board_a/main.cpp.o (memmove)
 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-memset.o)
                               /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/crt0.o (memset)
 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-locale.o)
@@ -2904,24 +2904,24 @@ Discarded input sections
  .text          0x00000000        0x0 .pio/build/stm32f401/SrcWrapper/src/syscalls.c.o
  .data          0x00000000        0x0 .pio/build/stm32f401/SrcWrapper/src/syscalls.c.o
  .bss           0x00000000        0x0 .pio/build/stm32f401/SrcWrapper/src/syscalls.c.o
- .text          0x00000000        0x0 .pio/build/stm32f401/src/json_parser.cpp.o
- .data          0x00000000        0x0 .pio/build/stm32f401/src/json_parser.cpp.o
- .bss           0x00000000        0x0 .pio/build/stm32f401/src/json_parser.cpp.o
- .group         0x00000000        0x8 .pio/build/stm32f401/src/main.cpp.o
- .group         0x00000000        0xc .pio/build/stm32f401/src/main.cpp.o
- .group         0x00000000        0xc .pio/build/stm32f401/src/main.cpp.o
- .group         0x00000000        0xc .pio/build/stm32f401/src/main.cpp.o
- .group         0x00000000        0xc .pio/build/stm32f401/src/main.cpp.o
- .text          0x00000000        0x0 .pio/build/stm32f401/src/main.cpp.o
- .data          0x00000000        0x0 .pio/build/stm32f401/src/main.cpp.o
- .bss           0x00000000        0x0 .pio/build/stm32f401/src/main.cpp.o
+ .text          0x00000000        0x0 .pio/build/stm32f401/src/board_a/json_parser.cpp.o
+ .data          0x00000000        0x0 .pio/build/stm32f401/src/board_a/json_parser.cpp.o
+ .bss           0x00000000        0x0 .pio/build/stm32f401/src/board_a/json_parser.cpp.o
+ .group         0x00000000        0x8 .pio/build/stm32f401/src/board_a/main.cpp.o
+ .group         0x00000000        0xc .pio/build/stm32f401/src/board_a/main.cpp.o
+ .group         0x00000000        0xc .pio/build/stm32f401/src/board_a/main.cpp.o
+ .group         0x00000000        0xc .pio/build/stm32f401/src/board_a/main.cpp.o
+ .group         0x00000000        0xc .pio/build/stm32f401/src/board_a/main.cpp.o
+ .text          0x00000000        0x0 .pio/build/stm32f401/src/board_a/main.cpp.o
+ .data          0x00000000        0x0 .pio/build/stm32f401/src/board_a/main.cpp.o
+ .bss           0x00000000        0x0 .pio/build/stm32f401/src/board_a/main.cpp.o
  .text._gettimeofday
-                0x00000000       0x2c .pio/build/stm32f401/src/main.cpp.o
- .text          0x00000000        0x0 .pio/build/stm32f401/src/protocol.cpp.o
- .data          0x00000000        0x0 .pio/build/stm32f401/src/protocol.cpp.o
- .bss           0x00000000        0x0 .pio/build/stm32f401/src/protocol.cpp.o
+                0x00000000       0x2c .pio/build/stm32f401/src/board_a/main.cpp.o
+ .text          0x00000000        0x0 .pio/build/stm32f401/src/board_a/protocol.cpp.o
+ .data          0x00000000        0x0 .pio/build/stm32f401/src/board_a/protocol.cpp.o
+ .bss           0x00000000        0x0 .pio/build/stm32f401/src/board_a/protocol.cpp.o
  .text._gettimeofday
-                0x00000000       0x2c .pio/build/stm32f401/src/protocol.cpp.o
+                0x00000000       0x2c .pio/build/stm32f401/src/board_a/protocol.cpp.o
  .text          0x00000000        0x0 .pio/build/stm32f401/libFrameworkArduino.a(HardwareSerial.cpp.o)
  .data          0x00000000        0x0 .pio/build/stm32f401/libFrameworkArduino.a(HardwareSerial.cpp.o)
  .bss           0x00000000        0x0 .pio/build/stm32f401/libFrameworkArduino.a(HardwareSerial.cpp.o)
@@ -5070,72 +5070,72 @@ Linker script and memory map
  .text._getpid  0x08003454        0x4 .pio/build/stm32f401/SrcWrapper/src/syscalls.c.o
                 0x08003454                _getpid
  .text._ZL17find_object_rangeRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEPKcRjS9_
-                0x08003458       0x4e .pio/build/stm32f401/src/json_parser.cpp.o
+                0x08003458       0x4e .pio/build/stm32f401/src/board_a/json_parser.cpp.o
  *fill*         0x080034a6        0x2 
  .text._ZL20find_number_in_rangeRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEjjPKcRd
-                0x080034a8       0xf8 .pio/build/stm32f401/src/json_parser.cpp.o
+                0x080034a8       0xf8 .pio/build/stm32f401/src/board_a/json_parser.cpp.o
  .text._ZL17find_int_in_rangeRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEjjPKcRl
-                0x080035a0       0x2a .pio/build/stm32f401/src/json_parser.cpp.o
+                0x080035a0       0x2a .pio/build/stm32f401/src/board_a/json_parser.cpp.o
  .text._ZL20find_string_in_rangeRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEjjPKcRS4_
-                0x080035ca       0xc0 .pio/build/stm32f401/src/json_parser.cpp.o
+                0x080035ca       0xc0 .pio/build/stm32f401/src/board_a/json_parser.cpp.o
  *fill*         0x0800368a        0x2 
  .text._ZN10jsonparser23parse_json_to_appconfigERKSt6vectorIhSaIhEER9AppConfig
-                0x0800368c      0x3ac .pio/build/stm32f401/src/json_parser.cpp.o
+                0x0800368c      0x3ac .pio/build/stm32f401/src/board_a/json_parser.cpp.o
                 0x0800368c                jsonparser::parse_json_to_appconfig(std::vector<unsigned char, std::allocator<unsigned char> > const&, AppConfig&)
  .text._ZL18debug_print_configv
-                0x08003a38      0x1ac .pio/build/stm32f401/src/main.cpp.o
+                0x08003a38      0x1ac .pio/build/stm32f401/src/board_a/main.cpp.o
  .text._ZL9print_hexPKhj
-                0x08003be4       0x98 .pio/build/stm32f401/src/main.cpp.o
+                0x08003be4       0x98 .pio/build/stm32f401/src/board_a/main.cpp.o
  .text._ZNSt12_Vector_baseIhSaIhEE11_M_allocateEj.isra.0
-                0x08003c7c       0x16 .pio/build/stm32f401/src/main.cpp.o
+                0x08003c7c       0x16 .pio/build/stm32f401/src/board_a/main.cpp.o
  *fill*         0x08003c92        0x2 
  .text._Z10initUSART2v
-                0x08003c94       0x7c .pio/build/stm32f401/src/main.cpp.o
+                0x08003c94       0x7c .pio/build/stm32f401/src/board_a/main.cpp.o
                 0x08003c94                initUSART2()
  .text._Z18calculate_checksumPKht
-                0x08003d10       0x14 .pio/build/stm32f401/src/main.cpp.o
+                0x08003d10       0x14 .pio/build/stm32f401/src/board_a/main.cpp.o
                 0x08003d10                calculate_checksum(unsigned char const*, unsigned short)
  .text._ZNSt6vectorIhSaIhEE5clearEv
-                0x08003d24        0xc .pio/build/stm32f401/src/main.cpp.o
+                0x08003d24        0xc .pio/build/stm32f401/src/board_a/main.cpp.o
                 0x08003d24                std::vector<unsigned char, std::allocator<unsigned char> >::clear()
  .text._ZNSt6vectorIhSaIhEE7reserveEj
-                0x08003d30       0x5c .pio/build/stm32f401/src/main.cpp.o
+                0x08003d30       0x5c .pio/build/stm32f401/src/board_a/main.cpp.o
                 0x08003d30                std::vector<unsigned char, std::allocator<unsigned char> >::reserve(unsigned int)
  .text._ZNSt6vectorIhSaIhEE9push_backERKh
-                0x08003d8c       0x8c .pio/build/stm32f401/src/main.cpp.o
+                0x08003d8c       0x8c .pio/build/stm32f401/src/board_a/main.cpp.o
                 0x08003d8c                std::vector<unsigned char, std::allocator<unsigned char> >::push_back(unsigned char const&)
- .text.setup    0x08003e18      0x1e0 .pio/build/stm32f401/src/main.cpp.o
+ .text.setup    0x08003e18      0x1e0 .pio/build/stm32f401/src/board_a/main.cpp.o
                 0x08003e18                setup
  .text._ZNSt12_Vector_baseIhSaIhEED2Ev
-                0x08003ff8       0x14 .pio/build/stm32f401/src/main.cpp.o
+                0x08003ff8       0x14 .pio/build/stm32f401/src/board_a/main.cpp.o
                 0x08003ff8                std::_Vector_base<unsigned char, std::allocator<unsigned char> >::~_Vector_base()
                 0x08003ff8                std::_Vector_base<unsigned char, std::allocator<unsigned char> >::~_Vector_base()
  .text._ZNSt11__copy_moveILb0ELb1ESt26random_access_iterator_tagE8__copy_mIhEEPT_PKS3_S6_S4_
-                0x0800400c       0x18 .pio/build/stm32f401/src/main.cpp.o
+                0x0800400c       0x18 .pio/build/stm32f401/src/board_a/main.cpp.o
                 0x0800400c                unsigned char* std::__copy_move<false, true, std::random_access_iterator_tag>::__copy_m<unsigned char>(unsigned char const*, unsigned char const*, unsigned char*)
  .text.startup._GLOBAL__sub_I_huart2
-                0x08004024       0x1c .pio/build/stm32f401/src/main.cpp.o
+                0x08004024       0x1c .pio/build/stm32f401/src/board_a/main.cpp.o
  .text.exit._GLOBAL__sub_D_huart2
-                0x08004040       0x18 .pio/build/stm32f401/src/main.cpp.o
+                0x08004040       0x18 .pio/build/stm32f401/src/board_a/main.cpp.o
  .text._Z20process_valid_packetv
-                0x08004058      0x350 .pio/build/stm32f401/src/main.cpp.o
+                0x08004058      0x350 .pio/build/stm32f401/src/board_a/main.cpp.o
                 0x08004058                process_valid_packet()
- .text.loop     0x080043a8      0x348 .pio/build/stm32f401/src/main.cpp.o
+ .text.loop     0x080043a8      0x348 .pio/build/stm32f401/src/board_a/main.cpp.o
                 0x080043a8                loop
  .text._Z20pack_appconfig_frameRK9AppConfigPhj.part.0
-                0x080046f0      0x110 .pio/build/stm32f401/src/protocol.cpp.o
+                0x080046f0      0x110 .pio/build/stm32f401/src/board_a/protocol.cpp.o
  .text._Z20pack_appconfig_frameRK9AppConfigPhj
-                0x08004800        0xe .pio/build/stm32f401/src/protocol.cpp.o
+                0x08004800        0xe .pio/build/stm32f401/src/board_a/protocol.cpp.o
                 0x08004800                pack_appconfig_frame(AppConfig const&, unsigned char*, unsigned int)
  *fill*         0x0800480e        0x2 
  .text._Z24build_and_print_frame_v2RK9AppConfig
-                0x08004810       0x74 .pio/build/stm32f401/src/protocol.cpp.o
+                0x08004810       0x74 .pio/build/stm32f401/src/board_a/protocol.cpp.o
                 0x08004810                build_and_print_frame_v2(AppConfig const&)
  .text._Z14send_frame_canPKhj
-                0x08004884        0x4 .pio/build/stm32f401/src/protocol.cpp.o
+                0x08004884        0x4 .pio/build/stm32f401/src/board_a/protocol.cpp.o
                 0x08004884                send_frame_can(unsigned char const*, unsigned int)
  .text._Z14send_frame_i2cPKhjh
-                0x08004888        0x4 .pio/build/stm32f401/src/protocol.cpp.o
+                0x08004888        0x4 .pio/build/stm32f401/src/board_a/protocol.cpp.o
                 0x08004888                send_frame_i2c(unsigned char const*, unsigned int, unsigned char)
  .text._ZN14HardwareSerial9availableEv
                 0x0800488c       0x10 .pio/build/stm32f401/libFrameworkArduino.a(HardwareSerial.cpp.o)
@@ -5686,26 +5686,26 @@ Linker script and memory map
                 0x08008904       0x10 .pio/build/stm32f401/SrcWrapper/src/stm32/system_stm32yyxx.c.o
                 0x08008904                AHBPrescTable
  .rodata._ZN10jsonparser23parse_json_to_appconfigERKSt6vectorIhSaIhEER9AppConfig.str1.1
-                0x08008914      0x105 .pio/build/stm32f401/src/json_parser.cpp.o
+                0x08008914      0x105 .pio/build/stm32f401/src/board_a/json_parser.cpp.o
  .rodata._ZL18debug_print_configv.str1.1
-                0x08008a19      0x136 .pio/build/stm32f401/src/main.cpp.o
+                0x08008a19      0x136 .pio/build/stm32f401/src/board_a/main.cpp.o
                                 0x138 (size before relaxing)
  .rodata._ZL9print_hexPKhj.str1.1
-                0x08008b4f       0x11 .pio/build/stm32f401/src/main.cpp.o
+                0x08008b4f       0x11 .pio/build/stm32f401/src/board_a/main.cpp.o
  .rodata._ZNSt6vectorIhSaIhEE7reserveEj.str1.1
-                0x08008b60       0x10 .pio/build/stm32f401/src/main.cpp.o
+                0x08008b60       0x10 .pio/build/stm32f401/src/board_a/main.cpp.o
  .rodata._ZNSt6vectorIhSaIhEE9push_backERKh.str1.1
-                0x08008b70       0x1a .pio/build/stm32f401/src/main.cpp.o
+                0x08008b70       0x1a .pio/build/stm32f401/src/board_a/main.cpp.o
  .rodata.setup.str1.1
-                0x08008b8a       0x98 .pio/build/stm32f401/src/main.cpp.o
+                0x08008b8a       0x98 .pio/build/stm32f401/src/board_a/main.cpp.o
  .rodata._Z20process_valid_packetv.str1.1
-                0x08008c22       0xcb .pio/build/stm32f401/src/main.cpp.o
+                0x08008c22       0xcb .pio/build/stm32f401/src/board_a/main.cpp.o
  .rodata.loop.str1.1
-                0x08008ced       0x14 .pio/build/stm32f401/src/main.cpp.o
+                0x08008ced       0x14 .pio/build/stm32f401/src/board_a/main.cpp.o
  .rodata._Z20pack_appconfig_frameRK9AppConfigPhj.part.0.str1.1
-                0x08008d01       0x1c .pio/build/stm32f401/src/protocol.cpp.o
+                0x08008d01       0x1c .pio/build/stm32f401/src/board_a/protocol.cpp.o
  .rodata._Z24build_and_print_frame_v2RK9AppConfig.str1.1
-                0x08008d1d       0x19 .pio/build/stm32f401/src/protocol.cpp.o
+                0x08008d1d       0x19 .pio/build/stm32f401/src/board_a/protocol.cpp.o
                                  0x2a (size before relaxing)
  .rodata.CSWTCH.73
                 0x08008d36        0x5 .pio/build/stm32f401/libFrameworkArduino.a(HardwareSerial.cpp.o)
@@ -5803,7 +5803,7 @@ Linker script and memory map
  *(.init_array*)
  .init_array    0x0800923c        0x4 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7e-m+fp/hard/crtbegin.o
  .init_array    0x08009240        0x4 .pio/build/stm32f401/SrcWrapper/src/stm32/interrupt.cpp.o
- .init_array    0x08009244        0x4 .pio/build/stm32f401/src/main.cpp.o
+ .init_array    0x08009244        0x4 .pio/build/stm32f401/src/board_a/main.cpp.o
  .init_array    0x08009248        0x4 .pio/build/stm32f401/libFrameworkArduino.a(HardwareSerial.cpp.o)
                 0x0800924c                        PROVIDE (__init_array_end = .)
                 0x0800924c                        . = ALIGN (0x4)
@@ -5815,7 +5815,7 @@ Linker script and memory map
  *(.fini_array*)
  .fini_array    0x0800924c        0x4 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7e-m+fp/hard/crtbegin.o
  .fini_array    0x08009250        0x4 .pio/build/stm32f401/SrcWrapper/src/stm32/interrupt.cpp.o
- .fini_array    0x08009254        0x4 .pio/build/stm32f401/src/main.cpp.o
+ .fini_array    0x08009254        0x4 .pio/build/stm32f401/src/board_a/main.cpp.o
                 0x08009258                        PROVIDE (__fini_array_end = .)
                 0x08009258                        . = ALIGN (0x4)
                 0x08009258                        _sidata = LOADADDR (.data)
@@ -5848,9 +5848,9 @@ Linker script and memory map
  .data.heap_end.0
                 0x200000a8        0x4 .pio/build/stm32f401/SrcWrapper/src/syscalls.c.o
  .data._ZL14last_btn_state
-                0x200000ac        0x4 .pio/build/stm32f401/src/main.cpp.o
+                0x200000ac        0x4 .pio/build/stm32f401/src/board_a/main.cpp.o
  .data._ZL14current_config
-                0x200000b0       0x28 .pio/build/stm32f401/src/main.cpp.o
+                0x200000b0       0x28 .pio/build/stm32f401/src/board_a/main.cpp.o
  .data.__sglue  0x200000d8        0xc /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-findfp.o)
                 0x200000d8                __sglue
  .data.__global_locale
@@ -5892,30 +5892,30 @@ Linker script and memory map
  .bss.uart_handlers
                 0x20000440        0xc .pio/build/stm32f401/SrcWrapper/src/stm32/uart.c.o
  .bss._ZL12config_ready
-                0x2000044c        0x1 .pio/build/stm32f401/src/main.cpp.o
+                0x2000044c        0x1 .pio/build/stm32f401/src/board_a/main.cpp.o
  .bss._ZL15suppress_serial
-                0x2000044d        0x1 .pio/build/stm32f401/src/main.cpp.o
+                0x2000044d        0x1 .pio/build/stm32f401/src/board_a/main.cpp.o
  *fill*         0x2000044e        0x2 
  .bss._ZL19ignore_serial_until
-                0x20000450        0x4 .pio/build/stm32f401/src/main.cpp.o
+                0x20000450        0x4 .pio/build/stm32f401/src/board_a/main.cpp.o
  .bss._ZL10has_stored
-                0x20000454        0x1 .pio/build/stm32f401/src/main.cpp.o
+                0x20000454        0x1 .pio/build/stm32f401/src/board_a/main.cpp.o
  *fill*         0x20000455        0x3 
  .bss._ZL11stored_data
-                0x20000458        0xc .pio/build/stm32f401/src/main.cpp.o
+                0x20000458        0xc .pio/build/stm32f401/src/board_a/main.cpp.o
  .bss._ZL8data_buf
-                0x20000464        0xc .pio/build/stm32f401/src/main.cpp.o
+                0x20000464        0xc .pio/build/stm32f401/src/board_a/main.cpp.o
  .bss._ZL13recv_checksum
-                0x20000470        0x1 .pio/build/stm32f401/src/main.cpp.o
+                0x20000470        0x1 .pio/build/stm32f401/src/board_a/main.cpp.o
  *fill*         0x20000471        0x1 
  .bss._ZL8data_pos
-                0x20000472        0x2 .pio/build/stm32f401/src/main.cpp.o
+                0x20000472        0x2 .pio/build/stm32f401/src/board_a/main.cpp.o
  .bss._ZL8data_len
-                0x20000474        0x2 .pio/build/stm32f401/src/main.cpp.o
+                0x20000474        0x2 .pio/build/stm32f401/src/board_a/main.cpp.o
  .bss._ZL5state
-                0x20000476        0x1 .pio/build/stm32f401/src/main.cpp.o
+                0x20000476        0x1 .pio/build/stm32f401/src/board_a/main.cpp.o
  *fill*         0x20000477        0x1 
- .bss.huart2    0x20000478       0x48 .pio/build/stm32f401/src/main.cpp.o
+ .bss.huart2    0x20000478       0x48 .pio/build/stm32f401/src/board_a/main.cpp.o
                 0x20000478                huart2
  .bss.Serial2   0x200004c0      0x118 .pio/build/stm32f401/libFrameworkArduino.a(HardwareSerial.cpp.o)
                 0x200004c0                Serial2
@@ -6134,9 +6134,9 @@ LOAD .pio/build/stm32f401/SrcWrapper/src/stm32/system_stm32yyxx.c.o
 LOAD .pio/build/stm32f401/SrcWrapper/src/stm32/timer.c.o
 LOAD .pio/build/stm32f401/SrcWrapper/src/stm32/uart.c.o
 LOAD .pio/build/stm32f401/SrcWrapper/src/syscalls.c.o
-LOAD .pio/build/stm32f401/src/json_parser.cpp.o
-LOAD .pio/build/stm32f401/src/main.cpp.o
-LOAD .pio/build/stm32f401/src/protocol.cpp.o
+LOAD .pio/build/stm32f401/src/board_a/json_parser.cpp.o
+LOAD .pio/build/stm32f401/src/board_a/main.cpp.o
+LOAD .pio/build/stm32f401/src/board_a/protocol.cpp.o
 START GROUP
 LOAD .pio/build/stm32f401/libFrameworkArduino.a
 LOAD /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7e-m+fp/hard/libgcc.a
@@ -6243,11 +6243,11 @@ LOAD /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gc
  .ARM.attributes
                 0x0000059e       0x34 .pio/build/stm32f401/SrcWrapper/src/syscalls.c.o
  .ARM.attributes
-                0x000005d2       0x34 .pio/build/stm32f401/src/json_parser.cpp.o
+                0x000005d2       0x34 .pio/build/stm32f401/src/board_a/json_parser.cpp.o
  .ARM.attributes
-                0x00000606       0x34 .pio/build/stm32f401/src/main.cpp.o
+                0x00000606       0x34 .pio/build/stm32f401/src/board_a/main.cpp.o
  .ARM.attributes
-                0x0000063a       0x34 .pio/build/stm32f401/src/protocol.cpp.o
+                0x0000063a       0x34 .pio/build/stm32f401/src/board_a/protocol.cpp.o
  .ARM.attributes
                 0x0000066e       0x34 .pio/build/stm32f401/libFrameworkArduino.a(HardwareSerial.cpp.o)
  .ARM.attributes
@@ -6432,9 +6432,9 @@ LOAD /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gc
  .comment       0x00000038       0x39 .pio/build/stm32f401/SrcWrapper/src/stm32/timer.c.o
  .comment       0x00000038       0x39 .pio/build/stm32f401/SrcWrapper/src/stm32/uart.c.o
  .comment       0x00000038       0x39 .pio/build/stm32f401/SrcWrapper/src/syscalls.c.o
- .comment       0x00000038       0x39 .pio/build/stm32f401/src/json_parser.cpp.o
- .comment       0x00000038       0x39 .pio/build/stm32f401/src/main.cpp.o
- .comment       0x00000038       0x39 .pio/build/stm32f401/src/protocol.cpp.o
+ .comment       0x00000038       0x39 .pio/build/stm32f401/src/board_a/json_parser.cpp.o
+ .comment       0x00000038       0x39 .pio/build/stm32f401/src/board_a/main.cpp.o
+ .comment       0x00000038       0x39 .pio/build/stm32f401/src/board_a/protocol.cpp.o
  .comment       0x00000038       0x39 .pio/build/stm32f401/libFrameworkArduino.a(HardwareSerial.cpp.o)
  .comment       0x00000038       0x39 .pio/build/stm32f401/libFrameworkArduino.a(Print.cpp.o)
  .comment       0x00000038       0x39 .pio/build/stm32f401/libFrameworkArduino.a(Stream.cpp.o)
