@@ -5,6 +5,11 @@
 #include "stm32f4xx.h"
 #include "stm32f4xx_hal.h"
 #include <cstring>
+#include "app_config.h"
+#include "json_parser.h"
+#include "protocol.h"
+
+// AppConfig and enums moved to app_config.h
 
 UART_HandleTypeDef huart2;
 
@@ -117,9 +122,52 @@ static bool has_stored = false;
 static uint32_t ignore_serial_until = 0;
 static bool suppress_serial = false;
 
+// parsed configuration ready for framing/transports
+static AppConfig current_config;
+static bool config_ready = false;
+
 // User BOOT button pin (physical BOOT/user button on many dev-boards)
 const int USER_BTN_PIN = PA0;
 static int last_btn_state = HIGH;
+
+// Debug helper: print current_config over USB Serial
+static void debug_print_config() {
+  if (!Serial) return;
+  Serial.println("---- AppConfig ----");
+  Serial.print("version: "); Serial.println((int)current_config.version);
+  Serial.print("battery_cells: "); Serial.println((int)current_config.battery_cells);
+  Serial.print("battery_voltage: "); Serial.println(current_config.battery_voltage);
+  Serial.print("battery_nominal: "); Serial.println(current_config.battery_nominal);
+  Serial.print("sensor_type: "); Serial.println((int)current_config.sensor_type);
+  Serial.print("sensor_max_rpm: "); Serial.println((unsigned long)current_config.sensor_max_rpm);
+  Serial.print("motor_kv: "); Serial.println((int)current_config.motor_kv);
+  Serial.print("motor_poles: "); Serial.println((int)current_config.motor_poles);
+  Serial.print("control_mode: "); Serial.println((int)current_config.control_mode);
+  Serial.print("control_current_limit: "); Serial.println((int)current_config.control_current_limit);
+  Serial.print("control_pwm_frequency: "); Serial.println((int)current_config.control_pwm_frequency);
+  Serial.print("control_brake_enabled: "); Serial.println((int)current_config.control_brake_enabled);
+  Serial.print("safety_max_tempreature: "); Serial.println((int)current_config.safety_max_tempreature);
+  Serial.print("safety_overcurrent_limit: "); Serial.println((int)current_config.safety_overcurrent_limit);
+  Serial.print("reserved: ");
+  for (int i = 0; i < 3; ++i) { Serial.print((int)current_config.reserved[i]); Serial.print(i<2?",":"\n"); }
+  Serial.println("-------------------");
+}
+
+// Utility: print hex dump of buffer to USB Serial
+static void print_hex(const uint8_t* buf, size_t len) {
+  if (!Serial) return;
+  for (size_t i = 0; i < len; ++i) {
+    uint8_t v = buf[i];
+    char s[4];
+    const char hex[] = "0123456789ABCDEF";
+    s[0] = hex[(v >> 4) & 0xF];
+    s[1] = hex[v & 0xF];
+    s[2] = '\0';
+    Serial.print(s);
+    if (i + 1 < len) Serial.print(' ');
+  }
+  Serial.println();
+}
 
 void process_valid_packet() {
   // Turn LED ON briefly to indicate receipt (active LOW on many STM32 dev boards)
@@ -151,7 +199,40 @@ void process_valid_packet() {
     bool ok = flash_write_bytes(stored_data.data(), (uint32_t)stored_data.size());
     if (ok) {
       has_stored = true;
-      if (Serial && !suppress_serial) Serial.println("hey i am stm32 i got this frame (stored in flash)");
+      // parse stored JSON into AppConfig (uses defaults for missing fields)
+      config_ready = false;
+      if (jsonparser::parse_json_to_appconfig(stored_data, current_config)) {
+        config_ready = true;
+        if (Serial && !suppress_serial) Serial.println("Stored and parsed config -> ready");
+          // print parsed config for verification
+          debug_print_config();
+          // V2 frame (AA 55 ...) hex dump for ESC
+          build_and_print_frame_v2(current_config);
+          // pack into deterministic binary frame and broadcast via USART2
+          uint8_t frame_buf[64];
+          size_t flen = pack_appconfig_frame(current_config, frame_buf, sizeof(frame_buf));
+          if (flen > 0) {
+            HAL_UART_Transmit(&huart2, frame_buf, flen, 500);
+            if (Serial && !suppress_serial) {
+              Serial.print("Broadcasted frame (bytes): ");
+              Serial.println((int)flen);
+              Serial.print("Frame hex: ");
+              print_hex(frame_buf, flen);
+            }
+            // attempt to send via CAN and I2C
+            bool can_ok = send_frame_can(frame_buf, flen);
+            bool i2c_ok = send_frame_i2c(frame_buf, flen, 0x42);
+            if (Serial && !suppress_serial) {
+              Serial.print("CAN send: "); Serial.println(can_ok?"ok":"no");
+              Serial.print("I2C send: "); Serial.println(i2c_ok?"ok":"no");
+            }
+          } else {
+            if (Serial && !suppress_serial) Serial.println("Failed to pack frame");
+          }
+      } else {
+        config_ready = false;
+        if (Serial && !suppress_serial) Serial.println("Stored but failed to parse JSON");
+      }
       // guard against immediate re-processing of forwarded bytes
       ignore_serial_until = HAL_GetTick() + 1000;
       // drain any pending incoming bytes to avoid echo re-parsing
@@ -189,6 +270,35 @@ void setup() {
   if (flash_read_bytes(stored_data)) {
     has_stored = true;
     if (Serial && !suppress_serial) Serial.println("Loaded stored payload from flash");
+    // parse existing stored JSON into AppConfig so EEPROM/flash data is applied on boot
+    config_ready = false;
+    if (jsonparser::parse_json_to_appconfig(stored_data, current_config)) {
+      config_ready = true;
+      if (Serial && !suppress_serial) {
+        Serial.println("Parsed stored config on startup");
+        debug_print_config();
+      }
+      // broadcast current config frame on startup over USART2
+      uint8_t frame_buf[64];
+      size_t flen = pack_appconfig_frame(current_config, frame_buf, sizeof(frame_buf));
+      if (flen > 0) {
+        HAL_UART_Transmit(&huart2, frame_buf, flen, 500);
+        if (Serial && !suppress_serial) {
+          Serial.print("Startup frame hex: ");
+          print_hex(frame_buf, flen);
+            // also print V2 frame
+            build_and_print_frame_v2(current_config);
+        }
+        bool can_ok = send_frame_can(frame_buf, flen);
+        bool i2c_ok = send_frame_i2c(frame_buf, flen, 0x42);
+        if (Serial && !suppress_serial) {
+          Serial.print("CAN send: "); Serial.println(can_ok?"ok":"no");
+          Serial.print("I2C send: "); Serial.println(i2c_ok?"ok":"no");
+        }
+      }
+    } else {
+      if (Serial && !suppress_serial) Serial.println("Failed to parse stored JSON on startup");
+    }
   } else {
     has_stored = false;
   }
@@ -291,11 +401,47 @@ void loop() {
           if (Serial && !stored_data.empty()) {
             Serial.write(stored_data.data(), stored_data.size());
             Serial.write("\r\n");
+            // Also attempt to parse and print parsed AppConfig for verification
+            if (!config_ready) {
+              if (jsonparser::parse_json_to_appconfig(stored_data, current_config)) {
+                config_ready = true;
+              }
+            }
+            if (config_ready) {
+              debug_print_config();
+              // V2 frame hex
+              build_and_print_frame_v2(current_config);
+            }
           }
         } else {
           // long press: send JSON only over USART2 (no USB print)
           if (!stored_data.empty()) {
             HAL_UART_Transmit(&huart2, (uint8_t*)stored_data.data(), stored_data.size(), 3000);
+            // Also pack deterministic frame and send after raw JSON
+            if (!config_ready) {
+              if (jsonparser::parse_json_to_appconfig(stored_data, current_config)) {
+                config_ready = true;
+              }
+            }
+            if (config_ready) {
+              uint8_t frame_buf[64];
+              size_t flen = pack_appconfig_frame(current_config, frame_buf, sizeof(frame_buf));
+              if (flen > 0) {
+                HAL_UART_Transmit(&huart2, frame_buf, flen, 500);
+                if (Serial && !suppress_serial) {
+                  Serial.print("Frame hex: ");
+                  print_hex(frame_buf, flen);
+                }
+                bool can_ok = send_frame_can(frame_buf, flen);
+                bool i2c_ok = send_frame_i2c(frame_buf, flen, 0x42);
+                if (Serial && !suppress_serial) {
+                  Serial.print("CAN send: "); Serial.println(can_ok?"ok":"no");
+                  Serial.print("I2C send: "); Serial.println(i2c_ok?"ok":"no");
+                }
+                // also print V2 frame for ESC
+                build_and_print_frame_v2(current_config);
+              }
+            }
           }
         }
 

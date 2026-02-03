@@ -1,1 +1,136 @@
 NRST detected on boot - cleared stored data
+{"timestamp":"2026-01-29T22:08:52.795","battery":{"cells":6,"voltage":22.2,"nominal":22.200000000000003},"sensor":{"type":"sensorless"},"motor":{"type":"BLDC","kv":1000,"poles":4},"control":{"mode":"Throttle","currentLimit":51,"pwmFrequency":16},"safety":{"maxTemperature":60,"overcurrentLimit":100}}
+---- AppConfig ----
+version: 1
+battery_cells: 6
+battery_voltage: 22.20
+battery_nominal: 22.20
+sensor_type: 0
+sensor_max_rpm: 0
+motor_kv: 1000
+motor_poles: 4
+control_mode: 0
+control_current_limit: 51
+control_pwm_frequency: 16
+control_brake_enabled: 0
+safety_max_tempreature: 60
+safety_overcurrent_limit: 100
+reserved: 0,0,0
+-------------------
+AA 55 01 06 56 B8 56 B8 00 00 00 03 E8 04 00 00 33 00 10 00 3C 00 64 00 00 00 93
+{"timestamp":"2026-01-29T22:08:52.795","battery":{"cells":6,"voltage":22.2,"nominal":22.200000000000003},"sensor":{"type":"sensorless"},"motor":{"type":"BLDC","kv":1000,"poles":4},"control":{"mode":"Throttle","currentLimit":51,"pwmFrequency":16},"safety":{"maxTemperature":60,"overcurrentLimit":100}}
+---- AppConfig ----
+version: 1
+battery_cells: 0
+battery_voltage: 0.00
+battery_nominal: 0.00
+sensor_type: 0
+sensor_max_rpm: 0
+motor_kv: 0
+motor_poles: 0
+control_mode: 0
+control_current_limit: 0
+control_pwm_frequency: 0
+control_brake_enabled: 0
+safety_max_tempreature: 0
+safety_overcurrent_limit: 0
+reserved: 0,0,0
+-------------------
+V2 Frame (hex): AA 55 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01
+{"timestamp":"2026-01-29T22:08:52.795","battery":{"cells":6,"voltage":22.2,"nominal":22.200000000000003},"sensor":{"type":"sensorless"},"motor":{"type":"BLDC","kv":1000,"poles":4},"control":{"mode":"Throttle","currentLimit":51,"pwmFrequency":16},"safety":{"maxTemperature":60,"overcurrentLimit":100}}
+---- AppConfig ----
+version: 1
+battery_cells: 0
+battery_voltage: 0.00
+battery_nominal: 0.00
+sensor_type: 0
+sensor_max_rpm: 0
+motor_kv: 0
+motor_poles: 0
+control_mode: 0
+control_current_limit: 0
+control_pwm_frequency: 0
+control_brake_enabled: 0
+safety_max_tempreature: 0
+safety_overcurrent_limit: 0
+reserved: 0,0,0
+-------------------
+V2 Frame (hex): AA 55 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01
+{"timestamp":"2026-01-29T22:08:52.795","battery":{"cells":6,"voltage":22.2,"nominal":22.200000000000003},"sensor":{"type":"sensorless"},"motor":{"type":"BLDC","kv":1000,"poles":4},"control":{"mode":"Throttle","currentLimit":51,"pwmFrequency":16},"safety":{"maxTemperature":60,"overcurrentLimit":100}}
+---- AppConfig ----
+version: 1
+battery_cells: 0
+battery_voltage: 0.00
+battery_nominal: 0.00
+sensor_type: 1
+sensor_max_rpm: 0
+motor_kv: 0
+motor_poles: 0
+control_mode: 1
+control_current_limit: 0
+control_pwm_frequency: 0
+control_brake_enabled: 0
+safety_max_tempreature: 0
+safety_overcurrent_limit: 0
+reserved: 0,0,0
+-------------------
+V2 Frame (hex): AA 55 01 00 00 00 00 00 00 01 00 00 00 00 00 01 00 00 00 00 00 00 00 00 00 00 00 01
+{"timestamp":"2026-01-29T22:08:52.795","battery":{"cells":6,"voltage":22.2,"nominal":22.200000000000003},"sensor":{"type":"sensorless"},"motor":{"type":"BLDC","kv":1000,"poles":4},"control":{"mode":"Throttle","currentLimit":51,"pwmFrequency":16},"safety":{"maxTemperature":60,"overcurrentLimit":100}}
+---- AppConfig ----
+version: 1
+battery_cells: 0
+battery_voltage: 0.00
+battery_nominal: 0.00
+sensor_type: 1
+sensor_max_rpm: 0
+motor_kv: 0
+motor_poles: 0
+control_mode: 1
+control_current_limit: 0
+control_pwm_frequency: 0
+control_brake_enabled: 0
+safety_max_tempreature: 0
+safety_overcurrent_limit: 0
+reserved: 0,0,0
+-------------------
+V2 Frame (hex): AA 55 01 00 00 00 00 00 00 01 00 00 00 00 00 01 00 00 00 00 00 00 00 00 00 00 00 01
+{"timestamp":"2026-01-29T22:08:52.795","battery":{"cells":6,"voltage":22.2,"nominal":22.200000000000003},"sensor":{"type":"sensorless"},"motor":{"type":"BLDC","kv":1000,"poles":4},"control":{"mode":"Throttle","currentLimit":51,"pwmFrequency":16},"safety":{"maxTemperature":60,"overcurrentLimit":100}}
+---- AppConfig ----
+version: 1
+battery_cells: 6
+battery_voltage: 22.20
+battery_nominal: 22.20
+sensor_type: 1
+sensor_max_rpm: 0
+motor_kv: 1000
+motor_poles: 4
+control_mode: 1
+control_current_limit: 51
+control_pwm_frequency: 16
+control_brake_enabled: 0
+safety_max_tempreature: 60
+safety_overcurrent_limit: 100
+reserved: 0,0,0
+-------------------
+AA 55 01 06 56 B8 56 B8 00 01 00 00 03 E8 04 01 00 33 00 10 00 3C 00 64 00 00 00 93
+{"timestamp":"2026-01-29T22:08:52.795","battery":{"cells":6,"voltage":22.2,"nominal":22.200000000000003},"sensor":{"type":"sensorless"},"motor":{"type":"BLDC","kv":1000,"poles":4},"control":{"mode":"Throttle","currentLimit":51,"pwmFrequency":16},"safety":{"maxTemperature":60,"overcurrentLimit":100}}
+---- AppConfig ----
+version: 1
+battery_cells: 6
+battery_voltage: 22.20
+battery_nominal: 22.20
+sensor_type: 1
+sensor_max_rpm: 0
+motor_kv: 1000
+motor_poles: 4
+control_mode: 1
+control_current_limit: 51
+control_pwm_frequency: 16
+control_brake_enabled: 0
+safety_max_tempreature: 60
+safety_overcurrent_limit: 100
+reserved: 0,0,0
+-------------------
+Frame bytes: 29
+Computed CS: 93
+AA 55 01 06 56 B8 56 B8 00 01 00 00 03 E8 04 01 00 33 00 10 00 00 3C 00 64 00 00 00 93

@@ -1,0 +1,14 @@
+parse ok: 1
+version: 1
+battery_cells: 6
+battery_voltage: 22.2
+battery_nominal: 22.2
+sensor_type: 1
+sensor_max_rpm: 0
+motor_kv: 1000
+motor_poles: 4
+control_mode: 1
+control_current_limit: 51
+control_pwm_frequency: 16
+safety_max_tempreature: 60
+safety_overcurrent_limit: 100
