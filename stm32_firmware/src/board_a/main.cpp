@@ -137,6 +137,11 @@ static std::vector<uint8_t> raw_json_buf;
 // parsed configuration ready for framing/transports
 static AppConfig current_config;
 static bool config_ready = false;
+// Ensure we only auto-send the binary frame once when a new payload is received
+static bool sent_on_receive = false;
+// Prevent sending raw binary on the monitored UART by default
+// Set to true only when a dedicated downstream ESC (not a monitor) is connected
+static bool send_binary_on_uart = false;
 
 // Read a single byte non-blocking from available interfaces.
 // Returns -1 if no byte available, otherwise 0..255 value.
@@ -247,26 +252,36 @@ static bool store_and_apply_payload(const std::vector<uint8_t>& payload) {
   stored_data = payload;
   has_stored = true;
   config_ready = false;
-  if (jsonparser::parse_json_to_appconfig(stored_data, current_config)) {
+    if (jsonparser::parse_json_to_appconfig(stored_data, current_config)) {
     config_ready = true;
     if (Serial && !suppress_serial) Serial.println("Stored and parsed config -> ready");
+    // print parsed config for verification (USB and USART2 readable copy)
     debug_print_config();
     debug_print_config_uart();
-    // build and broadcast deterministic frame
-    uint8_t frame_buf[64];
-    size_t flen = pack_appconfig_frame(current_config, frame_buf, sizeof(frame_buf));
-    if (flen > 0) {
-      // Do not transmit raw binary on USART2; print ASCII hex instead for TTL monitor.
-      if (Serial && !suppress_serial) {
-        Serial.print("Broadcasted frame (bytes): "); Serial.println((int)flen);
-        Serial.print("Frame hex: "); print_hex(frame_buf, flen);
+    // If we have not yet auto-sent this payload, construct and send the
+    // deterministic binary frame once now (I2C, CAN, UART). Subsequent
+    // sends happen only on NRST or explicit user action.
+    if (!sent_on_receive) {
+      uint8_t frame_buf[64];
+      size_t flen = pack_appconfig_frame(current_config, frame_buf, sizeof(frame_buf));
+      if (flen > 0) {
+        // Print readable HEX first so monitors can see the frame
+        if (Serial && !suppress_serial) {
+          Serial.print("First-receive Frame hex: ");
+          print_hex(frame_buf, flen);
+        }
+        print_hex_uart(frame_buf, flen);
+        // Transmit binary frame over CAN and I2C for external devices
+        send_frame_can(frame_buf, flen);
+        send_frame_i2c(frame_buf, flen, 0x42);
+        // Transmit raw binary on USART2 (for downstream ESC) after hex
+        // Only do this when explicitly enabled to avoid garbled characters
+        // on monitors that listen on the same UART.
+        if (send_binary_on_uart && huart2.Instance != NULL) {
+          HAL_UART_Transmit(&huart2, frame_buf, flen, 500);
+        }
+        sent_on_receive = true;
       }
-      print_hex_uart(frame_buf, flen);
-      // also V2 frame for ESC
-      build_and_print_frame_v2(current_config);
-      // attempt CAN/I2C
-      send_frame_can(frame_buf, flen);
-      send_frame_i2c(frame_buf, flen, 0x42);
     }
     return true;
   } else {
@@ -357,11 +372,7 @@ void setup() {
   uint32_t reset_flags = RCC->CSR;
   initUSART2();
 
-  // notify over USART2 that TTL serial is ready
-  if (huart2.Instance != NULL) {
-    const char ready[] = "UART2 ready\r\n";
-    HAL_UART_Transmit(&huart2, (uint8_t*)ready, (uint16_t)strlen(ready), 100);
-  }
+  // (removed startup banner to avoid spurious characters on TTL monitor)
 
   // EEPROM not used on this core; using direct flash-backed storage instead
 
@@ -381,24 +392,9 @@ void setup() {
         Serial.println("Parsed stored config on startup");
         debug_print_config();
       }
-      // broadcast current config frame on startup over USART2
-      uint8_t frame_buf[64];
-      size_t flen = pack_appconfig_frame(current_config, frame_buf, sizeof(frame_buf));
-      if (flen > 0) {
-        print_hex_uart(frame_buf, flen);
-        if (Serial && !suppress_serial) {
-          Serial.print("Startup frame hex: ");
-          print_hex(frame_buf, flen);
-            // also print V2 frame
-            build_and_print_frame_v2(current_config);
-        }
-        bool can_ok = send_frame_can(frame_buf, flen);
-        bool i2c_ok = send_frame_i2c(frame_buf, flen, 0x42);
-        if (Serial && !suppress_serial) {
-          Serial.print("CAN send: "); Serial.println(can_ok?"ok":"no");
-          Serial.print("I2C send: "); Serial.println(i2c_ok?"ok":"no");
-        }
-      }
+      // Do not auto-broadcast the binary frame on generic startup here.
+      // Broadcasting is performed explicitly on NRST or on first receipt
+      // of a new payload (see store_and_apply_payload).
     } else {
       if (Serial && !suppress_serial) Serial.println("Failed to parse stored JSON on startup");
     }
@@ -430,11 +426,19 @@ void setup() {
         uint8_t frame_buf[64];
         size_t flen = pack_appconfig_frame(current_config, frame_buf, sizeof(frame_buf));
         if (flen > 0) {
-          // Do not transmit raw binary on USART2; print ASCII hex instead and send binary on CAN/I2C.
+          // Print readable HEX on monitors
           if (Serial && !suppress_serial) {
             Serial.print("NRST Broadcast Frame hex: "); print_hex(frame_buf, flen);
           }
           print_hex_uart(frame_buf, flen);
+          // Transmit binary frame over USART2 (for downstream ESC)
+          // Guarded to avoid garbled output on monitors sharing the same UART.
+          if (send_binary_on_uart && huart2.Instance != NULL) {
+            HAL_UART_Transmit(&huart2, frame_buf, flen, 500);
+          }
+          // Also send binary over CAN and I2C
+          send_frame_can(frame_buf, flen);
+          send_frame_i2c(frame_buf, flen, 0x42);
         }
       }
     } else {
@@ -451,16 +455,7 @@ void loop() {
     led_on_until = 0;
   }
 
-  // heartbeat for TTL / serial debug: print a simple line every 1s
-  if (heartbeat_enabled && (HAL_GetTick() - last_heartbeat) >= 1000) {
-    last_heartbeat = HAL_GetTick();
-    const char hb[] = "hello world\r\n";
-    if (!suppress_serial && huart2.Instance != NULL) {
-      HAL_UART_Transmit(&huart2, (uint8_t*)hb, (uint16_t)strlen(hb), 50);
-    } else if (Serial && !suppress_serial) {
-      Serial.println("hello world");
-    }
-  }
+  // heartbeat disabled (removed to avoid noisy output)
   // Read bytes from USART2 or Serial (non-blocking) and feed to parser
   while (true) {
     // If we're in an ignore window, drain all incoming bytes and skip parsing
