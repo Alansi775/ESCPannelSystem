@@ -256,7 +256,7 @@ static bool store_and_apply_payload(const std::vector<uint8_t>& payload) {
     uint8_t frame_buf[64];
     size_t flen = pack_appconfig_frame(current_config, frame_buf, sizeof(frame_buf));
     if (flen > 0) {
-      HAL_UART_Transmit(&huart2, frame_buf, flen, 500);
+      // Do not transmit raw binary on USART2; print ASCII hex instead for TTL monitor.
       if (Serial && !suppress_serial) {
         Serial.print("Broadcasted frame (bytes): "); Serial.println((int)flen);
         Serial.print("Frame hex: "); print_hex(frame_buf, flen);
@@ -385,7 +385,7 @@ void setup() {
       uint8_t frame_buf[64];
       size_t flen = pack_appconfig_frame(current_config, frame_buf, sizeof(frame_buf));
       if (flen > 0) {
-        HAL_UART_Transmit(&huart2, frame_buf, flen, 500);
+        print_hex_uart(frame_buf, flen);
         if (Serial && !suppress_serial) {
           Serial.print("Startup frame hex: ");
           print_hex(frame_buf, flen);
@@ -430,7 +430,7 @@ void setup() {
         uint8_t frame_buf[64];
         size_t flen = pack_appconfig_frame(current_config, frame_buf, sizeof(frame_buf));
         if (flen > 0) {
-          HAL_UART_Transmit(&huart2, frame_buf, flen, 500);
+          // Do not transmit raw binary on USART2; print ASCII hex instead and send binary on CAN/I2C.
           if (Serial && !suppress_serial) {
             Serial.print("NRST Broadcast Frame hex: "); print_hex(frame_buf, flen);
           }
@@ -472,17 +472,7 @@ void loop() {
     if (v < 0) break;
     uint8_t b = (uint8_t)v;
 
-    // Diagnostic echo for first 10s after boot: mirrors received bytes back
-    // This helps verify that USART2 RX is actually receiving data from TTL adapter.
-    if (HAL_GetTick() < 10000) {
-      // echo to both interfaces
-      if (huart2.Instance != NULL) {
-        HAL_UART_Transmit(&huart2, (uint8_t*)&b, 1, 20);
-      }
-      if (Serial && !suppress_serial) {
-        Serial.write(&b, 1);
-      }
-    }
+    // (no diagnostic echo) -- do not mirror raw bytes to avoid mixing binary
 
     // Raw JSON mode: detect start of JSON object/array and collect until newline
     if (!in_raw_json && (b == '{' || b == '[')) {
@@ -626,12 +616,11 @@ void loop() {
               uint8_t frame_buf[64];
               size_t flen = pack_appconfig_frame(current_config, frame_buf, sizeof(frame_buf));
               if (flen > 0) {
-                HAL_UART_Transmit(&huart2, frame_buf, flen, 500);
+                // Do not send raw binary on USART2; print hex instead.
                 if (Serial && !suppress_serial) {
                   Serial.print("Frame hex: ");
                   print_hex(frame_buf, flen);
                 }
-                // also echo ASCII frame hex on huart2
                 print_hex_uart(frame_buf, flen);
                 bool can_ok = send_frame_can(frame_buf, flen);
                 bool i2c_ok = send_frame_i2c(frame_buf, flen, 0x42);
