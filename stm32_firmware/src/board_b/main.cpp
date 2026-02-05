@@ -5,7 +5,7 @@
 
 UART_HandleTypeDef huart4;
 
-// متغيرات لاستقبال البيانات
+// Buffer and state for receiving frames over UART4
 static std::vector<uint8_t> frame_buf;
 static bool in_frame = false;
 static std::vector<uint8_t> stored_data;
@@ -49,7 +49,7 @@ void initUART4() {
   }
 }
 
-// طباعة البيانات بصيغة HEX
+// Utility: print hex dump of buffer to UART4
 void print_hex(const uint8_t* buf, size_t len) {
   char s[4];
   const char hex[] = "0123456789ABCDEF";
@@ -63,7 +63,7 @@ void print_hex(const uint8_t* buf, size_t len) {
   HAL_UART_Transmit(&huart4, (uint8_t*)"\r\n", 2, 50);
 }
 
-// معالجة البايت المستقبل
+// Handle received bytes and detect frames
 void handle_received_byte(uint8_t b) {
   rx_count++;
   
@@ -82,7 +82,7 @@ void handle_received_byte(uint8_t b) {
         in_frame = false;
         frame_buf.clear();
       } else if (frame_buf.size() >= EXPECTED_FRAME_LEN) {
-        // استقبلنا Frame كامل!
+        // Received a complete frame
         stored_data = frame_buf;
         has_stored = true;
         
@@ -102,7 +102,7 @@ void setup() {
   HAL_Init();
   initUART4();
   
-  // رسالة ترحيب
+  // Welcome message
   HAL_Delay(500);
   HAL_UART_Transmit(&huart4, (uint8_t*)"\r\n", 2, 50);
   HAL_UART_Transmit(&huart4, (uint8_t*)"================================\r\n", 34, 100);
@@ -116,7 +116,7 @@ void loop() {
   static uint32_t last_print = 0;
   uint32_t now = HAL_GetTick();
   
-  // Alive message كل 5 ثواني
+  // Alive message every 5 seconds
   if ((now - last_alive) >= 5000) {
     last_alive = now;
     char msg[50];
@@ -124,13 +124,13 @@ void loop() {
     HAL_UART_Transmit(&huart4, (uint8_t*)msg, strlen(msg), 100);
   }
   
-  // استقبال البيانات
+  // Receiving data over UART4
   uint8_t rb;
   while (HAL_UART_Receive(&huart4, &rb, 1, 2) == HAL_OK) {
     handle_received_byte(rb);
   }
   
-  // طباعة البيانات المخزنة كل ثانية
+  // Print stored data every second
   if (has_stored && (now - last_print) >= 1000) {
     last_print = now;
     HAL_UART_Transmit(&huart4, (uint8_t*)"Stored: ", 8, 50);

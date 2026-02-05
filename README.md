@@ -139,7 +139,18 @@ Notes:
   - V2: `0xAA 0x55` header + payload + 1-byte XOR checksum (ESC-facing frame). V2 is printed as a hex dump for verification.
 - Added `build_and_print_frame_v2()` to print the exact bytes (hex) that will be sent to the ESC, for example:
 
+
   `AA 55 01 06 56 B8 56 B8 00 00 00 03 E8 04 00 00 33 00 10 00 3C 00 64 00 00 00 93`
+
+Board A → Board B binary transfer (verification)
+
+- Date: 2026-02-05
+- Summary: Board A now parses the incoming JSON, builds the V2 ESC-facing 29-byte binary frame (header `0xAA 0x55` plus payload and XOR checksum) and transmits that raw binary on `USART2`. Board B listens on its UART, receives the raw binary frame and persists it to internal flash without parsing; it can re-print the stored binary on NRST for verification.
+- Screenshot: I captured the physical connection and a successful transfer — see `screenshots/connectingboardatoboardb.jpg` below.
+
+![Board A → Board B connected](screenshots/connectingboardatoboardb.jpg)
+
+Note: the firmware was updated to avoid printing JSON or ASCII HEX on the same `USART2` line to prevent corrupting the binary stream — only the packed binary frame is emitted on `USART2` so downstream devices receive a clean, deterministic frame.
 
 - On firmware events (startup, stored JSON parse, BOOT button) the firmware now prints the parsed `AppConfig` and the exact frame hex.
 - Added safe CAN/I2C send stubs (no linkage errors if peripherals not present). USART2 transmit is used for broadcasting the frame.

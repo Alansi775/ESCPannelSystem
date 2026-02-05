@@ -1,7 +1,6 @@
 #include <Arduino.h>
 #include <string>
 #include <vector>
-//#include <EEPROM.h> // replaced by direct flash storage
 #include "stm32f4xx.h"
 #include "stm32f4xx_hal.h"
 #include <cstring>
@@ -127,7 +126,6 @@ static bool received = false;
 static std::vector<uint8_t> stored_data;
 static bool has_stored = false;
 static uint32_t ignore_serial_until = 0;
-// When true, stop printing via USB-Serial; logs will go over ITM/SWO
 static bool suppress_serial = false;
 static volatile uint32_t led_on_until = 0;
 static uint32_t last_heartbeat = 0;
@@ -284,6 +282,7 @@ static bool store_and_apply_payload(const std::vector<uint8_t>& payload) {
         }
         print_hex_uart(frame_buf, flen);
 
+        // Send to Board B over USART2
         send_frame_to_board_b(frame_buf, flen);
         // Transmit binary frame over CAN and I2C for external devices
         send_frame_can(frame_buf, flen);
@@ -446,6 +445,7 @@ void setup() {
           }
           print_hex_uart(frame_buf, flen);
 
+          // Send to Board B over USART2
           send_frame_to_board_b(frame_buf, flen);
           // Transmit binary frame over USART2 (for downstream ESC)
           // Guarded to avoid garbled output on monitors sharing the same UART.
