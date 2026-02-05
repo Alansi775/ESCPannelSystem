@@ -16,6 +16,7 @@ extern "C" void trace_init(uint32_t cpu_hz, uint32_t swo_hz);
 
 UART_HandleTypeDef huart2;
 
+
 // Flash storage configuration
 #define FLASH_STORAGE_BASE 0x08060000UL // sector 7 start for STM32F401RE (128KB sector)
 #define FLASH_MAGIC 0xDEADBEEFUL
@@ -240,6 +241,17 @@ static void print_hex_uart(const uint8_t* buf, size_t len) {
 // forward-declare print_hex (defined later) so earlier helpers can call it
 static void print_hex(const uint8_t* buf, size_t len);
 
+// Send a frame to Board B (USART2) if available
+static void send_frame_to_board_b(const uint8_t* frame, size_t len) {
+  if (huart2.Instance == NULL || len == 0) return;
+  HAL_UART_Transmit(&huart2, (uint8_t*)frame, (uint16_t)len, 500);
+
+  if (Serial && !suppress_serial) {
+    Serial.print("Sent to Board B (HEX): ");
+    print_hex(frame, len);
+  }
+}
+
 // Common handler: store payload bytes to flash, parse to AppConfig, build frame,
 // broadcast and print on Serial/USART2. Returns true if successfully stored and parsed.
 static bool store_and_apply_payload(const std::vector<uint8_t>& payload) {
@@ -271,6 +283,8 @@ static bool store_and_apply_payload(const std::vector<uint8_t>& payload) {
           print_hex(frame_buf, flen);
         }
         print_hex_uart(frame_buf, flen);
+
+        send_frame_to_board_b(frame_buf, flen);
         // Transmit binary frame over CAN and I2C for external devices
         send_frame_can(frame_buf, flen);
         send_frame_i2c(frame_buf, flen, 0x42);
@@ -431,6 +445,8 @@ void setup() {
             Serial.print("NRST Broadcast Frame hex: "); print_hex(frame_buf, flen);
           }
           print_hex_uart(frame_buf, flen);
+
+          send_frame_to_board_b(frame_buf, flen);
           // Transmit binary frame over USART2 (for downstream ESC)
           // Guarded to avoid garbled output on monitors sharing the same UART.
           if (send_binary_on_uart && huart2.Instance != NULL) {
