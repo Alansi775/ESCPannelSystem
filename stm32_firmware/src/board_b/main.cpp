@@ -239,9 +239,9 @@ void loop() {
   // Write 0xAAAA to the KR register to refresh the Independent Watchdog
   IWDG->KR = 0xAAAA;
   
-  // Receiving data over UART4
+  // Receiving data over UART4 - process only 1 byte per loop iteration to keep loop fast
   uint8_t rb;
-  while (HAL_UART_Receive(&huart4, &rb, 1, 2) == HAL_OK) {
+  if (HAL_UART_Receive(&huart4, &rb, 1, 1) == HAL_OK) {
     handle_received_byte(rb);
     uart_commands_feed(rb);
     uart_commands_reset_watchdog();  // Feed the watchdog on each byte received
@@ -269,5 +269,6 @@ void loop() {
       safety_sample_once();
     }
   }
-  delay(1);  // Shorter delay to loop faster
+  // Small delay to prevent CPU overload and allow stable commutation (very important!)
+  delayMicroseconds(100);  // 100 usec = allows stable loop rate around 10kHz
 }

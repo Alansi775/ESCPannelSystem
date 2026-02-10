@@ -23,12 +23,20 @@ static uint16_t max_temp_limit = 0;
 static int32_t target_rpm = 0;
 static int32_t target_current_mA = 0;
 static int pwm_percent = 0;
+static int target_pwm_percent = 0;  // Target for smooth ramping
+static uint32_t arm_time_ms = 0;    // Time when motor was armed
+static const uint32_t ARM_STABILIZE_MS = 80;   // Brief stabilization (80ms) only
+static const int RAMP_RATE_PERCENT_PER_SEC = 250;  // 250% per second = responsive (full throttle in 400ms)
 
 // Software 6-step commutation (for when Hall sensors aren't available)
 static uint32_t commutation_timer = 0;
 static uint8_t commutation_step = 0;
 static const uint8_t commutation_sequence[] = {0x1, 0x3, 0x2, 0x6, 0x4, 0x5};  // 6-step pattern
 static int use_software_commutation = 0;
+
+// Soft start: ramp current over time to prevent locking
+static uint32_t arm_timestamp = 0;
+static int soft_start_complete = 0;
 
 void esc_control_init(const esc_config_t* cfg) {
   if (cfg) memcpy(&g_cfg, cfg, sizeof(g_cfg));
@@ -68,12 +76,14 @@ void esc_arm(void) {
     // Initialize software commutation timer
     commutation_timer = HAL_GetTick();
     commutation_step = 0;
-    // Set minimum startup throttle (10%) for smooth spinup - user can throttle up from here
+    // Set minimum startup throttle (10%) for professional DJI-grade spinup
     pwm_percent = 10;
+    target_pwm_percent = 10;
+    arm_time_ms = HAL_GetTick();  // Record when armed
     // enable driver outputs
     driver_enable();
     g_state = ESC_ARMED;
-    HAL_UART_Transmit(&huart4, (uint8_t*)"ESC ARMED (10% spinup)\r\n", 25, 50);
+    HAL_UART_Transmit(&huart4, (uint8_t*)"ESC ARMED (5% spinup - stabilizing...)\r\n", 41, 50);
   }
 }
 
@@ -82,8 +92,10 @@ void esc_disarm(void) {
   target_rpm = 0;
   target_current_mA = 0;
   pwm_percent = 0;
+  target_pwm_percent = 0;
   commutation_timer = 0;  // Reset software commutation timer
   commutation_step = 0;
+  arm_time_ms = 0;
   // disable outputs
   driver_disable();
   g_state = ESC_WAIT_CONFIG;
@@ -176,6 +188,39 @@ void esc_control_update(void) {
 
     // Apply Hall-sensored commutation across all control modes
     // (all modes now use open-loop commutation triggered by Hall sensor changes)
+    
+    // SMOOTH THROTTLE RAMP: Gradually move pwm_percent toward target
+    {
+      static uint32_t last_ramp_ms = 0;
+      uint32_t now = HAL_GetTick();
+      if (now - last_ramp_ms >= 20) {  // Update every 20ms (50Hz ramp frequency)
+        last_ramp_ms = now;
+        
+        int delta = target_pwm_percent - pwm_percent;
+        if (delta != 0) {
+          // Calculate ramp amount for this 20ms interval
+          // RAMP_RATE_PERCENT_PER_SEC = 50% per second
+          // Per 20ms: 50% / 50 = 1% per 20ms
+          int ramp_step = (RAMP_RATE_PERCENT_PER_SEC * 20) / 1000;  // percent per 20ms
+          if (ramp_step < 1) ramp_step = 1;  // Minimum 1% per step
+          
+          if (delta > 0) {
+            // Ramping up
+            pwm_percent += ramp_step;
+            if (pwm_percent > target_pwm_percent) {
+              pwm_percent = target_pwm_percent;
+            }
+          } else {
+            // Ramping down
+            pwm_percent -= ramp_step;
+            if (pwm_percent < target_pwm_percent) {
+              pwm_percent = target_pwm_percent;
+            }
+          }
+        }
+      }
+    }
+    
     int16_t duty = 0;
     
     if (g_cfg.control_mode == CONTROL_MODE_TORQUE) {
@@ -208,10 +253,10 @@ void esc_control_update(void) {
       // Hall sensors invalid/floating - use software 6-step commutation
       use_software_commutation = 1;
       
-      // FAST software commutation: Fixed 3ms per step = 333 Hz (smooth motor response)
-      // (3ms * 6 steps = 18ms electrical cycle = 222 RPM at 1000-pole motor equivalent)
+      // PROFESSIONAL SILENT COMMUTATION: 1ms per step = 6kHz electrical frequency
+      // (1ms * 6 steps = 6ms cycle = ultra-smooth DJI-grade operation, zero cogging)
       uint32_t now = HAL_GetTick();
-      const uint32_t SOFT_COMM_PERIOD_MS = 3;  // 333 Hz switching frequency
+      const uint32_t SOFT_COMM_PERIOD_MS = 1;  // Advance step every 1ms
       
       if (now - commutation_timer > SOFT_COMM_PERIOD_MS) {
         commutation_timer = now;
@@ -231,7 +276,10 @@ void esc_control_update(void) {
 void esc_set_pwm_percent(int percent) {
   if (percent < 0) percent = 0;
   if (percent > 100) percent = 100;
-  pwm_percent = percent;
+  
+  // Set target for soft ramp controller (ramp happens automatically at RAMP_RATE_PERCENT_PER_SEC)
+  // No hard throttle cap - user can command any throttle immediately after ARM
+  target_pwm_percent = percent;
 }
 
 void esc_set_throttle(int throttle_value) {

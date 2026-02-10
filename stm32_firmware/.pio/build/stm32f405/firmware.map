@@ -5,7 +5,7 @@ Archive member included to satisfy reference by file (symbol)
 .pio/build/stm32f405/libFrameworkArduino.a(startup_stm32yyxx.S.o)
                               (Reset_Handler)
 .pio/build/stm32f405/libFrameworkArduino.a(wiring_time.c.o)
-                              .pio/build/stm32f405/src/board_b/main.cpp.o (delay)
+                              .pio/build/stm32f405/src/board_b/uart_commands.c.o (delay)
 .pio/build/stm32f405/libFrameworkArduino.a(WSerial.cpp.o)
                               .pio/build/stm32f405/libFrameworkArduino.a(main.cpp.o) (serialEventRun())
 .pio/build/stm32f405/libFrameworkArduino.a(board.c.o)
@@ -4346,7 +4346,7 @@ Linker script and memory map
                 0x08000000                g_pfnVectors
                 0x08000188                        . = ALIGN (0x4)
 
-.text           0x08000190     0x5f54
+.text           0x08000190     0x60ac
                 0x08000190                        . = ALIGN (0x4)
  *(.text)
  .text          0x08000190      0x378 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7e-m+fp/hard/libgcc.a(_arm_addsubdf3.o)
@@ -4874,532 +4874,533 @@ Linker script and memory map
  .text.esc_control_init
                 0x080034b4       0xac .pio/build/stm32f405/src/board_b/esc_control.c.o
                 0x080034b4                esc_control_init
- .text.esc_arm  0x08003560       0x84 .pio/build/stm32f405/src/board_b/esc_control.c.o
+ .text.esc_arm  0x08003560       0x90 .pio/build/stm32f405/src/board_b/esc_control.c.o
                 0x08003560                esc_arm
  .text.esc_disarm
-                0x080035e4       0x54 .pio/build/stm32f405/src/board_b/esc_control.c.o
-                0x080035e4                esc_disarm
+                0x080035f0       0x5c .pio/build/stm32f405/src/board_b/esc_control.c.o
+                0x080035f0                esc_disarm
  .text.esc_set_speed_rpm
-                0x08003638       0x24 .pio/build/stm32f405/src/board_b/esc_control.c.o
-                0x08003638                esc_set_speed_rpm
+                0x0800364c       0x24 .pio/build/stm32f405/src/board_b/esc_control.c.o
+                0x0800364c                esc_set_speed_rpm
  .text.esc_set_torque_mA
-                0x0800365c       0x24 .pio/build/stm32f405/src/board_b/esc_control.c.o
-                0x0800365c                esc_set_torque_mA
+                0x08003670       0x24 .pio/build/stm32f405/src/board_b/esc_control.c.o
+                0x08003670                esc_set_torque_mA
  .text.esc_control_set_fault
-                0x08003680       0x64 .pio/build/stm32f405/src/board_b/esc_control.c.o
-                0x08003680                esc_control_set_fault
+                0x08003694       0x64 .pio/build/stm32f405/src/board_b/esc_control.c.o
+                0x08003694                esc_control_set_fault
  .text.esc_control_update
-                0x080036e4      0x214 .pio/build/stm32f405/src/board_b/esc_control.c.o
-                0x080036e4                esc_control_update
+                0x080036f8      0x24c .pio/build/stm32f405/src/board_b/esc_control.c.o
+                0x080036f8                esc_control_update
  .text.esc_set_pwm_percent
-                0x080038f8       0x14 .pio/build/stm32f405/src/board_b/esc_control.c.o
-                0x080038f8                esc_set_pwm_percent
+                0x08003944       0x14 .pio/build/stm32f405/src/board_b/esc_control.c.o
+                0x08003944                esc_set_pwm_percent
  .text.esc_set_throttle
-                0x0800390c       0x24 .pio/build/stm32f405/src/board_b/esc_control.c.o
-                0x0800390c                esc_set_throttle
+                0x08003958       0x24 .pio/build/stm32f405/src/board_b/esc_control.c.o
+                0x08003958                esc_set_throttle
  .text.hall_sensor_read
-                0x08003930       0x58 .pio/build/stm32f405/src/board_b/hall_sensor.c.o
-                0x08003930                hall_sensor_read
+                0x0800397c       0x58 .pio/build/stm32f405/src/board_b/hall_sensor.c.o
+                0x0800397c                hall_sensor_read
  .text.hall_sensor_init
-                0x08003988       0x50 .pio/build/stm32f405/src/board_b/hall_sensor.c.o
-                0x08003988                hall_sensor_init
+                0x080039d4       0x50 .pio/build/stm32f405/src/board_b/hall_sensor.c.o
+                0x080039d4                hall_sensor_init
  .text.hall_sensor_state_name
-                0x080039d8       0x1c .pio/build/stm32f405/src/board_b/hall_sensor.c.o
-                0x080039d8                hall_sensor_state_name
+                0x08003a24       0x1c .pio/build/stm32f405/src/board_b/hall_sensor.c.o
+                0x08003a24                hall_sensor_state_name
  .text._ZNSt12_Vector_baseIhSaIhEE11_M_allocateEj.isra.0
-                0x080039f4       0x16 .pio/build/stm32f405/src/board_b/main.cpp.o
- *fill*         0x08003a0a        0x2 
+                0x08003a40       0x16 .pio/build/stm32f405/src/board_b/main.cpp.o
+ *fill*         0x08003a56        0x2 
  .text.frame_store_get
-                0x08003a0c       0x38 .pio/build/stm32f405/src/board_b/main.cpp.o
-                0x08003a0c                frame_store_get
+                0x08003a58       0x38 .pio/build/stm32f405/src/board_b/main.cpp.o
+                0x08003a58                frame_store_get
  .text.frame_store_has
-                0x08003a44        0xc .pio/build/stm32f405/src/board_b/main.cpp.o
-                0x08003a44                frame_store_has
+                0x08003a90        0xc .pio/build/stm32f405/src/board_b/main.cpp.o
+                0x08003a90                frame_store_has
  .text._Z9initUART4v
-                0x08003a50       0xac .pio/build/stm32f405/src/board_b/main.cpp.o
-                0x08003a50                initUART4()
+                0x08003a9c       0xac .pio/build/stm32f405/src/board_b/main.cpp.o
+                0x08003a9c                initUART4()
  .text._ZNSt12_Vector_baseIhSaIhEED2Ev
-                0x08003afc       0x14 .pio/build/stm32f405/src/board_b/main.cpp.o
-                0x08003afc                std::_Vector_base<unsigned char, std::allocator<unsigned char> >::~_Vector_base()
-                0x08003afc                std::_Vector_base<unsigned char, std::allocator<unsigned char> >::~_Vector_base()
+                0x08003b48       0x14 .pio/build/stm32f405/src/board_b/main.cpp.o
+                0x08003b48                std::_Vector_base<unsigned char, std::allocator<unsigned char> >::~_Vector_base()
+                0x08003b48                std::_Vector_base<unsigned char, std::allocator<unsigned char> >::~_Vector_base()
  .text._ZNSt6vectorIhSaIhEE5clearEv
-                0x08003b10        0xc .pio/build/stm32f405/src/board_b/main.cpp.o
-                0x08003b10                std::vector<unsigned char, std::allocator<unsigned char> >::clear()
+                0x08003b5c        0xc .pio/build/stm32f405/src/board_b/main.cpp.o
+                0x08003b5c                std::vector<unsigned char, std::allocator<unsigned char> >::clear()
  .text._ZNSt6vectorIhSaIhEE9push_backERKh
-                0x08003b1c       0x8c .pio/build/stm32f405/src/board_b/main.cpp.o
-                0x08003b1c                std::vector<unsigned char, std::allocator<unsigned char> >::push_back(unsigned char const&)
- .text.setup    0x08003ba8      0x198 .pio/build/stm32f405/src/board_b/main.cpp.o
-                0x08003ba8                setup
+                0x08003b68       0x8c .pio/build/stm32f405/src/board_b/main.cpp.o
+                0x08003b68                std::vector<unsigned char, std::allocator<unsigned char> >::push_back(unsigned char const&)
+ .text.setup    0x08003bf4      0x198 .pio/build/stm32f405/src/board_b/main.cpp.o
+                0x08003bf4                setup
  .text._ZNSt11__copy_moveILb0ELb1ESt26random_access_iterator_tagE8__copy_mIhEEPT_PKS3_S6_S4_
-                0x08003d40       0x18 .pio/build/stm32f405/src/board_b/main.cpp.o
-                0x08003d40                unsigned char* std::__copy_move<false, true, std::random_access_iterator_tag>::__copy_m<unsigned char>(unsigned char const*, unsigned char const*, unsigned char*)
+                0x08003d8c       0x18 .pio/build/stm32f405/src/board_b/main.cpp.o
+                0x08003d8c                unsigned char* std::__copy_move<false, true, std::random_access_iterator_tag>::__copy_m<unsigned char>(unsigned char const*, unsigned char const*, unsigned char*)
+ *fill*         0x08003da4        0x4 
  .text._Z20handle_received_byteh
-                0x08003d58      0x1f8 .pio/build/stm32f405/src/board_b/main.cpp.o
-                0x08003d58                handle_received_byte(unsigned char)
- .text.loop     0x08003f50       0x88 .pio/build/stm32f405/src/board_b/main.cpp.o
-                0x08003f50                loop
+                0x08003da8      0x1f8 .pio/build/stm32f405/src/board_b/main.cpp.o
+                0x08003da8                handle_received_byte(unsigned char)
+ .text.loop     0x08003fa0       0xa4 .pio/build/stm32f405/src/board_b/main.cpp.o
+                0x08003fa0                loop
  .text.startup._GLOBAL__sub_I_huart4
-                0x08003fd8       0x1c .pio/build/stm32f405/src/board_b/main.cpp.o
+                0x08004044       0x1c .pio/build/stm32f405/src/board_b/main.cpp.o
  .text.exit._GLOBAL__sub_D_huart4
-                0x08003ff4       0x18 .pio/build/stm32f405/src/board_b/main.cpp.o
+                0x08004060       0x18 .pio/build/stm32f405/src/board_b/main.cpp.o
  .text.adc_sample_channel
-                0x0800400c       0x4c .pio/build/stm32f405/src/board_b/safety_monitor.c.o
+                0x08004078       0x4c .pio/build/stm32f405/src/board_b/safety_monitor.c.o
  .text.safety_sample_once
-                0x08004058      0x260 .pio/build/stm32f405/src/board_b/safety_monitor.c.o
-                0x08004058                safety_sample_once
+                0x080040c4      0x260 .pio/build/stm32f405/src/board_b/safety_monitor.c.o
+                0x080040c4                safety_sample_once
  .text.safety_monitor_init
-                0x080042b8       0xb0 .pio/build/stm32f405/src/board_b/safety_monitor.c.o
-                0x080042b8                safety_monitor_init
+                0x08004324       0xb0 .pio/build/stm32f405/src/board_b/safety_monitor.c.o
+                0x08004324                safety_monitor_init
  .text.safety_enable_calibration
-                0x08004368       0x3c .pio/build/stm32f405/src/board_b/safety_monitor.c.o
-                0x08004368                safety_enable_calibration
+                0x080043d4       0x3c .pio/build/stm32f405/src/board_b/safety_monitor.c.o
+                0x080043d4                safety_enable_calibration
  .text.safety_is_calibrating
-                0x080043a4        0xc .pio/build/stm32f405/src/board_b/safety_monitor.c.o
-                0x080043a4                safety_is_calibrating
+                0x08004410        0xc .pio/build/stm32f405/src/board_b/safety_monitor.c.o
+                0x08004410                safety_is_calibrating
  .text.safety_get_last_raw_vbus
-                0x080043b0        0xc .pio/build/stm32f405/src/board_b/safety_monitor.c.o
-                0x080043b0                safety_get_last_raw_vbus
+                0x0800441c        0xc .pio/build/stm32f405/src/board_b/safety_monitor.c.o
+                0x0800441c                safety_get_last_raw_vbus
  .text.safety_get_last_raw_shunt
-                0x080043bc        0xc .pio/build/stm32f405/src/board_b/safety_monitor.c.o
-                0x080043bc                safety_get_last_raw_shunt
+                0x08004428        0xc .pio/build/stm32f405/src/board_b/safety_monitor.c.o
+                0x08004428                safety_get_last_raw_shunt
  .text.safety_get_last_raw_temp
-                0x080043c8        0xc .pio/build/stm32f405/src/board_b/safety_monitor.c.o
-                0x080043c8                safety_get_last_raw_temp
+                0x08004434        0xc .pio/build/stm32f405/src/board_b/safety_monitor.c.o
+                0x08004434                safety_get_last_raw_temp
  .text.safety_set_bypass
-                0x080043d4       0x10 .pio/build/stm32f405/src/board_b/safety_monitor.c.o
-                0x080043d4                safety_set_bypass
+                0x08004440       0x10 .pio/build/stm32f405/src/board_b/safety_monitor.c.o
+                0x08004440                safety_set_bypass
  .text.safety_get_bypass
-                0x080043e4        0xc .pio/build/stm32f405/src/board_b/safety_monitor.c.o
-                0x080043e4                safety_get_bypass
+                0x08004450        0xc .pio/build/stm32f405/src/board_b/safety_monitor.c.o
+                0x08004450                safety_get_bypass
  .text.safety_get_safe_flag
-                0x080043f0       0x6c .pio/build/stm32f405/src/board_b/safety_monitor.c.o
-                0x080043f0                safety_get_safe_flag
+                0x0800445c       0x6c .pio/build/stm32f405/src/board_b/safety_monitor.c.o
+                0x0800445c                safety_get_safe_flag
  .text.safety_get_motor_current_mA
-                0x0800445c       0x10 .pio/build/stm32f405/src/board_b/safety_monitor.c.o
-                0x0800445c                safety_get_motor_current_mA
+                0x080044c8       0x10 .pio/build/stm32f405/src/board_b/safety_monitor.c.o
+                0x080044c8                safety_get_motor_current_mA
  .text.safety_get_driver_voltage_v
-                0x0800446c       0x24 .pio/build/stm32f405/src/board_b/safety_monitor.c.o
-                0x0800446c                safety_get_driver_voltage_v
+                0x080044d8       0x24 .pio/build/stm32f405/src/board_b/safety_monitor.c.o
+                0x080044d8                safety_get_driver_voltage_v
  .text.safety_get_temperature_c
-                0x08004490       0x20 .pio/build/stm32f405/src/board_b/safety_monitor.c.o
-                0x08004490                safety_get_temperature_c
+                0x080044fc       0x20 .pio/build/stm32f405/src/board_b/safety_monitor.c.o
+                0x080044fc                safety_get_temperature_c
  .text.uart_commands_init
-                0x080044b0       0x28 .pio/build/stm32f405/src/board_b/uart_commands.c.o
-                0x080044b0                uart_commands_init
+                0x0800451c       0x28 .pio/build/stm32f405/src/board_b/uart_commands.c.o
+                0x0800451c                uart_commands_init
  .text.uart_commands_last_seen_ms
-                0x080044d8        0xc .pio/build/stm32f405/src/board_b/uart_commands.c.o
-                0x080044d8                uart_commands_last_seen_ms
+                0x08004544        0xc .pio/build/stm32f405/src/board_b/uart_commands.c.o
+                0x08004544                uart_commands_last_seen_ms
  .text.uart_commands_reset_watchdog
-                0x080044e4       0x10 .pio/build/stm32f405/src/board_b/uart_commands.c.o
-                0x080044e4                uart_commands_reset_watchdog
+                0x08004550       0x10 .pio/build/stm32f405/src/board_b/uart_commands.c.o
+                0x08004550                uart_commands_reset_watchdog
  .text.process_command.constprop.0
-                0x080044f4      0x80c .pio/build/stm32f405/src/board_b/uart_commands.c.o
+                0x08004560      0x8f8 .pio/build/stm32f405/src/board_b/uart_commands.c.o
  .text.uart_commands_feed
-                0x08004d00       0x4c .pio/build/stm32f405/src/board_b/uart_commands.c.o
-                0x08004d00                uart_commands_feed
+                0x08004e58       0x4c .pio/build/stm32f405/src/board_b/uart_commands.c.o
+                0x08004e58                uart_commands_feed
  .text.startup._Z7premainv
-                0x08004d4c       0x10 .pio/build/stm32f405/libFrameworkArduino.a(main.cpp.o)
-                0x08004d4c                premain()
+                0x08004ea4       0x10 .pio/build/stm32f405/libFrameworkArduino.a(main.cpp.o)
+                0x08004ea4                premain()
  .text.startup.main
-                0x08004d5c       0x14 .pio/build/stm32f405/libFrameworkArduino.a(main.cpp.o)
-                0x08004d5c                main
+                0x08004eb4       0x14 .pio/build/stm32f405/libFrameworkArduino.a(main.cpp.o)
+                0x08004eb4                main
  .text.Reset_Handler
-                0x08004d70       0x50 .pio/build/stm32f405/libFrameworkArduino.a(startup_stm32yyxx.S.o)
-                0x08004d70                Reset_Handler
+                0x08004ec8       0x50 .pio/build/stm32f405/libFrameworkArduino.a(startup_stm32yyxx.S.o)
+                0x08004ec8                Reset_Handler
  .text.Default_Handler
-                0x08004dc0        0x2 .pio/build/stm32f405/libFrameworkArduino.a(startup_stm32yyxx.S.o)
-                0x08004dc0                DMA1_Stream3_IRQHandler
-                0x08004dc0                HASH_RNG_IRQHandler
-                0x08004dc0                DebugMon_Handler
-                0x08004dc0                DMA2_Stream5_IRQHandler
-                0x08004dc0                HardFault_Handler
-                0x08004dc0                DMA1_Stream5_IRQHandler
-                0x08004dc0                PVD_IRQHandler
-                0x08004dc0                SDIO_IRQHandler
-                0x08004dc0                TAMP_STAMP_IRQHandler
-                0x08004dc0                PendSV_Handler
-                0x08004dc0                NMI_Handler
-                0x08004dc0                CAN2_RX1_IRQHandler
-                0x08004dc0                I2C3_ER_IRQHandler
-                0x08004dc0                I2C2_EV_IRQHandler
-                0x08004dc0                DMA1_Stream2_IRQHandler
-                0x08004dc0                CAN1_RX0_IRQHandler
-                0x08004dc0                FPU_IRQHandler
-                0x08004dc0                OTG_HS_WKUP_IRQHandler
-                0x08004dc0                UsageFault_Handler
-                0x08004dc0                CAN2_SCE_IRQHandler
-                0x08004dc0                DMA2_Stream2_IRQHandler
-                0x08004dc0                SPI1_IRQHandler
-                0x08004dc0                CAN2_RX0_IRQHandler
-                0x08004dc0                DMA2_Stream3_IRQHandler
-                0x08004dc0                CAN1_RX1_IRQHandler
-                0x08004dc0                DMA2_Stream0_IRQHandler
-                0x08004dc0                I2C1_EV_IRQHandler
-                0x08004dc0                DMA1_Stream6_IRQHandler
-                0x08004dc0                DMA1_Stream1_IRQHandler
-                0x08004dc0                RCC_IRQHandler
-                0x08004dc0                Default_Handler
-                0x08004dc0                ADC_IRQHandler
-                0x08004dc0                DMA1_Stream7_IRQHandler
-                0x08004dc0                CAN2_TX_IRQHandler
-                0x08004dc0                DMA2_Stream7_IRQHandler
-                0x08004dc0                I2C3_EV_IRQHandler
-                0x08004dc0                RTC_WKUP_IRQHandler
-                0x08004dc0                SPI2_IRQHandler
-                0x08004dc0                OTG_HS_EP1_IN_IRQHandler
-                0x08004dc0                MemManage_Handler
-                0x08004dc0                DMA1_Stream0_IRQHandler
-                0x08004dc0                CAN1_TX_IRQHandler
-                0x08004dc0                SVC_Handler
-                0x08004dc0                FSMC_IRQHandler
-                0x08004dc0                OTG_HS_EP1_OUT_IRQHandler
-                0x08004dc0                WWDG_IRQHandler
-                0x08004dc0                OTG_FS_WKUP_IRQHandler
-                0x08004dc0                OTG_HS_IRQHandler
-                0x08004dc0                I2C2_ER_IRQHandler
-                0x08004dc0                DMA2_Stream1_IRQHandler
-                0x08004dc0                CAN1_SCE_IRQHandler
-                0x08004dc0                FLASH_IRQHandler
-                0x08004dc0                DMA2_Stream4_IRQHandler
-                0x08004dc0                BusFault_Handler
-                0x08004dc0                OTG_FS_IRQHandler
-                0x08004dc0                SPI3_IRQHandler
-                0x08004dc0                DMA1_Stream4_IRQHandler
-                0x08004dc0                I2C1_ER_IRQHandler
-                0x08004dc0                DMA2_Stream6_IRQHandler
-                0x08004dc0                RTC_Alarm_IRQHandler
- .text.millis   0x08004dc2        0x4 .pio/build/stm32f405/libFrameworkArduino.a(wiring_time.c.o)
-                0x08004dc2                millis
- .text.delay    0x08004dc6       0x1c .pio/build/stm32f405/libFrameworkArduino.a(wiring_time.c.o)
-                0x08004dc6                delay
- *fill*         0x08004de2        0x2 
+                0x08004f18        0x2 .pio/build/stm32f405/libFrameworkArduino.a(startup_stm32yyxx.S.o)
+                0x08004f18                DMA1_Stream3_IRQHandler
+                0x08004f18                HASH_RNG_IRQHandler
+                0x08004f18                DebugMon_Handler
+                0x08004f18                DMA2_Stream5_IRQHandler
+                0x08004f18                HardFault_Handler
+                0x08004f18                DMA1_Stream5_IRQHandler
+                0x08004f18                PVD_IRQHandler
+                0x08004f18                SDIO_IRQHandler
+                0x08004f18                TAMP_STAMP_IRQHandler
+                0x08004f18                PendSV_Handler
+                0x08004f18                NMI_Handler
+                0x08004f18                CAN2_RX1_IRQHandler
+                0x08004f18                I2C3_ER_IRQHandler
+                0x08004f18                I2C2_EV_IRQHandler
+                0x08004f18                DMA1_Stream2_IRQHandler
+                0x08004f18                CAN1_RX0_IRQHandler
+                0x08004f18                FPU_IRQHandler
+                0x08004f18                OTG_HS_WKUP_IRQHandler
+                0x08004f18                UsageFault_Handler
+                0x08004f18                CAN2_SCE_IRQHandler
+                0x08004f18                DMA2_Stream2_IRQHandler
+                0x08004f18                SPI1_IRQHandler
+                0x08004f18                CAN2_RX0_IRQHandler
+                0x08004f18                DMA2_Stream3_IRQHandler
+                0x08004f18                CAN1_RX1_IRQHandler
+                0x08004f18                DMA2_Stream0_IRQHandler
+                0x08004f18                I2C1_EV_IRQHandler
+                0x08004f18                DMA1_Stream6_IRQHandler
+                0x08004f18                DMA1_Stream1_IRQHandler
+                0x08004f18                RCC_IRQHandler
+                0x08004f18                Default_Handler
+                0x08004f18                ADC_IRQHandler
+                0x08004f18                DMA1_Stream7_IRQHandler
+                0x08004f18                CAN2_TX_IRQHandler
+                0x08004f18                DMA2_Stream7_IRQHandler
+                0x08004f18                I2C3_EV_IRQHandler
+                0x08004f18                RTC_WKUP_IRQHandler
+                0x08004f18                SPI2_IRQHandler
+                0x08004f18                OTG_HS_EP1_IN_IRQHandler
+                0x08004f18                MemManage_Handler
+                0x08004f18                DMA1_Stream0_IRQHandler
+                0x08004f18                CAN1_TX_IRQHandler
+                0x08004f18                SVC_Handler
+                0x08004f18                FSMC_IRQHandler
+                0x08004f18                OTG_HS_EP1_OUT_IRQHandler
+                0x08004f18                WWDG_IRQHandler
+                0x08004f18                OTG_FS_WKUP_IRQHandler
+                0x08004f18                OTG_HS_IRQHandler
+                0x08004f18                I2C2_ER_IRQHandler
+                0x08004f18                DMA2_Stream1_IRQHandler
+                0x08004f18                CAN1_SCE_IRQHandler
+                0x08004f18                FLASH_IRQHandler
+                0x08004f18                DMA2_Stream4_IRQHandler
+                0x08004f18                BusFault_Handler
+                0x08004f18                OTG_FS_IRQHandler
+                0x08004f18                SPI3_IRQHandler
+                0x08004f18                DMA1_Stream4_IRQHandler
+                0x08004f18                I2C1_ER_IRQHandler
+                0x08004f18                DMA2_Stream6_IRQHandler
+                0x08004f18                RTC_Alarm_IRQHandler
+ .text.millis   0x08004f1a        0x4 .pio/build/stm32f405/libFrameworkArduino.a(wiring_time.c.o)
+                0x08004f1a                millis
+ .text.delay    0x08004f1e       0x1c .pio/build/stm32f405/libFrameworkArduino.a(wiring_time.c.o)
+                0x08004f1e                delay
+ *fill*         0x08004f3a        0x2 
  .text._Z14serialEventRunv
-                0x08004de4       0x1c .pio/build/stm32f405/libFrameworkArduino.a(WSerial.cpp.o)
-                0x08004de4                serialEventRun()
- .text.init     0x08004e00        0x4 .pio/build/stm32f405/libFrameworkArduino.a(board.c.o)
-                0x08004e00                init
- .text.__empty  0x08004e04        0x2 .pio/build/stm32f405/libFrameworkArduino.a(hooks.c.o)
-                0x08004e04                yield
+                0x08004f3c       0x1c .pio/build/stm32f405/libFrameworkArduino.a(WSerial.cpp.o)
+                0x08004f3c                serialEventRun()
+ .text.init     0x08004f58        0x4 .pio/build/stm32f405/libFrameworkArduino.a(board.c.o)
+                0x08004f58                init
+ .text.__empty  0x08004f5c        0x2 .pio/build/stm32f405/libFrameworkArduino.a(hooks.c.o)
+                0x08004f5c                yield
  .text._ZN14HardwareSerial9availableEv
-                0x08004e06       0x10 .pio/build/stm32f405/libFrameworkArduino.a(HardwareSerial.cpp.o)
-                0x08004e06                HardwareSerial::available()
+                0x08004f5e       0x10 .pio/build/stm32f405/libFrameworkArduino.a(HardwareSerial.cpp.o)
+                0x08004f5e                HardwareSerial::available()
  .text._ZN14HardwareSerial4peekEv
-                0x08004e16       0x1a .pio/build/stm32f405/libFrameworkArduino.a(HardwareSerial.cpp.o)
-                0x08004e16                HardwareSerial::peek()
+                0x08004f6e       0x1a .pio/build/stm32f405/libFrameworkArduino.a(HardwareSerial.cpp.o)
+                0x08004f6e                HardwareSerial::peek()
  .text._ZN14HardwareSerial17availableForWriteEv
-                0x08004e30       0x1c .pio/build/stm32f405/libFrameworkArduino.a(HardwareSerial.cpp.o)
-                0x08004e30                HardwareSerial::availableForWrite()
+                0x08004f88       0x1c .pio/build/stm32f405/libFrameworkArduino.a(HardwareSerial.cpp.o)
+                0x08004f88                HardwareSerial::availableForWrite()
  .text._ZN14HardwareSerial5writeEh
-                0x08004e4c       0x18 .pio/build/stm32f405/libFrameworkArduino.a(HardwareSerial.cpp.o)
-                0x08004e4c                HardwareSerial::write(unsigned char)
+                0x08004fa4       0x18 .pio/build/stm32f405/libFrameworkArduino.a(HardwareSerial.cpp.o)
+                0x08004fa4                HardwareSerial::write(unsigned char)
  .text._ZN14HardwareSerial16_tx_complete_irqEP8serial_s
-                0x08004e64       0x60 .pio/build/stm32f405/libFrameworkArduino.a(HardwareSerial.cpp.o)
-                0x08004e64                HardwareSerial::_tx_complete_irq(serial_s*)
+                0x08004fbc       0x60 .pio/build/stm32f405/libFrameworkArduino.a(HardwareSerial.cpp.o)
+                0x08004fbc                HardwareSerial::_tx_complete_irq(serial_s*)
  .text._ZN14HardwareSerial5writeEPKhj
-                0x08004ec4       0xe4 .pio/build/stm32f405/libFrameworkArduino.a(HardwareSerial.cpp.o)
-                0x08004ec4                HardwareSerial::write(unsigned char const*, unsigned int)
+                0x0800501c       0xe4 .pio/build/stm32f405/libFrameworkArduino.a(HardwareSerial.cpp.o)
+                0x0800501c                HardwareSerial::write(unsigned char const*, unsigned int)
  .text._ZN14HardwareSerial4initE7PinNameS0_S0_S0_
-                0x08004fa8       0x32 .pio/build/stm32f405/libFrameworkArduino.a(HardwareSerial.cpp.o)
-                0x08004fa8                HardwareSerial::init(PinName, PinName, PinName, PinName)
+                0x08005100       0x32 .pio/build/stm32f405/libFrameworkArduino.a(HardwareSerial.cpp.o)
+                0x08005100                HardwareSerial::init(PinName, PinName, PinName, PinName)
  .text._ZN14HardwareSerial5flushEm
-                0x08004fda       0x36 .pio/build/stm32f405/libFrameworkArduino.a(HardwareSerial.cpp.o)
-                0x08004fda                HardwareSerial::flush(unsigned long)
+                0x08005132       0x36 .pio/build/stm32f405/libFrameworkArduino.a(HardwareSerial.cpp.o)
+                0x08005132                HardwareSerial::flush(unsigned long)
  .text._ZN14HardwareSerial5flushEv
-                0x08005010        0x6 .pio/build/stm32f405/libFrameworkArduino.a(HardwareSerial.cpp.o)
-                0x08005010                HardwareSerial::flush()
- *fill*         0x08005016        0x2 
+                0x08005168        0x6 .pio/build/stm32f405/libFrameworkArduino.a(HardwareSerial.cpp.o)
+                0x08005168                HardwareSerial::flush()
+ *fill*         0x0800516e        0x2 
  .text._ZN14HardwareSerial5setRxEm
-                0x08005018       0x48 .pio/build/stm32f405/libFrameworkArduino.a(HardwareSerial.cpp.o)
-                0x08005018                HardwareSerial::setRx(unsigned long)
+                0x08005170       0x48 .pio/build/stm32f405/libFrameworkArduino.a(HardwareSerial.cpp.o)
+                0x08005170                HardwareSerial::setRx(unsigned long)
  .text._ZN14HardwareSerial5setTxEm
-                0x08005060       0x48 .pio/build/stm32f405/libFrameworkArduino.a(HardwareSerial.cpp.o)
-                0x08005060                HardwareSerial::setTx(unsigned long)
+                0x080051b8       0x48 .pio/build/stm32f405/libFrameworkArduino.a(HardwareSerial.cpp.o)
+                0x080051b8                HardwareSerial::setTx(unsigned long)
  .text._ZN14HardwareSerialC2EPv16HalfDuplexMode_t
-                0x080050a8       0x9c .pio/build/stm32f405/libFrameworkArduino.a(HardwareSerial.cpp.o)
-                0x080050a8                HardwareSerial::HardwareSerial(void*, HalfDuplexMode_t)
-                0x080050a8                HardwareSerial::HardwareSerial(void*, HalfDuplexMode_t)
+                0x08005200       0x9c .pio/build/stm32f405/libFrameworkArduino.a(HardwareSerial.cpp.o)
+                0x08005200                HardwareSerial::HardwareSerial(void*, HalfDuplexMode_t)
+                0x08005200                HardwareSerial::HardwareSerial(void*, HalfDuplexMode_t)
  .text._ZN14HardwareSerial18enableHalfDuplexRxEv
-                0x08005144       0x2c .pio/build/stm32f405/libFrameworkArduino.a(HardwareSerial.cpp.o)
-                0x08005144                HardwareSerial::enableHalfDuplexRx()
+                0x0800529c       0x2c .pio/build/stm32f405/libFrameworkArduino.a(HardwareSerial.cpp.o)
+                0x0800529c                HardwareSerial::enableHalfDuplexRx()
  .text._ZN14HardwareSerial4readEv
-                0x08005170       0x2e .pio/build/stm32f405/libFrameworkArduino.a(HardwareSerial.cpp.o)
-                0x08005170                HardwareSerial::read()
- *fill*         0x0800519e        0x2 
+                0x080052c8       0x2e .pio/build/stm32f405/libFrameworkArduino.a(HardwareSerial.cpp.o)
+                0x080052c8                HardwareSerial::read()
+ *fill*         0x080052f6        0x2 
  .text.startup._GLOBAL__sub_I_Serial4
-                0x080051a0       0x14 .pio/build/stm32f405/libFrameworkArduino.a(HardwareSerial.cpp.o)
+                0x080052f8       0x14 .pio/build/stm32f405/libFrameworkArduino.a(HardwareSerial.cpp.o)
  .text._ZN6Stream9timedReadEv
-                0x080051b4       0x2a .pio/build/stm32f405/libFrameworkArduino.a(Stream.cpp.o)
-                0x080051b4                Stream::timedRead()
+                0x0800530c       0x2a .pio/build/stm32f405/libFrameworkArduino.a(Stream.cpp.o)
+                0x0800530c                Stream::timedRead()
  .text._ZN6Stream9readBytesEPcj
-                0x080051de       0x22 .pio/build/stm32f405/libFrameworkArduino.a(Stream.cpp.o)
-                0x080051de                Stream::readBytes(char*, unsigned int)
+                0x08005336       0x22 .pio/build/stm32f405/libFrameworkArduino.a(Stream.cpp.o)
+                0x08005336                Stream::readBytes(char*, unsigned int)
  .text._ZN6Stream14readBytesUntilEcPcj
-                0x08005200       0x30 .pio/build/stm32f405/libFrameworkArduino.a(Stream.cpp.o)
-                0x08005200                Stream::readBytesUntil(char, char*, unsigned int)
+                0x08005358       0x30 .pio/build/stm32f405/libFrameworkArduino.a(Stream.cpp.o)
+                0x08005358                Stream::readBytesUntil(char, char*, unsigned int)
  .text.__udivmoddi4
-                0x08005230      0x2bc /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7e-m+fp/hard/libgcc.a(_udivmoddi4.o)
-                0x08005230                __udivmoddi4
+                0x08005388      0x2bc /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7e-m+fp/hard/libgcc.a(_udivmoddi4.o)
+                0x08005388                __udivmoddi4
  .text.unlikely._ZSt17__throw_bad_allocv
-                0x080054ec        0x6 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libstdc++_nano.a(functexcept.o)
-                0x080054ec                std::__throw_bad_alloc()
+                0x08005644        0x6 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libstdc++_nano.a(functexcept.o)
+                0x08005644                std::__throw_bad_alloc()
  .text.unlikely._ZSt20__throw_length_errorPKc
-                0x080054f2        0x6 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libstdc++_nano.a(functexcept.o)
-                0x080054f2                std::__throw_length_error(char const*)
+                0x0800564a        0x6 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libstdc++_nano.a(functexcept.o)
+                0x0800564a                std::__throw_length_error(char const*)
  .text.unlikely._ZSt25__throw_bad_function_callv
-                0x080054f8        0x6 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libstdc++_nano.a(functional.o)
-                0x080054f8                std::__throw_bad_function_call()
- .text.abort    0x080054fe        0xe /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-abort.o)
-                0x080054fe                abort
- .text.atoi     0x0800550c        0x8 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-atoi.o)
-                0x0800550c                atoi
- .text.malloc   0x08005514       0x10 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-malloc.o)
-                0x08005514                malloc
- .text.free     0x08005524       0x10 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-malloc.o)
-                0x08005524                free
+                0x08005650        0x6 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libstdc++_nano.a(functional.o)
+                0x08005650                std::__throw_bad_function_call()
+ .text.abort    0x08005656        0xe /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-abort.o)
+                0x08005656                abort
+ .text.atoi     0x08005664        0x8 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-atoi.o)
+                0x08005664                atoi
+ .text.malloc   0x0800566c       0x10 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-malloc.o)
+                0x0800566c                malloc
+ .text.free     0x0800567c       0x10 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-malloc.o)
+                0x0800567c                free
  .text.sbrk_aligned
-                0x08005534       0x44 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-mallocr.o)
+                0x0800568c       0x44 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-mallocr.o)
  .text._malloc_r
-                0x08005578      0x100 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-mallocr.o)
-                0x08005578                _malloc_r
+                0x080056d0      0x100 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-mallocr.o)
+                0x080056d0                _malloc_r
  .text.snprintf
-                0x08005678       0x68 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-snprintf.o)
-                0x08005678                snprintf
-                0x08005678                sniprintf
+                0x080057d0       0x68 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-snprintf.o)
+                0x080057d0                snprintf
+                0x080057d0                sniprintf
  .text.__malloc_lock
-                0x080056e0        0xc /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-mlock.o)
-                0x080056e0                __malloc_lock
+                0x08005838        0xc /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-mlock.o)
+                0x08005838                __malloc_lock
  .text.__malloc_unlock
-                0x080056ec        0xc /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-mlock.o)
-                0x080056ec                __malloc_unlock
+                0x08005844        0xc /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-mlock.o)
+                0x08005844                __malloc_unlock
  .text._realloc_r
-                0x080056f8       0x5c /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-reallocr.o)
-                0x080056f8                _realloc_r
+                0x08005850       0x5c /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-reallocr.o)
+                0x08005850                _realloc_r
  .text._strtol_l.constprop.0
-                0x08005754       0xfc /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-strtol.o)
- .text.strtol   0x08005850       0x14 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-strtol.o)
-                0x08005850                strtol
+                0x080058ac       0xfc /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-strtol.o)
+ .text.strtol   0x080059a8       0x14 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-strtol.o)
+                0x080059a8                strtol
  .text.strncasecmp
-                0x08005864       0x44 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-strncasecmp.o)
-                0x08005864                strncasecmp
- .text.memmove  0x080058a8       0x34 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-memmove.o)
-                0x080058a8                memmove
- .text.memset   0x080058dc       0x10 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-memset.o)
-                0x080058dc                memset
+                0x080059bc       0x44 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-strncasecmp.o)
+                0x080059bc                strncasecmp
+ .text.memmove  0x08005a00       0x34 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-memmove.o)
+                0x08005a00                memmove
+ .text.memset   0x08005a34       0x10 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-memset.o)
+                0x08005a34                memset
  .text.strcasecmp
-                0x080058ec       0x3c /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-strcasecmp.o)
-                0x080058ec                strcasecmp
+                0x08005a44       0x3c /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-strcasecmp.o)
+                0x08005a44                strcasecmp
  .text._raise_r
-                0x08005928       0x50 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-signal.o)
-                0x08005928                _raise_r
- .text.raise    0x08005978       0x10 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-signal.o)
-                0x08005978                raise
- .text._kill_r  0x08005988       0x24 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-signalr.o)
-                0x08005988                _kill_r
+                0x08005a80       0x50 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-signal.o)
+                0x08005a80                _raise_r
+ .text.raise    0x08005ad0       0x10 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-signal.o)
+                0x08005ad0                raise
+ .text._kill_r  0x08005ae0       0x24 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-signalr.o)
+                0x08005ae0                _kill_r
  .text._getpid_r
-                0x080059ac        0x4 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-signalr.o)
-                0x080059ac                _getpid_r
- .text._sbrk_r  0x080059b0       0x20 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-sbrkr.o)
-                0x080059b0                _sbrk_r
- .text.__errno  0x080059d0        0xc /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-errno.o)
-                0x080059d0                __errno
+                0x08005b04        0x4 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-signalr.o)
+                0x08005b04                _getpid_r
+ .text._sbrk_r  0x08005b08       0x20 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-sbrkr.o)
+                0x08005b08                _sbrk_r
+ .text.__errno  0x08005b28        0xc /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-errno.o)
+                0x08005b28                __errno
  .text.__libc_init_array
-                0x080059dc       0x48 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-init.o)
-                0x080059dc                __libc_init_array
+                0x08005b34       0x48 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-init.o)
+                0x08005b34                __libc_init_array
  .text.__retarget_lock_acquire_recursive
-                0x08005a24        0x2 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-lock.o)
-                0x08005a24                __retarget_lock_acquire_recursive
+                0x08005b7c        0x2 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-lock.o)
+                0x08005b7c                __retarget_lock_acquire_recursive
  .text.__retarget_lock_release_recursive
-                0x08005a26        0x2 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-lock.o)
-                0x08005a26                __retarget_lock_release_recursive
- .text.memcpy   0x08005a28       0x1c /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-memcpy-stub.o)
-                0x08005a28                memcpy
- .text._free_r  0x08005a44       0x94 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-freer.o)
-                0x08005a44                _free_r
+                0x08005b7e        0x2 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-lock.o)
+                0x08005b7e                __retarget_lock_release_recursive
+ .text.memcpy   0x08005b80       0x1c /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-memcpy-stub.o)
+                0x08005b80                memcpy
+ .text._free_r  0x08005b9c       0x94 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-freer.o)
+                0x08005b9c                _free_r
  .text.__ssputs_r
-                0x08005ad8       0xb6 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-nano-svfprintf.o)
-                0x08005ad8                __ssputs_r
- *fill*         0x08005b8e        0x2 
+                0x08005c30       0xb6 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-nano-svfprintf.o)
+                0x08005c30                __ssputs_r
+ *fill*         0x08005ce6        0x2 
  .text._svfprintf_r
-                0x08005b90      0x1f8 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-nano-svfprintf.o)
-                0x08005b90                _svfprintf_r
-                0x08005b90                _svfiprintf_r
+                0x08005ce8      0x1f8 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-nano-svfprintf.o)
+                0x08005ce8                _svfprintf_r
+                0x08005ce8                _svfiprintf_r
  .text._printf_common
-                0x08005d88       0xda /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-nano-vfprintf_i.o)
-                0x08005d88                _printf_common
- *fill*         0x08005e62        0x2 
+                0x08005ee0       0xda /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-nano-vfprintf_i.o)
+                0x08005ee0                _printf_common
+ *fill*         0x08005fba        0x2 
  .text._printf_i
-                0x08005e64      0x258 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-nano-vfprintf_i.o)
-                0x08005e64                _printf_i
+                0x08005fbc      0x258 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-nano-vfprintf_i.o)
+                0x08005fbc                _printf_i
  .text._malloc_usable_size_r
-                0x080060bc       0x10 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-msizer.o)
-                0x080060bc                _malloc_usable_size_r
+                0x08006214       0x10 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-msizer.o)
+                0x08006214                _malloc_usable_size_r
  *(.glue_7)
- .glue_7        0x080060cc        0x0 linker stubs
+ .glue_7        0x08006224        0x0 linker stubs
  *(.glue_7t)
- .glue_7t       0x080060cc        0x0 linker stubs
+ .glue_7t       0x08006224        0x0 linker stubs
  *(.eh_frame)
- .eh_frame      0x080060cc        0x0 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7e-m+fp/hard/crtbegin.o
+ .eh_frame      0x08006224        0x0 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7e-m+fp/hard/crtbegin.o
  *(.init)
- .init          0x080060cc        0x4 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7e-m+fp/hard/crti.o
-                0x080060cc                _init
- .init          0x080060d0        0x8 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7e-m+fp/hard/crtn.o
+ .init          0x08006224        0x4 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7e-m+fp/hard/crti.o
+                0x08006224                _init
+ .init          0x08006228        0x8 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7e-m+fp/hard/crtn.o
  *(.fini)
- .fini          0x080060d8        0x4 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7e-m+fp/hard/crti.o
-                0x080060d8                _fini
- .fini          0x080060dc        0x8 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7e-m+fp/hard/crtn.o
-                0x080060e4                        . = ALIGN (0x4)
-                0x080060e4                        _etext = .
+ .fini          0x08006230        0x4 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7e-m+fp/hard/crti.o
+                0x08006230                _fini
+ .fini          0x08006234        0x8 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7e-m+fp/hard/crtn.o
+                0x0800623c                        . = ALIGN (0x4)
+                0x0800623c                        _etext = .
 
-.vfp11_veneer   0x080060e4        0x0
- .vfp11_veneer  0x080060e4        0x0 linker stubs
+.vfp11_veneer   0x0800623c        0x0
+ .vfp11_veneer  0x0800623c        0x0 linker stubs
 
-.v4_bx          0x080060e4        0x0
- .v4_bx         0x080060e4        0x0 linker stubs
+.v4_bx          0x0800623c        0x0
+ .v4_bx         0x0800623c        0x0 linker stubs
 
-.iplt           0x080060e4        0x0
- .iplt          0x080060e4        0x0 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7e-m+fp/hard/crtbegin.o
+.iplt           0x0800623c        0x0
+ .iplt          0x0800623c        0x0 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7e-m+fp/hard/crtbegin.o
 
-.rodata         0x080060e4      0xe58
-                0x080060e4                        . = ALIGN (0x4)
+.rodata         0x0800623c      0xe9c
+                0x0800623c                        . = ALIGN (0x4)
  *(.rodata)
  *(.rodata*)
  .rodata.PinMap_UART_RX
-                0x080060e4       0x78 .pio/build/stm32f405/FrameworkArduinoVariant/PeripheralPins.c.o
-                0x080060e4                PinMap_UART_RX
+                0x0800623c       0x78 .pio/build/stm32f405/FrameworkArduinoVariant/PeripheralPins.c.o
+                0x0800623c                PinMap_UART_RX
  .rodata.PinMap_UART_TX
-                0x0800615c       0x78 .pio/build/stm32f405/FrameworkArduinoVariant/PeripheralPins.c.o
-                0x0800615c                PinMap_UART_TX
+                0x080062b4       0x78 .pio/build/stm32f405/FrameworkArduinoVariant/PeripheralPins.c.o
+                0x080062b4                PinMap_UART_TX
  .rodata.PinMap_ADC
-                0x080061d4      0x1ec .pio/build/stm32f405/FrameworkArduinoVariant/PeripheralPins.c.o
-                0x080061d4                PinMap_ADC
+                0x0800632c      0x1ec .pio/build/stm32f405/FrameworkArduinoVariant/PeripheralPins.c.o
+                0x0800632c                PinMap_ADC
  .rodata.analogInputPin
-                0x080063c0       0x40 .pio/build/stm32f405/FrameworkArduinoVariant/variant_generic.cpp.o
-                0x080063c0                analogInputPin
+                0x08006518       0x40 .pio/build/stm32f405/FrameworkArduinoVariant/variant_generic.cpp.o
+                0x08006518                analogInputPin
  .rodata.digitalPin
-                0x08006400       0xcc .pio/build/stm32f405/FrameworkArduinoVariant/variant_generic.cpp.o
-                0x08006400                digitalPin
+                0x08006558       0xcc .pio/build/stm32f405/FrameworkArduinoVariant/variant_generic.cpp.o
+                0x08006558                digitalPin
  .rodata.pin_map_ll
-                0x080064cc       0x40 .pio/build/stm32f405/SrcWrapper/src/stm32/pinmap.c.o
-                0x080064cc                pin_map_ll
+                0x08006624       0x40 .pio/build/stm32f405/SrcWrapper/src/stm32/pinmap.c.o
+                0x08006624                pin_map_ll
  .rodata.APBPrescTable
-                0x0800650c        0x8 .pio/build/stm32f405/SrcWrapper/src/stm32/system_stm32yyxx.c.o
-                0x0800650c                APBPrescTable
+                0x08006664        0x8 .pio/build/stm32f405/SrcWrapper/src/stm32/system_stm32yyxx.c.o
+                0x08006664                APBPrescTable
  .rodata.AHBPrescTable
-                0x08006514       0x10 .pio/build/stm32f405/SrcWrapper/src/stm32/system_stm32yyxx.c.o
-                0x08006514                AHBPrescTable
+                0x0800666c       0x10 .pio/build/stm32f405/SrcWrapper/src/stm32/system_stm32yyxx.c.o
+                0x0800666c                AHBPrescTable
  .rodata.driver_init_tim1.str1.1
-                0x08006524       0x3e .pio/build/stm32f405/src/board_b/driver_tim1.c.o
+                0x0800667c       0x3e .pio/build/stm32f405/src/board_b/driver_tim1.c.o
  .rodata.driver_enable.str1.1
-                0x08006562       0x2b .pio/build/stm32f405/src/board_b/driver_tim1.c.o
+                0x080066ba       0x2b .pio/build/stm32f405/src/board_b/driver_tim1.c.o
  .rodata.driver_disable.str1.1
-                0x0800658d       0x1a .pio/build/stm32f405/src/board_b/driver_tim1.c.o
+                0x080066e5       0x1a .pio/build/stm32f405/src/board_b/driver_tim1.c.o
  .rodata.esc_control_init.str1.1
-                0x080065a7       0x59 .pio/build/stm32f405/src/board_b/esc_control.c.o
+                0x080066ff       0x59 .pio/build/stm32f405/src/board_b/esc_control.c.o
  .rodata.esc_arm.str1.1
-                0x08006600       0x5c .pio/build/stm32f405/src/board_b/esc_control.c.o
+                0x08006758       0x6c .pio/build/stm32f405/src/board_b/esc_control.c.o
  .rodata.esc_disarm.str1.1
-                0x0800665c        0xf .pio/build/stm32f405/src/board_b/esc_control.c.o
+                0x080067c4        0xf .pio/build/stm32f405/src/board_b/esc_control.c.o
  .rodata.esc_control_set_fault.str1.1
-                0x0800666b        0x8 .pio/build/stm32f405/src/board_b/esc_control.c.o
+                0x080067d3        0x8 .pio/build/stm32f405/src/board_b/esc_control.c.o
                                   0xb (size before relaxing)
  .rodata.esc_control_update.str1.1
-                0x08006673       0x55 .pio/build/stm32f405/src/board_b/esc_control.c.o
+                0x080067db       0x55 .pio/build/stm32f405/src/board_b/esc_control.c.o
  .rodata.commutation_sequence
-                0x080066c8        0x6 .pio/build/stm32f405/src/board_b/esc_control.c.o
+                0x08006830        0x6 .pio/build/stm32f405/src/board_b/esc_control.c.o
  .rodata.hall_sensor_state_name.str1.1
-                0x080066ce        0x8 .pio/build/stm32f405/src/board_b/hall_sensor.c.o
+                0x08006836        0x8 .pio/build/stm32f405/src/board_b/hall_sensor.c.o
  .rodata.str1.1
-                0x080066d6       0x3c .pio/build/stm32f405/src/board_b/hall_sensor.c.o
- *fill*         0x08006712        0x2 
+                0x0800683e       0x3c .pio/build/stm32f405/src/board_b/hall_sensor.c.o
+ *fill*         0x0800687a        0x2 
  .rodata.CSWTCH.7
-                0x08006714       0x18 .pio/build/stm32f405/src/board_b/hall_sensor.c.o
+                0x0800687c       0x18 .pio/build/stm32f405/src/board_b/hall_sensor.c.o
  .rodata._Z9initUART4v.str1.1
-                0x0800672c        0xf .pio/build/stm32f405/src/board_b/main.cpp.o
+                0x08006894        0xf .pio/build/stm32f405/src/board_b/main.cpp.o
  .rodata._Z9print_hexPKhj.str1.1
-                0x0800673b       0x11 .pio/build/stm32f405/src/board_b/main.cpp.o
+                0x080068a3       0x11 .pio/build/stm32f405/src/board_b/main.cpp.o
                                  0x14 (size before relaxing)
  .rodata._ZNSt6vectorIhSaIhEE9push_backERKh.str1.1
-                0x0800674c       0x1a .pio/build/stm32f405/src/board_b/main.cpp.o
+                0x080068b4       0x1a .pio/build/stm32f405/src/board_b/main.cpp.o
  .rodata.setup.str1.1
-                0x08006766      0x12d .pio/build/stm32f405/src/board_b/main.cpp.o
+                0x080068ce      0x12d .pio/build/stm32f405/src/board_b/main.cpp.o
  .rodata._Z20handle_received_byteh.str1.1
-                0x08006893       0x36 .pio/build/stm32f405/src/board_b/main.cpp.o
+                0x080069fb       0x36 .pio/build/stm32f405/src/board_b/main.cpp.o
  .rodata.safety_sample_once.str1.1
-                0x080068c9       0x67 .pio/build/stm32f405/src/board_b/safety_monitor.c.o
+                0x08006a31       0x67 .pio/build/stm32f405/src/board_b/safety_monitor.c.o
  .rodata.safety_monitor_init.str1.1
-                0x08006930       0x17 .pio/build/stm32f405/src/board_b/safety_monitor.c.o
+                0x08006a98       0x17 .pio/build/stm32f405/src/board_b/safety_monitor.c.o
  .rodata.process_command.constprop.0.str1.1
-                0x08006947      0x4a5 .pio/build/stm32f405/src/board_b/uart_commands.c.o
-                                0x4b3 (size before relaxing)
+                0x08006aaf      0x4d9 .pio/build/stm32f405/src/board_b/uart_commands.c.o
+                                0x4e7 (size before relaxing)
  .rodata._ZTV14HardwareSerial
-                0x08006dec       0x2c .pio/build/stm32f405/libFrameworkArduino.a(HardwareSerial.cpp.o)
-                0x08006dec                vtable for HardwareSerial
+                0x08006f88       0x2c .pio/build/stm32f405/libFrameworkArduino.a(HardwareSerial.cpp.o)
+                0x08006f88                vtable for HardwareSerial
  .rodata._ctype_
-                0x08006e18      0x101 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-ctype_.o)
-                0x08006e18                _ctype_
+                0x08006fb4      0x101 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-ctype_.o)
+                0x08006fb4                _ctype_
  .rodata._svfprintf_r.str1.1
-                0x08006f19       0x11 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-nano-svfprintf.o)
+                0x080070b5       0x11 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-nano-svfprintf.o)
  .rodata._printf_i.str1.1
-                0x08006f2a       0x11 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-nano-vfprintf_i.o)
+                0x080070c6       0x11 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-nano-vfprintf_i.o)
                                  0x22 (size before relaxing)
-                0x08006f3c                        . = ALIGN (0x4)
- *fill*         0x08006f3b        0x1 
+                0x080070d8                        . = ALIGN (0x4)
+ *fill*         0x080070d7        0x1 
 
-.ARM.extab      0x08006f3c        0x0
-                0x08006f3c                        . = ALIGN (0x4)
+.ARM.extab      0x080070d8        0x0
+                0x080070d8                        . = ALIGN (0x4)
  *(.ARM.extab* .gnu.linkonce.armextab.*)
-                0x08006f3c                        . = ALIGN (0x4)
+                0x080070d8                        . = ALIGN (0x4)
 
-.ARM            0x08006f3c        0x8
-                0x08006f3c                        . = ALIGN (0x4)
-                0x08006f3c                        __exidx_start = .
+.ARM            0x080070d8        0x8
+                0x080070d8                        . = ALIGN (0x4)
+                0x080070d8                        __exidx_start = .
  *(.ARM.exidx*)
- .ARM.exidx     0x08006f3c        0x8 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-strlen.o)
- .ARM.exidx     0x08006f44        0x0 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-memchr.o)
+ .ARM.exidx     0x080070d8        0x8 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-strlen.o)
+ .ARM.exidx     0x080070e0        0x0 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-memchr.o)
                                   0x8 (size before relaxing)
  .ARM.exidx.text.__udivmoddi4
-                0x08006f44        0x0 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7e-m+fp/hard/libgcc.a(_udivmoddi4.o)
+                0x080070e0        0x0 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7e-m+fp/hard/libgcc.a(_udivmoddi4.o)
                                   0x8 (size before relaxing)
-                0x08006f44                        __exidx_end = .
-                0x08006f44                        . = ALIGN (0x4)
+                0x080070e0                        __exidx_end = .
+                0x080070e0                        . = ALIGN (0x4)
 
-.preinit_array  0x08006f44        0x0
-                0x08006f44                        . = ALIGN (0x4)
-                0x08006f44                        PROVIDE (__preinit_array_start = .)
+.preinit_array  0x080070e0        0x0
+                0x080070e0                        . = ALIGN (0x4)
+                0x080070e0                        PROVIDE (__preinit_array_start = .)
  *(.preinit_array*)
-                0x08006f44                        PROVIDE (__preinit_array_end = .)
-                0x08006f44                        . = ALIGN (0x4)
+                0x080070e0                        PROVIDE (__preinit_array_end = .)
+                0x080070e0                        . = ALIGN (0x4)
 
-.init_array     0x08006f44       0x14
-                0x08006f44                        . = ALIGN (0x4)
-                0x08006f44                        PROVIDE (__init_array_start = .)
+.init_array     0x080070e0       0x14
+                0x080070e0                        . = ALIGN (0x4)
+                0x080070e0                        PROVIDE (__init_array_start = .)
  *(SORT_BY_NAME(.init_array.*))
  .init_array.00101
-                0x08006f44        0x4 .pio/build/stm32f405/libFrameworkArduino.a(main.cpp.o)
+                0x080070e0        0x4 .pio/build/stm32f405/libFrameworkArduino.a(main.cpp.o)
  *(.init_array*)
- .init_array    0x08006f48        0x4 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7e-m+fp/hard/crtbegin.o
- .init_array    0x08006f4c        0x4 .pio/build/stm32f405/SrcWrapper/src/stm32/interrupt.cpp.o
- .init_array    0x08006f50        0x4 .pio/build/stm32f405/src/board_b/main.cpp.o
- .init_array    0x08006f54        0x4 .pio/build/stm32f405/libFrameworkArduino.a(HardwareSerial.cpp.o)
-                0x08006f58                        PROVIDE (__init_array_end = .)
-                0x08006f58                        . = ALIGN (0x4)
+ .init_array    0x080070e4        0x4 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7e-m+fp/hard/crtbegin.o
+ .init_array    0x080070e8        0x4 .pio/build/stm32f405/SrcWrapper/src/stm32/interrupt.cpp.o
+ .init_array    0x080070ec        0x4 .pio/build/stm32f405/src/board_b/main.cpp.o
+ .init_array    0x080070f0        0x4 .pio/build/stm32f405/libFrameworkArduino.a(HardwareSerial.cpp.o)
+                0x080070f4                        PROVIDE (__init_array_end = .)
+                0x080070f4                        . = ALIGN (0x4)
 
-.fini_array     0x08006f58        0xc
-                0x08006f58                        . = ALIGN (0x4)
-                0x08006f58                        PROVIDE (__fini_array_start = .)
+.fini_array     0x080070f4        0xc
+                0x080070f4                        . = ALIGN (0x4)
+                0x080070f4                        PROVIDE (__fini_array_start = .)
  *(SORT_BY_NAME(.fini_array.*))
  *(.fini_array*)
- .fini_array    0x08006f58        0x4 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7e-m+fp/hard/crtbegin.o
- .fini_array    0x08006f5c        0x4 .pio/build/stm32f405/SrcWrapper/src/stm32/interrupt.cpp.o
- .fini_array    0x08006f60        0x4 .pio/build/stm32f405/src/board_b/main.cpp.o
-                0x08006f64                        PROVIDE (__fini_array_end = .)
-                0x08006f64                        . = ALIGN (0x4)
-                0x08006f64                        _sidata = LOADADDR (.data)
+ .fini_array    0x080070f4        0x4 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7e-m+fp/hard/crtbegin.o
+ .fini_array    0x080070f8        0x4 .pio/build/stm32f405/SrcWrapper/src/stm32/interrupt.cpp.o
+ .fini_array    0x080070fc        0x4 .pio/build/stm32f405/src/board_b/main.cpp.o
+                0x08007100                        PROVIDE (__fini_array_end = .)
+                0x08007100                        . = ALIGN (0x4)
+                0x08007100                        _sidata = LOADADDR (.data)
 
-.rel.dyn        0x08006f64        0x0
- .rel.iplt      0x08006f64        0x0 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7e-m+fp/hard/crtbegin.o
+.rel.dyn        0x08007100        0x0
+ .rel.iplt      0x08007100        0x0 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7e-m+fp/hard/crtbegin.o
 
-.data           0x20000000       0x74 load address 0x08006f64
+.data           0x20000000       0x74 load address 0x08007100
                 0x20000000                        . = ALIGN (0x4)
                 0x20000000                        _sdata = .
  *(.data)
@@ -5436,11 +5437,11 @@ Linker script and memory map
                 0x20000074                        . = ALIGN (0x4)
                 0x20000074                        _edata = .
 
-.igot.plt       0x20000074        0x0 load address 0x08006fd8
+.igot.plt       0x20000074        0x0 load address 0x08007174
  .igot.plt      0x20000074        0x0 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7e-m+fp/hard/crtbegin.o
                 0x20000074                        . = ALIGN (0x4)
 
-.bss            0x20000078      0x618 load address 0x08006fd8
+.bss            0x20000078      0x620 load address 0x08007174
                 0x20000078                        _sbss = .
                 0x20000078                        __bss_start__ = _sbss
  *(.bss)
@@ -5463,107 +5464,111 @@ Linker script and memory map
  .bss.driver_enabled
                 0x20000248        0x4 .pio/build/stm32f405/src/board_b/driver_tim1.c.o
  .bss.htim1     0x2000024c       0x48 .pio/build/stm32f405/src/board_b/driver_tim1.c.o
+ .bss.last_ramp_ms.0
+                0x20000294        0x4 .pio/build/stm32f405/src/board_b/esc_control.c.o
  .bss.commutation_step
-                0x20000294        0x1 .pio/build/stm32f405/src/board_b/esc_control.c.o
- *fill*         0x20000295        0x3 
+                0x20000298        0x1 .pio/build/stm32f405/src/board_b/esc_control.c.o
+ *fill*         0x20000299        0x3 
  .bss.commutation_timer
-                0x20000298        0x4 .pio/build/stm32f405/src/board_b/esc_control.c.o
- .bss.pwm_percent
                 0x2000029c        0x4 .pio/build/stm32f405/src/board_b/esc_control.c.o
- .bss.target_current_mA
+ .bss.target_pwm_percent
                 0x200002a0        0x4 .pio/build/stm32f405/src/board_b/esc_control.c.o
- .bss.target_rpm
+ .bss.pwm_percent
                 0x200002a4        0x4 .pio/build/stm32f405/src/board_b/esc_control.c.o
- .bss.max_temp_limit
-                0x200002a8        0x2 .pio/build/stm32f405/src/board_b/esc_control.c.o
- *fill*         0x200002aa        0x2 
- .bss.overcurrent_trip
+ .bss.target_current_mA
+                0x200002a8        0x4 .pio/build/stm32f405/src/board_b/esc_control.c.o
+ .bss.target_rpm
                 0x200002ac        0x4 .pio/build/stm32f405/src/board_b/esc_control.c.o
- .bss.max_current
-                0x200002b0        0x4 .pio/build/stm32f405/src/board_b/esc_control.c.o
- .bss.max_motor_voltage
+ .bss.max_temp_limit
+                0x200002b0        0x2 .pio/build/stm32f405/src/board_b/esc_control.c.o
+ *fill*         0x200002b2        0x2 
+ .bss.overcurrent_trip
                 0x200002b4        0x4 .pio/build/stm32f405/src/board_b/esc_control.c.o
- .bss.g_state   0x200002b8        0x1 .pio/build/stm32f405/src/board_b/esc_control.c.o
- *fill*         0x200002b9        0x3 
- .bss.g_cfg     0x200002bc       0x28 .pio/build/stm32f405/src/board_b/esc_control.c.o
+ .bss.max_current
+                0x200002b8        0x4 .pio/build/stm32f405/src/board_b/esc_control.c.o
+ .bss.max_motor_voltage
+                0x200002bc        0x4 .pio/build/stm32f405/src/board_b/esc_control.c.o
+ .bss.g_state   0x200002c0        0x1 .pio/build/stm32f405/src/board_b/esc_control.c.o
+ *fill*         0x200002c1        0x3 
+ .bss.g_cfg     0x200002c4       0x28 .pio/build/stm32f405/src/board_b/esc_control.c.o
  .bss.last_hall_state
-                0x200002e4        0x1 .pio/build/stm32f405/src/board_b/hall_sensor.c.o
- *fill*         0x200002e5        0x3 
+                0x200002ec        0x1 .pio/build/stm32f405/src/board_b/hall_sensor.c.o
+ *fill*         0x200002ed        0x3 
  .bss.user_callback
-                0x200002e8        0x4 .pio/build/stm32f405/src/board_b/hall_sensor.c.o
+                0x200002f0        0x4 .pio/build/stm32f405/src/board_b/hall_sensor.c.o
  .bss._ZZ4loopE15last_cal_sample
-                0x200002ec        0x4 .pio/build/stm32f405/src/board_b/main.cpp.o
- .bss._ZZ4loopE18last_watchdog_kick
-                0x200002f0        0x4 .pio/build/stm32f405/src/board_b/main.cpp.o
- .bss._ZL8rx_count
                 0x200002f4        0x4 .pio/build/stm32f405/src/board_b/main.cpp.o
+ .bss._ZZ4loopE18last_watchdog_kick
+                0x200002f8        0x4 .pio/build/stm32f405/src/board_b/main.cpp.o
+ .bss._ZL8rx_count
+                0x200002fc        0x4 .pio/build/stm32f405/src/board_b/main.cpp.o
  .bss._ZL10has_stored
-                0x200002f8        0x1 .pio/build/stm32f405/src/board_b/main.cpp.o
- *fill*         0x200002f9        0x3 
+                0x20000300        0x1 .pio/build/stm32f405/src/board_b/main.cpp.o
+ *fill*         0x20000301        0x3 
  .bss._ZL11stored_data
-                0x200002fc        0xc .pio/build/stm32f405/src/board_b/main.cpp.o
+                0x20000304        0xc .pio/build/stm32f405/src/board_b/main.cpp.o
  .bss._ZL8in_frame
-                0x20000308        0x1 .pio/build/stm32f405/src/board_b/main.cpp.o
- *fill*         0x20000309        0x3 
+                0x20000310        0x1 .pio/build/stm32f405/src/board_b/main.cpp.o
+ *fill*         0x20000311        0x3 
  .bss._ZL9frame_buf
-                0x2000030c        0xc .pio/build/stm32f405/src/board_b/main.cpp.o
- .bss.huart4    0x20000318       0x48 .pio/build/stm32f405/src/board_b/main.cpp.o
-                0x20000318                huart4
+                0x20000314        0xc .pio/build/stm32f405/src/board_b/main.cpp.o
+ .bss.huart4    0x20000320       0x48 .pio/build/stm32f405/src/board_b/main.cpp.o
+                0x20000320                huart4
  .bss.last_print.0
-                0x20000360        0x4 .pio/build/stm32f405/src/board_b/safety_monitor.c.o
- .bss.cal_offset_ready
-                0x20000364        0x4 .pio/build/stm32f405/src/board_b/safety_monitor.c.o
- .bss.cal_offset_raw
                 0x20000368        0x4 .pio/build/stm32f405/src/board_b/safety_monitor.c.o
- .bss.cal_shunt_count
+ .bss.cal_offset_ready
                 0x2000036c        0x4 .pio/build/stm32f405/src/board_b/safety_monitor.c.o
+ .bss.cal_offset_raw
+                0x20000370        0x4 .pio/build/stm32f405/src/board_b/safety_monitor.c.o
+ .bss.cal_shunt_count
+                0x20000374        0x4 .pio/build/stm32f405/src/board_b/safety_monitor.c.o
  .bss.cal_shunt_sum
-                0x20000370        0x8 .pio/build/stm32f405/src/board_b/safety_monitor.c.o
+                0x20000378        0x8 .pio/build/stm32f405/src/board_b/safety_monitor.c.o
  .bss.cal_start_ms
-                0x20000378        0x4 .pio/build/stm32f405/src/board_b/safety_monitor.c.o
- .bss.bypass_printed
-                0x2000037c        0x4 .pio/build/stm32f405/src/board_b/safety_monitor.c.o
- .bss.current_valid
                 0x20000380        0x4 .pio/build/stm32f405/src/board_b/safety_monitor.c.o
- .bss.temp_valid
+ .bss.bypass_printed
                 0x20000384        0x4 .pio/build/stm32f405/src/board_b/safety_monitor.c.o
- .bss.calibrate_mode
+ .bss.current_valid
                 0x20000388        0x4 .pio/build/stm32f405/src/board_b/safety_monitor.c.o
- .bss.last_current_ma
+ .bss.temp_valid
                 0x2000038c        0x4 .pio/build/stm32f405/src/board_b/safety_monitor.c.o
- .bss.last_vbus_mv
+ .bss.calibrate_mode
                 0x20000390        0x4 .pio/build/stm32f405/src/board_b/safety_monitor.c.o
- .bss.last_raw_temp
+ .bss.last_current_ma
                 0x20000394        0x4 .pio/build/stm32f405/src/board_b/safety_monitor.c.o
- .bss.last_raw_shunt
+ .bss.last_vbus_mv
                 0x20000398        0x4 .pio/build/stm32f405/src/board_b/safety_monitor.c.o
- .bss.last_raw_vbus
+ .bss.last_raw_temp
                 0x2000039c        0x4 .pio/build/stm32f405/src/board_b/safety_monitor.c.o
- .bss.hadc1     0x200003a0       0x48 .pio/build/stm32f405/src/board_b/safety_monitor.c.o
+ .bss.last_raw_shunt
+                0x200003a0        0x4 .pio/build/stm32f405/src/board_b/safety_monitor.c.o
+ .bss.last_raw_vbus
+                0x200003a4        0x4 .pio/build/stm32f405/src/board_b/safety_monitor.c.o
+ .bss.hadc1     0x200003a8       0x48 .pio/build/stm32f405/src/board_b/safety_monitor.c.o
  .bss.last_cmd_ms
-                0x200003e8        0x4 .pio/build/stm32f405/src/board_b/uart_commands.c.o
- .bss.cmd_pos   0x200003ec        0x4 .pio/build/stm32f405/src/board_b/uart_commands.c.o
- .bss.cmd_buf   0x200003f0       0x40 .pio/build/stm32f405/src/board_b/uart_commands.c.o
- .bss.Serial4   0x20000430      0x118 .pio/build/stm32f405/libFrameworkArduino.a(HardwareSerial.cpp.o)
-                0x20000430                Serial4
+                0x200003f0        0x4 .pio/build/stm32f405/src/board_b/uart_commands.c.o
+ .bss.cmd_pos   0x200003f4        0x4 .pio/build/stm32f405/src/board_b/uart_commands.c.o
+ .bss.cmd_buf   0x200003f8       0x40 .pio/build/stm32f405/src/board_b/uart_commands.c.o
+ .bss.Serial4   0x20000438      0x118 .pio/build/stm32f405/libFrameworkArduino.a(HardwareSerial.cpp.o)
+                0x20000438                Serial4
  .bss.__malloc_sbrk_start
-                0x20000548        0x4 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-mallocr.o)
-                0x20000548                __malloc_sbrk_start
+                0x20000550        0x4 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-mallocr.o)
+                0x20000550                __malloc_sbrk_start
  .bss.__malloc_free_list
-                0x2000054c        0x4 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-mallocr.o)
-                0x2000054c                __malloc_free_list
- .bss.__sf      0x20000550      0x138 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-findfp.o)
-                0x20000550                __sf
- .bss.errno     0x20000688        0x4 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-reent.o)
-                0x20000688                errno
+                0x20000554        0x4 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-mallocr.o)
+                0x20000554                __malloc_free_list
+ .bss.__sf      0x20000558      0x138 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-findfp.o)
+                0x20000558                __sf
+ .bss.errno     0x20000690        0x4 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-reent.o)
+                0x20000690                errno
  .bss.__lock___malloc_recursive_mutex
-                0x2000068c        0x1 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-lock.o)
-                0x2000068c                __lock___malloc_recursive_mutex
+                0x20000694        0x1 /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(libc_a-lock.o)
+                0x20000694                __lock___malloc_recursive_mutex
  *(COMMON)
-                0x20000690                        . = ALIGN (0x4)
- *fill*         0x2000068d        0x3 
-                0x20000690                        _ebss = .
-                0x20000690                        __bss_end__ = _ebss
+                0x20000698                        . = ALIGN (0x4)
+ *fill*         0x20000695        0x3 
+                0x20000698                        _ebss = .
+                0x20000698                        __bss_end__ = _ebss
 LOAD /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7e-m+fp/hard/crti.o
 LOAD /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7e-m+fp/hard/crtbegin.o
 LOAD /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/crt0.o
@@ -5779,24 +5784,24 @@ END GROUP
 LOAD /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7e-m+fp/hard/crtend.o
 LOAD /Users/mackbook/.platformio/packages/toolchain-gccarmnoneeabi/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7e-m+fp/hard/crtn.o
 
-.noinit         0x20000690        0x0
-                0x20000690                        . = ALIGN (0x4)
-                0x20000690                        _snoinit = .
+.noinit         0x20000698        0x0
+                0x20000698                        . = ALIGN (0x4)
+                0x20000698                        _snoinit = .
  *(.noinit)
  *(.noinit*)
-                0x20000690                        . = ALIGN (0x4)
-                0x20000690                        _enoinit = .
+                0x20000698                        . = ALIGN (0x4)
+                0x20000698                        _enoinit = .
 
 ._user_heap_stack
-                0x20000690      0x600
-                0x20000690                        . = ALIGN (0x8)
+                0x20000698      0x600
+                0x20000698                        . = ALIGN (0x8)
                 [!provide]                        PROVIDE (end = .)
-                0x20000690                        PROVIDE (_end = .)
-                0x20000890                        . = (. + _Min_Heap_Size)
- *fill*         0x20000690      0x200 
-                0x20000c90                        . = (. + _Min_Stack_Size)
- *fill*         0x20000890      0x400 
-                0x20000c90                        . = ALIGN (0x8)
+                0x20000698                        PROVIDE (_end = .)
+                0x20000898                        . = (. + _Min_Heap_Size)
+ *fill*         0x20000698      0x200 
+                0x20000c98                        . = (. + _Min_Stack_Size)
+ *fill*         0x20000898      0x400 
+                0x20000c98                        . = ALIGN (0x8)
 
 /DISCARD/
  libc.a(*)

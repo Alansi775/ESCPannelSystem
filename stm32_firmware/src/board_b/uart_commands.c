@@ -79,9 +79,31 @@ static void process_command(const char* s) {
     }
   }
   if (strcasecmp(s, "HALL") == 0) {
-    uint8_t state = hall_sensor_read();
-    char buf[80];
-    int n = snprintf(buf, sizeof(buf), "HALL STATE: %u (%s)\r\n", state, hall_sensor_state_name(state));
+    // Read Hall continuously for 500ms to see pattern
+    uint8_t states[100];
+    int count = 0;
+    uint32_t start = HAL_GetTick();
+    while (HAL_GetTick() - start < 500 && count < 100) {
+      states[count++] = hall_sensor_read();
+      delay(10);
+    }
+    
+    char buf[200];
+    int n = snprintf(buf, sizeof(buf), "HALL READ 500ms (%d samples):\r\n", count);
+    HAL_UART_Transmit(&huart4, (uint8_t*)buf, n, 50);
+    
+    // Show last 10 readings and current state
+    for (int i = (count-10 > 0) ? count-10 : 0; i < count; i++) {
+      n = snprintf(buf, sizeof(buf), "  %d: 0x%X (%s)\r\n", i, states[i], hall_sensor_state_name(states[i]));
+      HAL_UART_Transmit(&huart4, (uint8_t*)buf, n, 50);
+    }
+    
+    // Count valid vs invalid
+    int valid = 0;
+    for (int i = 0; i < count; i++) {
+      if (states[i] >= 1 && states[i] <= 6) valid++;
+    }
+    n = snprintf(buf, sizeof(buf), "Valid: %d/%d (%.1f%%)\r\n", valid, count, 100.0f * valid / count);
     HAL_UART_Transmit(&huart4, (uint8_t*)buf, n, 50);
     return;
   }
