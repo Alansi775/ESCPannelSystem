@@ -33,19 +33,19 @@ void driver_init_tim1(void) {
   htim1.Instance = TIM1;
   htim1.Init.Prescaler = 0;  // No prescaler, 84 MHz from APB2
   htim1.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim1.Init.Period = 840 - 1;  // 100 kHz PWM (84MHz / 840 = 100kHz)
+  htim1.Init.Period = 1680 - 1;  // 50 kHz PWM (84MHz / 1680 = 50kHz, smoother for gate drivers)
   htim1.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim1.Init.RepetitionCounter = 0;
   htim1.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
   
   HAL_TIM_PWM_Init(&htim1);
   
-  // Configure dead-time: 2 microseconds (~168 ticks at 84MHz) to prevent shoot-through
+  // Configure dead-time: 3 microseconds (~252 ticks at 84MHz) to prevent shoot-through
   TIM_BreakDeadTimeConfigTypeDef sBreakDeadTimeConfig = {0};
   sBreakDeadTimeConfig.OffStateRunMode = TIM_OSSR_ENABLE;
   sBreakDeadTimeConfig.OffStateIDLEMode = TIM_OSSI_ENABLE;
   sBreakDeadTimeConfig.LockLevel = TIM_LOCKLEVEL_OFF;
-  sBreakDeadTimeConfig.DeadTime = 168;  // 2 microseconds dead-time
+  sBreakDeadTimeConfig.DeadTime = 252;  // 3 microseconds dead-time (safer for gate drivers)
   sBreakDeadTimeConfig.BreakState = TIM_BREAK_DISABLE;
   sBreakDeadTimeConfig.BreakPolarity = TIM_BREAKPOLARITY_HIGH;
   sBreakDeadTimeConfig.AutomaticOutput = TIM_AUTOMATICOUTPUT_ENABLE;
@@ -68,7 +68,7 @@ void driver_init_tim1(void) {
   
   driver_enabled = 0;
   
-  HAL_UART_Transmit(&huart4, (uint8_t*)"TIM1 Complementary PWM initialized (100 kHz, dead-time=2us)\r\n", 62, 50);
+  HAL_UART_Transmit(&huart4, (uint8_t*)"TIM1 Complementary PWM initialized (50 kHz, dead-time=3us)\r\n", 61, 50);
 }
 
 void driver_enable(void) {
@@ -123,7 +123,7 @@ void driver_set_phase_pwm(uint8_t hall_state, int16_t duty) {
     return;
   }
   
-  if (duty > 840) duty = 840;
+  if (duty > 1680) duty = 1680;  // New period = 1680 (50 kHz)
   
   // Apply commutation pattern based on Hall state
   // Each Hall state activates one phase pair
@@ -171,21 +171,21 @@ void driver_set_phase_pwm(uint8_t hall_state, int16_t duty) {
   }
 }
 
-// Direct PWM setters for testing (0-840 scale)
+// Direct PWM setters for testing (0-1680 scale with new 50kHz period)
 void driver_set_pwm_u(int16_t duty) {
   if (duty < 0) duty = 0;
-  if (duty > 840) duty = 840;
+  if (duty > 1680) duty = 1680;
   __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, duty);
 }
 
 void driver_set_pwm_v(int16_t duty) {
   if (duty < 0) duty = 0;
-  if (duty > 840) duty = 840;
+  if (duty > 1680) duty = 1680;
   __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, duty);
 }
 
 void driver_set_pwm_w(int16_t duty) {
   if (duty < 0) duty = 0;
-  if (duty > 840) duty = 840;
+  if (duty > 1680) duty = 1680;
   __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_3, duty);
 }

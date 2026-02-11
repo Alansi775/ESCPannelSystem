@@ -92,19 +92,32 @@ static void process_command(const char* s) {
     int n = snprintf(buf, sizeof(buf), "HALL READ 500ms (%d samples):\r\n", count);
     HAL_UART_Transmit(&huart4, (uint8_t*)buf, n, 50);
     
-    // Show last 10 readings and current state
-    for (int i = (count-10 > 0) ? count-10 : 0; i < count; i++) {
-      n = snprintf(buf, sizeof(buf), "  %d: 0x%X (%s)\r\n", i, states[i], hall_sensor_state_name(states[i]));
-      HAL_UART_Transmit(&huart4, (uint8_t*)buf, n, 50);
+    // Show all unique states found
+    int valid_count = 0;
+    int invalid_count = 0;
+    int prev = -1;
+    for (int i = 0; i < count; i++) {
+      if (states[i] >= 1 && states[i] <= 6) valid_count++;
+      if (states[i] == 0 || states[i] == 0x7) invalid_count++;
+      
+      // Print state changes
+      if (states[i] != prev) {
+        n = snprintf(buf, sizeof(buf), "  [%dms] 0x%X (%s)\r\n", i*10, states[i], hall_sensor_state_name(states[i]));
+        HAL_UART_Transmit(&huart4, (uint8_t*)buf, n, 50);
+        prev = states[i];
+      }
     }
     
-    // Count valid vs invalid
-    int valid = 0;
-    for (int i = 0; i < count; i++) {
-      if (states[i] >= 1 && states[i] <= 6) valid++;
-    }
-    n = snprintf(buf, sizeof(buf), "Valid: %d/%d (%.1f%%)\r\n", valid, count, 100.0f * valid / count);
+    n = snprintf(buf, sizeof(buf), "SUMMARY: %d valid / %d invalid\r\n", valid_count, invalid_count);
     HAL_UART_Transmit(&huart4, (uint8_t*)buf, n, 50);
+    
+    // Read raw GPIO pins
+    GPIO_PinState u = HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_0);
+    GPIO_PinState v = HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_1);
+    GPIO_PinState w = HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_2);
+    n = snprintf(buf, sizeof(buf), "RAW PINS: PC0=%d PC1=%d PC2=%d\r\n", u, v, w);
+    HAL_UART_Transmit(&huart4, (uint8_t*)buf, n, 50);
+    
     return;
   }
   if (strcasecmp(s, "STATUS") == 0) {
@@ -370,6 +383,18 @@ static void process_command(const char* s) {
       }
       return;
     }
+    return;
+  }
+  
+  // TEST DEBUG: FOR SMOOTHNESS TESTING - t50 continuous
+  if (strncasecmp(s, "DEBUG", 5) == 0) {
+    esc_state_t state = esc_control_get_state();
+    if (state != ESC_ARMED && state != ESC_RUNNING) {
+      esc_arm();
+      HAL_Delay(100);
+    }
+    esc_set_pwm_percent(50);
+    HAL_UART_Transmit(&huart4, (uint8_t*)"DEBUG: t50 sustained (s=STOP)\r\n", 32, 50);
     return;
   }
   
